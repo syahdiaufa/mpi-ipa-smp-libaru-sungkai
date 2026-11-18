@@ -1079,6 +1079,63 @@
       color: #991B1B;
       border: 1.5px solid #FCA5A5;
     }
+  
+    .uas-banner-card {
+      margin-top: 1.5rem;
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border: 2.5px solid #D97706;
+      border-radius: 20px;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(217, 119, 6, 0.15);
+    }
+    .uas-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .badge-pg { background: #E0F2FE; color: #0369A1; border: 1px solid #7DD3FC; }
+    .badge-bs { background: #FCE7F3; color: #BE185D; border: 1px solid #F9A8D4; }
+    .badge-isian { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+    .bs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+    .bs-btn {
+      padding: 1.1rem;
+      border-radius: 16px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      cursor: pointer;
+      border: 2.5px solid #CBD5E1;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 0 #94A3B8;
+      transition: all 0.12s;
+    }
+    .bs-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #94A3B8; }
+    .bs-btn.selected-answer {
+      background: #DBEAFE !important;
+      border-color: #0284C7 !important;
+      color: #0C4A6E !important;
+      box-shadow: 0 4px 0 #0284C7 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1120,12 +1177,18 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem; flex-wrap:wrap; gap:0.6rem;">
         <h3 style="font-size:1.25rem; color:#0F172A;" id="catalog-heading-title">Daftar Topik Pembelajaran:</h3>
-        <button class="nav-pill-btn" onclick="openGeminiModal()" style="border-color:#7C3AED; color:#7C3AED; font-weight:900;">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Integrasi AI (Gemini Studio)
-        </button>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="nav-pill-btn" onclick="openSheetsConfigModal()" style="border-color:#059669; color:#059669; font-weight:900;">
+            <i class="fa-solid fa-table"></i> Koneksi Google Spreadsheet
+          </button>
+          <button class="nav-pill-btn" onclick="openGeminiModal()" style="border-color:#7C3AED; color:#7C3AED; font-weight:900;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Integrasi AI (Gemini Studio)
+          </button>
+        </div>
       </div>
 
       <div class="topic-catalog-grid" id="topic-catalog-container"></div>
+      <div id="uas-semester-container"></div>
     </div>
   </section>
 
@@ -1183,7 +1246,7 @@
           <div class="menu-card-desc">5 Ronde pasangkan instrumen/konsep dengan fungsinya.</div>
         </div>
 
-        <div class="menu-card-btn" onclick="navTo('screen-eval-choice')" style="border-color:#F59E0B; background:#FFFDF7;">
+        <div class="menu-card-btn" onclick="AppState.isUASMode=false; document.getElementById('eval-bab-modes').style.display='grid'; document.getElementById('eval-uas-mode').style.display='none'; renderStudentInputs(); navTo('screen-eval-choice')" style="border-color:#F59E0B; background:#FFFDF7;">
           <span class="menu-badge-num" style="background:#FEF3C7; color:#B45309;">Tahap Akhir 5</span>
           <div class="menu-card-icon" style="color:#D97706;"><i class="fa-solid fa-clipboard-check"></i></div>
           <div class="menu-card-title">Kuis Evaluasi Formatif</div>
@@ -1352,19 +1415,54 @@
 
       <div id="student-inputs-container" style="display:grid; grid-template-columns:1fr; gap:0.9rem; max-width:700px; margin:0 auto 1.4rem auto;"></div>
 
-      <div class="eval-mode-grid">
-        <div class="eval-card-select" onclick="launchQuizMode('pg')">
-          <i class="fa-solid fa-circle-check" style="font-size:2.8rem; color:#0284C7;"></i>
-          <h3 style="font-size:1.25rem; color:#0F172A;">Format Pilihan Ganda</h3>
-          <p style="font-size:0.88rem; color:#64748B;"><strong>20 Soal Acak</strong> dari Bank 70 Soal Bab Terpilih. Setiap siswa menerima soal berbeda secara mandiri (Mudah: 3 poin, Sedang: 5 poin, HOTS: 8 poin).</p>
-          <span class="btn-3d btn-primary" style="margin-top:0.4rem; width:100%;">Mulai Pilihan Ganda (20 Soal)</span>
+      <div id="eval-choice-modes-wrapper">
+        <div class="eval-mode-grid" id="eval-bab-modes">
+          <div class="eval-card-select" onclick="launchQuizMode('pg')">
+            <i class="fa-solid fa-circle-check" style="font-size:2.8rem; color:#0284C7;"></i>
+            <h3 style="font-size:1.25rem; color:#0F172A;">Format Pilihan Ganda</h3>
+            <p style="font-size:0.88rem; color:#64748B;"><strong>20 Soal Acak</strong> dari Bank Soal Bab Terpilih. Setiap siswa menerima soal berbeda secara mandiri.</p>
+            <span class="btn-3d btn-primary" style="margin-top:0.4rem; width:100%;">Mulai Pilihan Ganda (20 Soal)</span>
+          </div>
+
+          <div class="eval-card-select" onclick="launchQuizMode('isian')">
+            <i class="fa-solid fa-pen-to-square" style="font-size:2.8rem; color:#059669;"></i>
+            <h3 style="font-size:1.25rem; color:#0F172A;">Format Isian Singkat</h3>
+            <p style="font-size:0.88rem; color:#64748B;"><strong>10 Soal Acak</strong> dari Bank Soal Bab Terpilih. Analisis konsep, identifikasi & perhitungan sains.</p>
+            <span class="btn-3d btn-secondary" style="margin-top:0.4rem; width:100%;">Mulai Isian Singkat (10 Soal)</span>
+          </div>
         </div>
 
-        <div class="eval-card-select" onclick="launchQuizMode('isian')">
-          <i class="fa-solid fa-pen-to-square" style="font-size:2.8rem; color:#059669;"></i>
-          <h3 style="font-size:1.25rem; color:#0F172A;">Format Isian Singkat</h3>
-          <p style="font-size:0.88rem; color:#64748B;"><strong>10 Soal Acak</strong> dari Bank 50 Soal Bab Terpilih. Analisis konsep, identifikasi & perhitungan sains (Mudah: 6 poin, Sedang: 10 poin, HOTS: 16 poin).</p>
-          <span class="btn-3d btn-secondary" style="margin-top:0.4rem; width:100%;">Mulai Isian Singkat (10 Soal)</span>
+        <div id="eval-uas-mode" style="display:none; max-width:720px; margin:1.4rem auto 0 auto;">
+          <div style="background:#FFFBEB; border:2px solid #F59E0B; border-radius:16px; padding:1rem 1.2rem; margin-bottom:1.1rem;">
+            <label style="display:block; font-weight:900; font-size:0.95rem; margin-bottom:0.6rem; color:#78350F;">
+              <i class="fa-solid fa-calendar-check"></i> Pilih Semester Ujian Akhir Semester (UAS):
+            </label>
+            <div style="display:flex; gap:0.7rem; justify-content:center; flex-wrap:wrap;">
+              <button type="button" class="filter-pill-btn active" id="btn-uas-sem-1" onclick="selectUASSemester(1)" style="flex:1; min-width:190px;">
+                <i class="fa-solid fa-1"></i> Semester 1 (Ganjil)
+              </button>
+              <button type="button" class="filter-pill-btn" id="btn-uas-sem-2" onclick="selectUASSemester(2)" style="flex:1; min-width:190px;">
+                <i class="fa-solid fa-2"></i> Semester 2 (Genap)
+              </button>
+            </div>
+            <p style="font-size:0.82rem; color:#92400E; margin-top:0.6rem; font-weight:700;" id="uas-dynamic-summary">
+              Setiap peserta otomatis mendapatkan paket soal sesuai jenjang kelas masing-masing dan semester yang dipilih.
+            </p>
+          </div>
+
+          <div class="eval-card-select" style="border-color:#D97706; background:#FFFBEB;" onclick="launchUASExam()">
+            <i class="fa-solid fa-award" style="font-size:3rem; color:#D97706;"></i>
+            <h3 style="font-size:1.35rem; color:#78350F;" id="uas-launch-card-title">Mulai Ujian Akhir Semester (UAS)</h3>
+            <p style="font-size:0.92rem; color:#92400E; line-height:1.5;">
+              Paket Lengkap <strong>40 Soal Terpadu</strong> menyesuaikan kelas tiap peserta &amp; semester terpilih:<br>
+              &bull; <strong>20 Soal</strong> Pilihan Ganda (A–D)<br>
+              &bull; <strong>10 Soal</strong> Benar / Salah (Tipe KKA)<br>
+              &bull; <strong>10 Soal</strong> Isian Singkat
+            </p>
+            <span class="btn-3d btn-amber" style="margin-top:0.5rem; width:100%; font-size:1.05rem;">
+              <i class="fa-solid fa-play"></i> Mulai Ujian Akhir Semester (40 Soal)
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1550,10 +1648,404 @@
     </div>
   </div>
 
+
+  <!-- MODAL: KONEKSI GOOGLE SPREADSHEET & SINKRONISASI SISWA -->
+  <div id="sheets-modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.72); backdrop-filter:blur(6px); z-index:100; align-items:center; justify-content:center; padding:1.2rem;">
+    <div style="background:#FFFFFF; color:#0F172A; border:2px solid #CBD5E1; border-radius:24px; padding:1.8rem; max-width:720px; width:100%; box-shadow:0 20px 40px rgba(0,0,0,0.3); position:relative;">
+      <button onclick="closeSheetsConfigModal()" style="position:absolute; top:1rem; right:1.2rem; background:transparent; border:none; color:#64748B; font-size:1.4rem; cursor:pointer;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div style="display:flex; align-items:center; gap:0.6rem; color:#059669; font-size:1.35rem; font-weight:900; margin-bottom:0.8rem;">
+        <i class="fa-solid fa-file-excel"></i> Integrasi Google Spreadsheet & Daftar Siswa
+      </div>
+      <p style="font-size:0.9rem; color:#475569; margin-bottom:1rem; line-height:1.5;">
+        Masukkan <strong>URL Web App Google Apps Script</strong> Anda agar nilai Evaluasi Formatif dan nilai UAS (6 Semester) terkirim otomatis ke Google Spreadsheet, sekaligus menyinkronkan daftar nama siswa dari sheet <code>Data_Siswa</code>.
+      </p>
+      <label style="display:block; font-weight:800; font-size:0.9rem; margin-bottom:0.4rem;">URL Web App Apps Script (https://script.google.com/macros/s/.../exec):</label>
+      <input type="url" id="input-gas-url" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:2px solid #94A3B8; font-size:0.9rem; margin-bottom:1rem; outline:none;">
+      <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+        <button class="btn-3d btn-secondary" onclick="saveGasUrl()" style="flex:1;">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan URL & Sinkronkan Siswa
+        </button>
+        <button class="btn-3d btn-outline" onclick="syncStudentsFromSheet()">
+          <i class="fa-solid fa-arrows-rotate"></i> Tarik Ulang Data Siswa
+        </button>
+      </div>
+      <div id="gas-sync-status" style="margin-top:0.9rem; font-size:0.85rem; font-weight:800; color:#0369A1; background:#F0F9FF; padding:0.7rem 1rem; border-radius:10px; border:1px solid #BAE6FD;">
+        Status: Menggunakan template bawaan (14 Siswa: Kelas 7, 8, 9). Siap mengirim & sinkronisasi jika URL Apps Script diisi.
+      </div>
+    </div>
+  </div>
+
   <!-- ========================================================
        LOGIKA JAVASCRIPT LENGKAP & MODULAR
        ======================================================== -->
   <script>
+
+    /* ========================================================
+       DATA TEMPLATE SISWA & INTEGRASI GOOGLE SPREADSHEET
+       ======================================================== */
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbztIzEl5lvqPoWtFI4TfJqrU0cX8tUPdjbsIgTfmgMPgH7BTxkmrol4qPpnD72iAbY/exec";
+    const DEFAULT_STUDENT_ROSTER = {
+      "Kelas 7": ["Tino", "Giving", "Ahna", "Ipis", "Ukap", "Dewi", "Bayu"],
+      "Kelas 8": ["Silvi Livia", "Siut", "Juma'ah", "Sanin", "Yita"],
+      "Kelas 9": ["Lutdi", "Nada"]
+    };
+
+    function getStudentRoster() {
+      try {
+        const saved = localStorage.getItem('libaru_student_roster');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+            return parsed;
+          }
+        }
+      } catch (e) {}
+      return DEFAULT_STUDENT_ROSTER;
+    }
+
+    function openSheetsConfigModal() {
+      SoundEngine.playClick();
+      const backdrop = document.getElementById('sheets-modal-backdrop');
+      const inp = document.getElementById('input-gas-url');
+      if (inp) inp.value = localStorage.getItem('libaru_gas_url') || DEFAULT_GAS_URL;
+      if (backdrop) backdrop.style.display = 'flex';
+    }
+
+    function closeSheetsConfigModal() {
+      SoundEngine.playClick();
+      const backdrop = document.getElementById('sheets-modal-backdrop');
+      if (backdrop) backdrop.style.display = 'none';
+    }
+
+    async function saveGasUrl() {
+      const inp = document.getElementById('input-gas-url');
+      const url = inp ? inp.value.trim() : '';
+      if (url) {
+        localStorage.setItem('libaru_gas_url', url);
+        await syncStudentsFromSheet();
+      } else {
+        localStorage.removeItem('libaru_gas_url');
+        localStorage.removeItem('libaru_student_roster');
+        renderStudentInputs();
+        Swal.fire({ icon: 'info', title: 'URL Dihapus', text: 'Kembali menggunakan daftar siswa bawaan.', timer: 1400, showConfirmButton: false });
+      }
+    }
+
+    async function syncStudentsFromSheet() {
+      const url = localStorage.getItem('libaru_gas_url') || DEFAULT_GAS_URL;
+      const statusBox = document.getElementById('gas-sync-status');
+      if (!url) {
+        if (statusBox) statusBox.innerText = 'Status: URL Apps Script belum diisi. Menggunakan data siswa bawaan.';
+        return;
+      }
+      if (statusBox) statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengambil data siswa dari Google Spreadsheet...';
+      try {
+        const res = await fetch(url + (url.includes('?') ? '&' : '?') + 'action=getStudents');
+        const json = await res.json();
+        if (json && json.status === 'success' && json.roster) {
+          localStorage.setItem('libaru_student_roster', JSON.stringify(json.roster));
+          renderStudentInputs();
+          if (statusBox) statusBox.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#059669;"></i> Berhasil sinkron! Daftar nama & kelas telah diperbarui dari Google Spreadsheet.';
+          SoundEngine.playCorrect();
+        } else {
+          throw new Error('Format respons tidak sesuai');
+        }
+      } catch (err) {
+        if (statusBox) statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#D97706;"></i> Gagal menarik data dari URL (menggunakan template lokal 14 siswa). Pastikan akses Web App diset ke "Anyone".';
+      }
+    }
+
+    async function sendResultToGoogleSheets(payload) {
+      const url = localStorage.getItem('libaru_gas_url') || DEFAULT_GAS_URL;
+      if (!url) return;
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.warn('Gagal mengirim ke Google Sheets:', e);
+      }
+    }
+
+    /* ========================================================
+       GENERATOR SOAL BENAR / SALAH (TIPE KKA) & UAS 6 SEMESTER
+       ======================================================== */
+    function generateTopicQuestionsBS(topic) {
+      const list = [];
+      const curatedFacts = curatedEvalFacts(topic);
+      if (curatedFacts && curatedFacts.length) {
+        curatedFacts.forEach((p, idx) => {
+          const isTrue = idx % 2 === 0;
+          const wrongDef = curatedFacts[(idx + 2) % curatedFacts.length].definition;
+          list.push({
+            id: `bs-${topic.id}-${idx + 1}`,
+            type: 'bs',
+            level: idx < 3 ? 'Mudah' : (idx < 6 ? 'Sedang' : 'HOTS'),
+            points: 2.5,
+            q: `[Pernyataan KKA • ${topic.name}] Dalam kajian ${topic.name}, istilah "${p.term}" didefinisikan atau berfungsi sebagai: ${isTrue ? p.definition : wrongDef}.`,
+            ans: isTrue ? 0 : 1 // 0 = BENAR, 1 = SALAH
+          });
+        });
+        return list;
+      }
+
+      const mod = getModule(topic.id);
+      if (mod && Array.isArray(mod.matching)) {
+        let counter = 1;
+        mod.matching.forEach((round) => {
+          (round.pairs || []).forEach((pair, pIdx) => {
+            const isTrue = counter % 2 === 1;
+            const altPair = round.pairs[(pIdx + 1) % round.pairs.length];
+            list.push({
+              id: `bs-${topic.id}-${counter}`,
+              type: 'bs',
+              level: counter <= 6 ? 'Mudah' : (counter <= 14 ? 'Sedang' : 'HOTS'),
+              points: 2.5,
+              q: `[Analisis KKA • ${topic.name}] Pernyataan berikut ini terkait konsep "${pair.left}": ${isTrue ? pair.right : altPair.right}.`,
+              ans: isTrue ? 0 : 1
+            });
+            counter++;
+          });
+        });
+      }
+      return list;
+    }
+
+    function getSemesterNumberGlobal(grade, sem) {
+      return (Number(grade) - 7) * 2 + Number(sem);
+    }
+
+    function extractGradeFromKelas(kelasStr, fallbackGrade) {
+      const m = String(kelasStr || '').match(/([789])/);
+      return m ? Number(m[1]) : Number(fallbackGrade || 7);
+    }
+
+    function selectUASSemester(sem) {
+      SoundEngine.playClick();
+      AppState.selectedSemester = Number(sem) || 1;
+      const b1 = document.getElementById('btn-uas-sem-1');
+      const b2 = document.getElementById('btn-uas-sem-2');
+      if (b1) b1.classList.toggle('active', AppState.selectedSemester === 1);
+      if (b2) b2.classList.toggle('active', AppState.selectedSemester === 2);
+      updateUASCardPreview();
+    }
+
+    function updateUASCardPreview() {
+      const sem = Number(AppState.selectedSemester) || 1;
+      const uasTitle = document.getElementById('uas-launch-card-title');
+      const uasSummary = document.getElementById('uas-dynamic-summary');
+      const count = Math.max(1, Math.min(3, Number(AppState.userCount) || 1));
+
+      const pesertaLabels = [];
+      for (let i = 0; i < count; i++) {
+        const st = AppState.students[i] || {};
+        const g = extractGradeFromKelas(st.kelas, AppState.selectedGrade);
+        const sg = getSemesterNumberGlobal(g, sem);
+        pesertaLabels.push(`${st.name || 'Siswa ' + (i + 1)} (Kelas ${g} • Sem ${sem} / UAS ${sg})`);
+      }
+
+      if (uasTitle) {
+        uasTitle.innerText = `Mulai UAS Semester ${sem} (${sem === 1 ? 'Ganjil' : 'Genap'})`;
+      }
+      if (uasSummary) {
+        uasSummary.innerHTML = `<i class="fa-solid fa-circle-info"></i> Paket Soal Aktif: <strong>${pesertaLabels.join(' | ')}</strong>`;
+      }
+    }
+
+    function openUASPrep(grade, sem) {
+      SoundEngine.playClick();
+      AppState.selectedGrade = Number(grade) || 7;
+      AppState.selectedSemester = Number(sem) || 1;
+      AppState.isUASMode = true;
+
+      const babModes = document.getElementById('eval-bab-modes');
+      const uasMode = document.getElementById('eval-uas-mode');
+      if (babModes) babModes.style.display = 'none';
+      if (uasMode) uasMode.style.display = 'block';
+
+      const b1 = document.getElementById('btn-uas-sem-1');
+      const b2 = document.getElementById('btn-uas-sem-2');
+      if (b1) b1.classList.toggle('active', AppState.selectedSemester === 1);
+      if (b2) b2.classList.toggle('active', AppState.selectedSemester === 2);
+
+      renderStudentInputs();
+      updateUASCardPreview();
+      navTo('screen-eval-choice');
+    }
+
+    function buildUASQuestionSet(grade, sem) {
+      const key = `${grade}_${sem}`;
+      const topics = atpDatabase[key] || [];
+      let poolPG = [];
+      let poolBS = [];
+      let poolIsian = [];
+
+      topics.forEach(t => {
+        const mod = getModule(t.id);
+        const pg = generateTopicQuestionsPG(mod).map(q => ({
+          ...q,
+          type: 'pg',
+          points: 2.5,
+          topicName: mod.name,
+          q: q.q.replace(/^\[Soal[^\]]*\]\s*/, `[${mod.name}] `)
+        }));
+        const bs = generateTopicQuestionsBS(mod).map(q => ({
+          ...q,
+          type: 'bs',
+          points: 2.5,
+          topicName: mod.name
+        }));
+        const isian = generateTopicQuestionsIsian(mod).map(q => ({
+          ...q,
+          type: 'isian',
+          points: 2.5,
+          topicName: mod.name,
+          q: q.q.replace(/^\[(Soal|Isian)[^\]]*\]\s*/, `[${mod.name}] `)
+        }));
+
+        poolPG = poolPG.concat(pg);
+        poolBS = poolBS.concat(bs);
+        poolIsian = poolIsian.concat(isian);
+      });
+
+      const selectedPG = shuffleArray(poolPG).slice(0, 20).map((q, idx) => {
+        const copy = { ...q, opts: [...q.opts] };
+        if (Array.isArray(copy.opts) && copy.opts.length > 1) {
+          const pairs = copy.opts.map((text, index) => ({
+            text: String(text).replace(/^[A-D]\.\s*/, ''),
+            correct: index === copy.ans
+          }));
+          const shuffled = shuffleArray(pairs);
+          copy.opts = shuffled.map((item, index) => `${String.fromCharCode(65 + index)}. ${item.text}`);
+          copy.ans = shuffled.findIndex(item => item.correct);
+        }
+        copy.sectionLabel = `Bagian I: Pilihan Ganda (${idx + 1}/20)`;
+        return copy;
+      });
+
+      const selectedBS = shuffleArray(poolBS).slice(0, 10).map((q, idx) => ({
+        ...q,
+        type: 'bs',
+        opts: ['BENAR', 'SALAH'],
+        sectionLabel: `Bagian II: Benar / Salah KKA (${idx + 1}/10)`
+      }));
+
+      const selectedIsian = shuffleArray(poolIsian).slice(0, 10).map((q, idx) => ({
+        ...q,
+        type: 'isian',
+        sectionLabel: `Bagian III: Isian Singkat (${idx + 1}/10)`
+      }));
+
+      // Susun berurutan: 20 PG -> 10 Benar/Salah (KKA) -> 10 Isian Singkat (Total 40 Soal, masing-masing 2.5 poin = 100)
+      return [...selectedPG, ...selectedBS, ...selectedIsian];
+    }
+
+    function launchUASExam() {
+      AppState.userCount = Math.max(1, Math.min(3, Number(AppState.userCount) || 1));
+      ensureEvalStudentSlots(AppState.userCount);
+      saveStudentInputs();
+      evaluationAnswerKeyUnlocked = false;
+      AppState.evalMode = 'uas';
+      AppState.isUASMode = true;
+
+      const sem = Number(AppState.selectedSemester) || 1;
+      const summaryBadges = [];
+
+      for (let i = 0; i < AppState.userCount; i++) {
+        const studentName = String(AppState.students[i].name || `Siswa ${i + 1}`).trim();
+        const studentKelas = AppState.students[i].kelas || `Kelas ${AppState.selectedGrade}`;
+        const studentGrade = extractGradeFromKelas(studentKelas, AppState.selectedGrade);
+        const studentSemGlobal = getSemesterNumberGlobal(studentGrade, sem);
+
+        const qs = buildUASQuestionSet(studentGrade, sem);
+        AppState.students[i].name = studentName;
+        AppState.students[i].kelas = studentKelas;
+        AppState.students[i].gradeLevel = studentGrade;
+        AppState.students[i].semesterLevel = sem;
+        AppState.students[i].semGlobal = studentSemGlobal;
+        AppState.students[i].uasLabel = `UAS Semester ${studentSemGlobal} (Kelas ${studentGrade} Sem ${sem})`;
+        AppState.students[i].score = 0;
+        AppState.students[i].rawScore = 0;
+        AppState.students[i].pgCorrect = 0;
+        AppState.students[i].bsCorrect = 0;
+        AppState.students[i].isianCorrect = 0;
+        AppState.students[i].currentIndex = 0;
+        AppState.students[i].finished = false;
+        AppState.students[i].correctCount = 0;
+        AppState.students[i].wrongCount = 0;
+        AppState.students[i].startedAt = new Date();
+        AppState.students[i].finishedAt = null;
+        AppState.students[i].answering = false;
+        AppState.students[i].questions = qs;
+        AppState.students[i].maxPossible = qs.reduce((acc, cur) => acc + cur.points, 0);
+
+        summaryBadges.push(`${studentName}: Kelas ${studentGrade} Sem ${sem}`);
+      }
+
+      const badge = document.getElementById('quiz-header-badge');
+      if (badge) {
+        badge.innerHTML = `<i class="fa-solid fa-award"></i> UAS Semester ${sem} (${summaryBadges.join(' &bull; ')}) &bull; 40 Soal`;
+      }
+
+      navTo('screen-quiz');
+      renderQuizMultiColumns();
+    }
+
+    function openTeacherDashboard() {
+      SoundEngine.playClick();
+      const history = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]');
+      let rows = history.slice().reverse().map((r, i) => `
+        <tr>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${i + 1}</td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.timestamp || '-'}</td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>${r.nama}</strong></td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.kelas}</td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.aktivitas}</td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;font-weight:900;color:${r.skor >= 75 ? '#059669' : '#DC2626'};">${r.skor}</td>
+          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.status}</td>
+        </tr>
+      `).join('');
+      if (!rows) {
+        rows = '<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748B;">Belum ada riwayat nilai tersimpan di perangkat ini.</td></tr>';
+      }
+      Swal.fire({
+        title: 'Dashboard Rekap Nilai Guru',
+        width: '900px',
+        html: `
+          <div style="text-align:left;max-height:380px;overflow:auto;font-size:0.85rem;">
+            <table style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr style="background:#F1F5F9;">
+                  <th style="padding:6px;">No</th>
+                  <th style="padding:6px;">Waktu</th>
+                  <th style="padding:6px;">Nama</th>
+                  <th style="padding:6px;">Kelas</th>
+                  <th style="padding:6px;">Asesmen</th>
+                  <th style="padding:6px;">Nilai</th>
+                  <th style="padding:6px;">Status</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Tutup',
+        cancelButtonText: 'Hapus Riwayat Lokal',
+        cancelButtonColor: '#DC2626'
+      }).then((res) => {
+        if (res.dismiss === Swal.DismissReason.cancel) {
+          localStorage.removeItem('libaru_ipa_records');
+          Swal.fire('Terhapus', 'Riwayat lokal dibersihkan.', 'success');
+        }
+      });
+    }
+
     /* Audio Synthesizer Aman */
     const SoundEngine = {
       ctx: null,
@@ -2842,6 +3334,7 @@
       document.querySelectorAll('[id^="btn-grade-"]').forEach(b => b.classList.remove('active'));
       document.getElementById(`btn-grade-${grade}`).classList.add('active');
       renderTopicCatalog();
+    syncStudentsFromSheet();
     }
 
     function selectSemester(sem) {
@@ -2893,6 +3386,33 @@
 
         container.appendChild(card);
       });
+
+      const uasContainer = document.getElementById('uas-semester-container');
+      if (uasContainer) {
+        const semGlobal = getSemesterNumberGlobal(AppState.selectedGrade, AppState.selectedSemester);
+        const babNames = topics.map(t => t.name).join(', ');
+        uasContainer.innerHTML = `
+          <div class="uas-banner-card">
+            <div style="flex:1; min-width:260px;">
+              <span style="background:#D97706; color:#FFFFFF; font-size:0.75rem; font-weight:900; padding:0.25rem 0.75rem; border-radius:100px; text-transform:uppercase;">
+                <i class="fa-solid fa-star"></i> Ujian Akhir Semester (6 Paket Semester)
+              </span>
+              <h3 style="font-size:1.35rem; color:#78350F; margin-top:0.45rem;">
+                Menu UAS Kelas ${AppState.selectedGrade} - Semester ${AppState.selectedSemester} (${AppState.selectedSemester === 1 ? 'Ganjil' : 'Genap'})
+              </h3>
+              <p style="font-size:0.86rem; color:#92400E; margin-top:0.25rem; line-height:1.45;">
+                <strong>Komposisi 40 Soal Terpadu:</strong> 20 Pilihan Ganda (A–D) + 10 Benar/Salah (KKA) + 10 Isian Singkat (Otomatis sesuai kelas siswa &amp; pilihan Semester 1 atau 2).<br>
+                <strong>Cakupan Materi (${topics.length} Bab):</strong> ${babNames}.
+              </p>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn-3d btn-amber" onclick="openUASPrep(${AppState.selectedGrade}, ${AppState.selectedSemester})" style="padding:0.95rem 1.5rem; font-size:1rem;">
+                <i class="fa-solid fa-file-signature"></i> Masuk Menu UAS (Pilih Sem 1 / 2)
+              </button>
+            </div>
+          </div>
+        `;
+      }
     }
 
     function openTopic(topicId) {
@@ -3226,6 +3746,22 @@
       const activeButton = document.getElementById(`btn-user-${AppState.userCount}`);
       if (activeButton) activeButton.classList.add('active');
       renderStudentInputs();
+      if (AppState.isUASMode) updateUASCardPreview();
+    }
+
+    function updateStudentNameOptions(slotIdx, selectedKelas) {
+      const roster = getStudentRoster();
+      const nameSelect = document.getElementById(`input-name-${slotIdx}`);
+      if (!nameSelect) return;
+      const list = roster[selectedKelas] || roster["Kelas 7"] || [];
+      nameSelect.innerHTML = list.map(n => `<option value="${n}">${n}</option>`).join('');
+      if (list.length > 0) {
+        const pickIdx = Math.min(slotIdx, list.length - 1);
+        nameSelect.value = list[pickIdx];
+        AppState.students[slotIdx].name = nameSelect.value;
+      }
+      AppState.students[slotIdx].kelas = selectedKelas;
+      if (AppState.isUASMode) updateUASCardPreview();
     }
 
     function renderStudentInputs() {
@@ -3236,29 +3772,41 @@
       const count = Math.max(1, Math.min(3, Number(AppState.userCount) || 1));
       container.style.gridTemplateColumns = count === 1 ? 'minmax(0,1fr)' : (count === 2 ? 'repeat(2,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))');
 
+      const roster = getStudentRoster();
+      const classKeys = Object.keys(roster);
+      const defaultKelas = `Kelas ${displayGradeNumber(AppState.selectedGrade)}`;
+
       for (let i = 0; i < count; i++) {
         const student = AppState.students[i];
+        const activeKelas = classKeys.includes(student.kelas) ? student.kelas : (classKeys.includes(defaultKelas) ? defaultKelas : classKeys[0]);
+        const studentList = roster[activeKelas] || [];
+
         const card = document.createElement('div');
-        card.style.cssText = 'background:#F8FAFC;border:2px solid #CBD5E1;border-radius:14px;padding:1rem;min-width:0;';
+        card.style.cssText = 'background:#F8FAFC;border:2px solid #CBD5E1;border-radius:14px;padding:1rem;min-width:0;text-align:left;';
         card.innerHTML = `
-          <div style="font-weight:900;color:#0369A1;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;"><i class="fa-solid fa-circle-user"></i> Siswa ${i + 1}</div>
-          <div style="margin-bottom:.5rem;">
-            <label for="input-name-${i}" style="display:block;font-size:.8rem;font-weight:800;color:#475569;margin-bottom:.2rem;">Nama Lengkap:</label>
-            <input type="text" id="input-name-${i}" class="student-input" style="padding:.55rem .8rem;font-size:.95rem;" autocomplete="name" maxlength="100" required>
+          <div style="font-weight:900;color:#0369A1;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;"><i class="fa-solid fa-circle-user"></i> Peserta ${i + 1}</div>
+          <div style="margin-bottom:.6rem;">
+            <label for="input-kelas-${i}" style="display:block;font-size:.8rem;font-weight:800;color:#475569;margin-bottom:.25rem;">Pilih Kelas:</label>
+            <select id="input-kelas-${i}" class="student-input" style="padding:.55rem .8rem;font-size:.95rem;" onchange="updateStudentNameOptions(${i}, this.value)">
+              ${classKeys.map(k => `<option value="${k}" ${k === activeKelas ? 'selected' : ''}>${k}</option>`).join('')}
+            </select>
           </div>
           <div>
-            <label for="input-kelas-${i}" style="display:block;font-size:.8rem;font-weight:800;color:#475569;margin-bottom:.2rem;">Kelas:</label>
-            <select id="input-kelas-${i}" class="student-input" style="padding:.55rem .8rem;font-size:.95rem;">
-              <option value="Kelas 7">Kelas 7</option><option value="Kelas 7A">Kelas 7A</option><option value="Kelas 7B">Kelas 7B</option><option value="Kelas 7C">Kelas 7C</option><option value="Kelas 8">Kelas 8</option><option value="Kelas 8A">Kelas 8A</option><option value="Kelas 8B">Kelas 8B</option><option value="Kelas 8C">Kelas 8C</option><option value="Kelas 9">Kelas 9</option><option value="Kelas 9A">Kelas 9A</option><option value="Kelas 9B">Kelas 9B</option><option value="Kelas 9C">Kelas 9C</option>
+            <label for="input-name-${i}" style="display:block;font-size:.8rem;font-weight:800;color:#475569;margin-bottom:.25rem;">Pilih Nama Siswa:</label>
+            <select id="input-name-${i}" class="student-input" style="padding:.55rem .8rem;font-size:.95rem;" onchange="AppState.students[${i}].name=this.value">
+              ${studentList.map(n => `<option value="${n}">${n}</option>`).join('')}
             </select>
           </div>`;
         container.appendChild(card);
-        const nameInput = card.querySelector(`#input-name-${i}`);
-        const classSelect = card.querySelector(`#input-kelas-${i}`);
-        nameInput.value = student.name || `Siswa ${i + 1}`;
-        const availableClasses = Array.from(classSelect.options).map(o => o.value);
-        classSelect.value = availableClasses.includes(student.kelas) ? student.kelas : `Kelas ${displayGradeNumber(AppState.selectedGrade)}`;
-        student.kelas = classSelect.value;
+
+        const nameSelect = card.querySelector(`#input-name-${i}`);
+        if (studentList.includes(student.name)) {
+          nameSelect.value = student.name;
+        } else if (studentList.length > 0) {
+          nameSelect.value = studentList[Math.min(i, studentList.length - 1)];
+        }
+        student.kelas = activeKelas;
+        student.name = nameSelect.value;
       }
     }
 
@@ -3419,7 +3967,16 @@
       }
 
       const q = student.questions[cIdx];
+      const qType = q.type || (isPg ? 'pg' : 'isian');
       const diffBadge = getDifficultyBadgeHtml(q.level, q.points);
+      let typeBadge = '';
+      if (qType === 'pg') {
+        typeBadge = `<span class="uas-type-badge badge-pg"><i class="fa-solid fa-list-ul"></i> ${q.sectionLabel || 'Pilihan Ganda'}</span>`;
+      } else if (qType === 'bs') {
+        typeBadge = `<span class="uas-type-badge badge-bs"><i class="fa-solid fa-scale-balanced"></i> ${q.sectionLabel || 'Benar / Salah (KKA)'}</span>`;
+      } else {
+        typeBadge = `<span class="uas-type-badge badge-isian"><i class="fa-solid fa-keyboard"></i> ${q.sectionLabel || 'Isian Singkat'}</span>`;
+      }
 
       card.innerHTML = `
         <div class="quiz-meta-header">
@@ -3427,39 +3984,46 @@
             <i class="fa-solid fa-user-graduate"></i> ${student.name} 
             <span style="font-size:0.8rem; font-weight:700; color:#64748B;">(${student.kelas})</span>
           </div>
-          <div style="display:flex; align-items:center; gap:0.4rem;">
+          <div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">
             ${diffBadge}
             <div class="quiz-solo-badge">No. ${cIdx + 1} / ${totalQ}</div>
           </div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.82rem; font-weight:800; color:#0369A1;">
-            <i class="fa-solid fa-award"></i> Bobot: ${q.points} Poin
-          </span>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
+          ${typeBadge}
           <span style="font-size:0.8rem; font-weight:700; color:#64748B;">
-            Skor: ${student.rawScore} / ${student.maxPossible}
+            Skor Sementara: ${student.rawScore} / ${student.maxPossible}
           </span>
         </div>
 
-        <div style="display:flex;justify-content:flex-end;margin:0.25rem 0;">
+        <div style="display:flex;justify-content:flex-end;margin:0.15rem 0;">
           <button type="button" class="btn-3d btn-outline" style="font-size:.78rem;padding:.45rem .7rem;" onclick="unlockEvaluationAnswerKey()">
             <i class="fa-solid fa-lock"></i> Buka Kunci Jawaban
           </button>
         </div>
         <div class="quiz-question-text" style="font-size:1.12rem;">${q.q}</div>
 
-        <div class="options-grid" id="options-grid-${userIndex}" style="${isPg ? '' : 'display:none;'}"></div>
+        <div class="options-grid" id="options-grid-${userIndex}" style="${qType === 'pg' ? '' : 'display:none;'}"></div>
 
-        <div class="short-input-box" id="short-box-${userIndex}" style="${isPg ? 'display:none;' : ''}">
-          <input type="text" id="short-input-${userIndex}" class="short-input-field" placeholder="Ketik jawaban di sini..." style="font-size:1.05rem;" autocomplete="off">
+        <div class="bs-grid" id="bs-grid-${userIndex}" style="${qType === 'bs' ? '' : 'display:none;'}">
+          <button type="button" class="bs-btn" id="bs-btn-true-${userIndex}" style="color:#047857;">
+            <i class="fa-solid fa-circle-check"></i> BENAR
+          </button>
+          <button type="button" class="bs-btn" id="bs-btn-false-${userIndex}" style="color:#BE123C;">
+            <i class="fa-solid fa-circle-xmark"></i> SALAH
+          </button>
+        </div>
+
+        <div class="short-input-box" id="short-box-${userIndex}" style="${qType === 'isian' ? '' : 'display:none;'}">
+          <input type="text" id="short-input-${userIndex}" class="short-input-field" placeholder="Ketik jawaban singkat di sini..." style="font-size:1.05rem;" autocomplete="off">
           <button class="btn-3d btn-secondary" style="font-size:0.95rem; padding:0.6rem 1rem;" onclick="submitShortAnswerMulti(${userIndex})">
             <i class="fa-solid fa-check"></i> Jawab Sekarang
           </button>
         </div>
       `;
 
-      if (isPg) {
+      if (qType === 'pg') {
         const optsGrid = card.querySelector(`#options-grid-${userIndex}`);
         q.opts.forEach((opt, optIdx) => {
           const btn = document.createElement('button');
@@ -3473,9 +4037,25 @@
           });
           optsGrid.appendChild(btn);
         });
+      } else if (qType === 'bs') {
+        const btnTrue = card.querySelector(`#bs-btn-true-${userIndex}`);
+        const btnFalse = card.querySelector(`#bs-btn-false-${userIndex}`);
+        if (btnTrue) {
+          btnTrue.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            handleOptionClickMulti(userIndex, 0, btnTrue, q);
+          });
+        }
+        if (btnFalse) {
+          btnFalse.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            handleOptionClickMulti(userIndex, 1, btnFalse, q);
+          });
+        }
       } else {
         const shortInput = card.querySelector(`#short-input-${userIndex}`);
         if (shortInput) {
+          shortInput.focus();
           shortInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
@@ -3493,22 +4073,23 @@
       const student = AppState.students[userIndex];
       if (!student || student.answering) return;
       student.answering = true;
-      const allBtns = card.querySelectorAll('.option-btn');
+      const allBtns = card.querySelectorAll('.option-btn, .bs-btn');
       allBtns.forEach(b => {
         b.style.pointerEvents = 'none';
         b.setAttribute('aria-pressed', 'false');
         b.classList.remove('selected-answer', 'correct', 'wrong');
       });
 
-      // Penanda visual hanya menandai opsi yang dipilih siswa.
-      // Penilaian tetap dihitung secara internal dan tidak ditampilkan sebagai warna benar/salah.
       btnEl.classList.add('selected-answer');
       btnEl.dataset.answered = 'true';
       btnEl.setAttribute('aria-pressed', 'true');
 
       if (optIdx === q.ans) {
         student.correctCount++;
+        student.isianCorrect = (student.isianCorrect || 0) + 1;
         student.rawScore += q.points;
+        if (q.type === 'bs') student.bsCorrect = (student.bsCorrect || 0) + 1;
+        else student.pgCorrect = (student.pgCorrect || 0) + 1;
       } else {
         student.wrongCount++;
       }
@@ -3566,9 +4147,14 @@
       const allFinished = AppState.students.slice(0, AppState.userCount).every(s => s.finished);
       if (allFinished) {
         setTimeout(() => {
-          const mod = getModule(AppState.currentTopicId);
-          finishMultiEvaluation(AppState.evalMode === 'pg' ? `Kuis Pilgan (Bank: 70) - ${mod.name}` : `Kuis Isian (Bank: 50) - ${mod.name}`);
-        }, 1000);
+          if (AppState.evalMode === 'uas' || AppState.isUASMode) {
+            const sem = Number(AppState.selectedSemester) || 1;
+            finishMultiEvaluation(`Ujian Akhir Semester (UAS) - Semester ${sem} (${sem === 1 ? 'Ganjil' : 'Genap'})`);
+          } else {
+            const mod = getModule(AppState.currentTopicId);
+            finishMultiEvaluation(AppState.evalMode === 'pg' ? `Kuis Pilgan - ${mod.name}` : `Kuis Isian - ${mod.name}`);
+          }
+        }, 900);
       }
     }
 
@@ -3586,12 +4172,35 @@
           const isPassed = finalScaled >= 75;
           const statusText = isPassed ? "Tuntas" : "Remedial";
 
+          const tsNow = new Date().toLocaleString('id-ID');
+          const isUAS = AppState.evalMode === 'uas' || AppState.isUASMode;
+          const studentGrade = s.gradeLevel || extractGradeFromKelas(s.kelas, AppState.selectedGrade);
+          const studentSem = s.semesterLevel || Number(AppState.selectedSemester) || 1;
+          const semGlobal = s.semGlobal || getSemesterNumberGlobal(studentGrade, studentSem);
+          const studentUasLabel = s.uasLabel || `UAS Semester ${semGlobal} (Kelas ${studentGrade} Sem ${studentSem})`;
+
           history.push({
-            timestamp: new Date().toLocaleString('id-ID'),
+            timestamp: tsNow,
             nama: s.name,
             kelas: s.kelas,
-            aktivitas: `${activityName} - Kelas ${displayGradeNumber(AppState.selectedGrade)}`,
+            aktivitas: isUAS ? studentUasLabel : `${activityName} - Kelas ${studentGrade}`,
             skor: finalScaled,
+            status: statusText
+          });
+
+          sendResultToGoogleSheets({
+            action: 'saveResult',
+            type: isUAS ? 'UAS' : 'EVALUASI',
+            timestamp: tsNow,
+            nama: s.name,
+            kelas: s.kelas,
+            jenisAsesmen: isUAS ? 'Ujian Akhir Semester (UAS)' : (AppState.evalMode === 'pg' ? 'Pilihan Ganda' : 'Isian Singkat'),
+            materiAtauSemester: isUAS ? `Semester ${semGlobal} (Kelas ${studentGrade} Sem ${studentSem})` : activityName,
+            benarPG: s.pgCorrect || 0,
+            benarBS: s.bsCorrect || 0,
+            benarIsian: s.isianCorrect || 0,
+            totalPoin: s.rawScore,
+            nilaiAkhir: finalScaled,
             status: statusText
           });
 
