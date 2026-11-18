@@ -1136,6 +1136,162 @@
       box-shadow: 0 4px 0 #0284C7 !important;
     }
 
+  
+    /* ========================================================
+       TAMPILAN TKA UAS & DUAL DASHBOARD (MURID & GURU)
+       ======================================================== */
+    .tka-login-wrapper {
+      width: 100%;
+      max-width: 680px;
+      margin: 1.5rem auto;
+      background: #FFFFFF;
+      border-radius: 22px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+      overflow: hidden;
+      border: 2px solid #CBD5E1;
+    }
+    .tka-login-header {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+      color: #FFFFFF;
+      padding: 1.6rem 1.8rem;
+      text-align: center;
+      border-bottom: 4px solid #F59E0B;
+    }
+    .tka-login-body {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .tka-exam-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #F1F5F9;
+      padding: 0;
+    }
+    .tka-topbar {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 0.75rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      border-bottom: 3px solid #0284C7;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+    }
+    .tka-timer-box {
+      background: #1E293B;
+      border: 2px solid #38BDF8;
+      color: #38BDF8;
+      padding: 0.45rem 1rem;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 1.25rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tka-timer-box.warning {
+      border-color: #EF4444;
+      color: #FCA5A5;
+      background: #450A0A;
+      animation: pulseGlow 1s infinite;
+    }
+    .tka-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      gap: 1.2rem;
+      max-width: 1280px;
+      width: 100%;
+      margin: 1.2rem auto;
+      padding: 0 1.2rem 5rem 1.2rem;
+    }
+    @media (max-width: 900px) {
+      .tka-main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .tka-question-panel {
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      border-radius: 18px;
+      padding: 1.6rem;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .tka-nav-panel {
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      border-radius: 18px;
+      padding: 1.2rem;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+      height: fit-content;
+      position: sticky;
+      top: 76px;
+    }
+    .tka-num-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+    }
+    .tka-num-btn {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 2px solid #CBD5E1;
+      background: #F8FAFC;
+      font-weight: 900;
+      font-size: 0.88rem;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .tka-num-btn.active {
+      border-color: #0284C7;
+      background: #E0F2FE;
+      color: #0369A1;
+      transform: scale(1.06);
+    }
+    .tka-num-btn.answered {
+      background: #059669;
+      border-color: #047857;
+      color: #FFFFFF;
+    }
+    .tka-num-btn.ragu {
+      background: #F59E0B;
+      border-color: #D97706;
+      color: #FFFFFF;
+    }
+    .dash-tabs-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 0.8rem;
+    }
+    .dash-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+    .dash-stat-box {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
@@ -1145,9 +1301,24 @@
        ======================================================== -->
   <section id="screen-home" class="screen active">
     <div class="home-hero-card">
-      <button class="teacher-gear-btn" onclick="openTeacherDashboard()" title="Dashboard Guru & AI Settings">
-        <i class="fa-solid fa-gear"></i>
-      </button>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; margin-bottom:1rem; padding-bottom:0.8rem; border-bottom:1.5px solid #E2E8F0;">
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-3d btn-primary" onclick="openStudentDashboard()" style="padding:0.55rem 1.1rem; font-size:0.9rem; border-radius:100px;">
+            <i class="fa-solid fa-user-graduate"></i> Dashboard Murid
+          </button>
+          <button class="btn-3d btn-amber" onclick="promptTeacherLogin()" style="padding:0.55rem 1.1rem; font-size:0.9rem; border-radius:100px;">
+            <i class="fa-solid fa-chalkboard-user"></i> Dashboard Guru
+          </button>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="nav-pill-btn" onclick="openSheetsConfigModal()" style="border-color:#059669; color:#059669; font-weight:900;">
+            <i class="fa-solid fa-table"></i> Spreadsheet
+          </button>
+          <button class="nav-pill-btn" onclick="openGeminiModal()" style="border-color:#7C3AED; color:#7C3AED; font-weight:900;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Studio
+          </button>
+        </div>
+      </div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
         <div class="hero-badges">
@@ -1177,14 +1348,9 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem; flex-wrap:wrap; gap:0.6rem;">
         <h3 style="font-size:1.25rem; color:#0F172A;" id="catalog-heading-title">Daftar Topik Pembelajaran:</h3>
-        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-          <button class="nav-pill-btn" onclick="openSheetsConfigModal()" style="border-color:#059669; color:#059669; font-weight:900;">
-            <i class="fa-solid fa-table"></i> Koneksi Google Spreadsheet
-          </button>
-          <button class="nav-pill-btn" onclick="openGeminiModal()" style="border-color:#7C3AED; color:#7C3AED; font-weight:900;">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Integrasi AI (Gemini Studio)
-          </button>
-        </div>
+        <span id="uas-gate-status-pill" style="font-size:0.82rem; font-weight:900; padding:0.35rem 0.9rem; border-radius:100px; background:#FEE2E2; color:#991B1B; border:1px solid #FCA5A5;">
+          <i class="fa-solid fa-lock"></i> Status Akses UAS: TERTUTUP
+        </span>
       </div>
 
       <div class="topic-catalog-grid" id="topic-catalog-container"></div>
@@ -1588,6 +1754,263 @@
     <div class="result-card"></div>
   </section>
 
+
+  <!-- ========================================================
+       SCREEN 10: HALAMAN LOGIN TKA UAS (PILIH KELAS & NAMA -> LOGIN)
+       ======================================================== -->
+  <section id="screen-uas-login" class="screen">
+    <div class="screen-top-nav">
+      <div class="screen-nav-btn-group">
+        <button class="nav-pill-btn" onclick="navGoHome()">
+          <i class="fa-solid fa-house"></i> Beranda
+        </button>
+      </div>
+      <div class="top-school-badge">
+        <i class="fa-solid fa-desktop"></i> Sistem Ujian Berbasis Komputer (TKA)
+      </div>
+    </div>
+
+    <div class="tka-login-wrapper">
+      <div class="tka-login-header">
+        <div style="font-size:0.82rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:#FDE68A; margin-bottom:0.3rem;">
+          Tes Kemampuan Akademik (TKA) &bull; SMP Satu Atap Libaru Sungkai
+        </div>
+        <h2 style="font-size:1.65rem; margin-bottom:0.25rem;" id="tka-login-title">Ujian Akhir Semester (UAS)</h2>
+        <p style="font-size:0.88rem; color:#CBD5E1;" id="tka-login-subtitle">Silakan pilih Kelas dan Nama Peserta untuk memulai sesi ujian.</p>
+      </div>
+
+      <div class="tka-login-body">
+        <div style="background:#EFF6FF; border:1.5px solid #93C5FD; border-radius:14px; padding:0.9rem 1rem; font-size:0.86rem; color:#1E3A8A; line-height:1.5;">
+          <strong><i class="fa-solid fa-circle-info"></i> Tata Tertib & Struktur Soal UAS:</strong><br>
+          &bull; Total <strong>40 Soal Acak</strong> dari Bank 60 Soal sesuai kelas &amp; semester terpilih.<br>
+          &bull; Komposisi: <strong>25 Pilihan Ganda (A–D)</strong> + <strong>10 Benar/Salah (KKA)</strong> + <strong>5 Isian Singkat</strong>.<br>
+          &bull; Durasi Waktu Pengerjaan: <strong id="tka-login-duration-label">45 Menit</strong> (Otomatis tertutup &amp; nilai tersimpan saat waktu habis).
+        </div>
+
+        <div>
+          <label style="display:block; font-weight:900; font-size:0.9rem; color:#1E293B; margin-bottom:0.35rem;">
+            1. Pilih Semester Ujian:
+          </label>
+          <div style="display:flex; gap:0.6rem;">
+            <button type="button" class="filter-pill-btn active" id="tka-sem-btn-1" onclick="setTKASemester(1)" style="flex:1;">
+              Semester 1 (Ganjil)
+            </button>
+            <button type="button" class="filter-pill-btn" id="tka-sem-btn-2" onclick="setTKASemester(2)" style="flex:1;">
+              Semester 2 (Genap)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label for="tka-select-kelas" style="display:block; font-weight:900; font-size:0.9rem; color:#1E293B; margin-bottom:0.35rem;">
+            2. Pilih Kelas Peserta:
+          </label>
+          <select id="tka-select-kelas" class="student-input" onchange="onTKAKelasChange(this.value)"></select>
+        </div>
+
+        <div>
+          <label for="tka-select-nama" style="display:block; font-weight:900; font-size:0.9rem; color:#1E293B; margin-bottom:0.35rem;">
+            3. Pilih Nama Peserta Didik:
+          </label>
+          <select id="tka-select-nama" class="student-input"></select>
+        </div>
+
+        <button type="button" class="btn-3d btn-primary" onclick="startTKAExamSession()" style="width:100%; padding:1rem; font-size:1.1rem; margin-top:0.4rem;">
+          <i class="fa-solid fa-right-to-bracket"></i> LOGIN &amp; MULAI UJIAN SEKARANG
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 11: HALAMAN PENGERJAAN UAS (TAMPILAN TKA)
+       ======================================================== -->
+  <section id="screen-uas-tka" class="screen tka-exam-shell">
+    <div class="tka-topbar">
+      <div style="display:flex; align-items:center; gap:0.8rem;">
+        <div style="background:#0284C7; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+          <i class="fa-solid fa-laptop-code"></i>
+        </div>
+        <div>
+          <div style="font-weight:900; font-size:1rem;" id="tka-exam-student-info">Peserta: - | Kelas -</div>
+          <div style="font-size:0.78rem; color:#94A3B8;" id="tka-exam-meta-info">UAS IPA Semester 1 &bull; 40 Soal</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:0.8rem;">
+        <div class="tka-timer-box" id="tka-timer-display">
+          <i class="fa-solid fa-clock"></i> <span id="tka-timer-text">45:00</span>
+        </div>
+        <button type="button" class="btn-3d btn-secondary" onclick="confirmFinishTKA(false)" style="padding:0.55rem 1.1rem; font-size:0.9rem;">
+          <i class="fa-solid fa-paper-plane"></i> Selesai &amp; Kumpulkan
+        </button>
+      </div>
+    </div>
+
+    <div class="tka-main-grid">
+      <div class="tka-question-panel" id="tka-question-container"></div>
+
+      <div class="tka-nav-panel">
+        <div style="font-weight:900; color:#0F172A; font-size:0.95rem; display:flex; justify-content:space-between; align-items:center;">
+          <span><i class="fa-solid fa-grip"></i> Navigasi Soal (1–40)</span>
+          <span id="tka-answered-counter" style="font-size:0.8rem; color:#059669;">0/40</span>
+        </div>
+
+        <div style="font-size:0.74rem; color:#475569; margin-top:0.5rem; line-height:1.4;">
+          &bull; <strong>No. 1–25:</strong> Pilihan Ganda (A–D)<br>
+          &bull; <strong>No. 26–35:</strong> Benar / Salah (KKA)<br>
+          &bull; <strong>No. 36–40:</strong> Isian Singkat
+        </div>
+
+        <div class="tka-num-grid" id="tka-number-grid"></div>
+
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.9rem; font-size:0.75rem; font-weight:800; color:#475569;">
+          <span><span style="display:inline-block;width:11px;height:11px;background:#059669;border-radius:3px;"></span> Dijawab</span>
+          <span><span style="display:inline-block;width:11px;height:11px;background:#F59E0B;border-radius:3px;"></span> Ragu</span>
+          <span><span style="display:inline-block;width:11px;height:11px;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:3px;"></span> Belum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 12: DASHBOARD MURID
+       ======================================================== -->
+  <section id="screen-student-dashboard" class="screen">
+    <div class="screen-top-nav">
+      <div class="screen-nav-btn-group">
+        <button class="nav-pill-btn" onclick="navGoHome()">
+          <i class="fa-solid fa-house"></i> Beranda Utama
+        </button>
+      </div>
+      <div class="top-school-badge">
+        <i class="fa-solid fa-user-graduate"></i> Dashboard Murid
+      </div>
+    </div>
+
+    <div class="cptp-table-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+        <div>
+          <h2 style="font-size:1.6rem; color:#0F172A;"><i class="fa-solid fa-graduation-cap" style="color:#0284C7;"></i> Dashboard Belajar &amp; Hasil Nilai Murid</h2>
+          <p style="color:#64748B; font-size:0.9rem;">Pilih kelas dan nama Anda untuk melihat riwayat Kuis Evaluasi Formatif maupun nilai Ujian Akhir Semester (UAS).</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <select id="stu-dash-kelas" class="student-input" style="width:auto; padding:0.5rem 0.9rem; font-size:0.9rem;" onchange="onStudentDashKelasChange(this.value)"></select>
+          <select id="stu-dash-nama" class="student-input" style="width:auto; padding:0.5rem 0.9rem; font-size:0.9rem;" onchange="renderStudentDashboardData()"></select>
+        </div>
+      </div>
+
+      <div class="dash-stat-grid" id="stu-dash-stats"></div>
+
+      <h3 style="font-size:1.1rem; color:#0F172A; margin:1rem 0 0.5rem 0;">Riwayat Pengerjaan Evaluasi Formatif &amp; UAS:</h3>
+      <div style="overflow-x:auto;">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal &amp; Waktu</th>
+              <th>Kategori</th>
+              <th>Materi / Semester</th>
+              <th>Benar</th>
+              <th>Salah</th>
+              <th>Nilai</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="stu-dash-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 13: DASHBOARD GURU (PASSWORD: Libaru)
+       ======================================================== -->
+  <section id="screen-teacher-dashboard" class="screen">
+    <div class="screen-top-nav">
+      <div class="screen-nav-btn-group">
+        <button class="nav-pill-btn" onclick="navGoHome()">
+          <i class="fa-solid fa-house"></i> Beranda Utama
+        </button>
+      </div>
+      <div class="top-school-badge" style="background:#FEF3C7; color:#92400E;">
+        <i class="fa-solid fa-shield-halved"></i> Panel Kontrol Guru Terproteksi
+      </div>
+    </div>
+
+    <div class="cptp-table-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1.2rem;">
+        <div>
+          <h2 style="font-size:1.65rem; color:#0F172A;"><i class="fa-solid fa-chalkboard-user" style="color:#D97706;"></i> Dashboard Guru IPA Terpadu</h2>
+          <p style="color:#64748B; font-size:0.9rem;">Kontrol Akses UAS, Pengaturan Waktu Mundur, Data Murid, dan Rekapitulasi Nilai Tersinkronisasi Spreadsheet.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-3d btn-secondary" onclick="syncAllFromSpreadsheet()" style="padding:0.6rem 1rem; font-size:0.88rem;">
+            <i class="fa-solid fa-arrows-rotate"></i> Sinkronkan Spreadsheet
+          </button>
+          <button class="btn-3d btn-primary" onclick="downloadTeacherReportCSV()" style="padding:0.6rem 1rem; font-size:0.88rem;">
+            <i class="fa-solid fa-file-excel"></i> Download Hasil (Excel/CSV)
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL KONTROL UAS (BUKA/TUTUP AKSES & DURASI WAKTU MUNDUR 30/45/60 MENIT) -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1rem; background:#FFFBEB; border:2px solid #F59E0B; border-radius:18px; padding:1.2rem; margin-bottom:1.4rem;">
+        <div>
+          <div style="font-weight:900; color:#78350F; font-size:1rem; margin-bottom:0.4rem;">
+            <i class="fa-solid fa-door-open"></i> Kontrol Akses Menu UAS Siswa:
+          </div>
+          <p style="font-size:0.82rem; color:#92400E; margin-bottom:0.7rem;">
+            Default akses adalah <strong>TERTUTUP</strong>. Siswa hanya dapat masuk menu UAS jika Anda mengaktifkan status <strong>DIBUKA</strong>.
+          </p>
+          <div style="display:flex; gap:0.6rem;">
+            <button type="button" class="btn-3d btn-secondary" id="btn-gate-open" onclick="setUASAccessControl(true)" style="flex:1; padding:0.65rem; font-size:0.9rem;">
+              <i class="fa-solid fa-lock-open"></i> BUKA AKSES UAS
+            </button>
+            <button type="button" class="btn-3d btn-rose" id="btn-gate-close" onclick="setUASAccessControl(false)" style="flex:1; padding:0.65rem; font-size:0.9rem;">
+              <i class="fa-solid fa-lock"></i> TUTUP AKSES UAS
+            </button>
+          </div>
+          <div id="teacher-gate-indicator" style="margin-top:0.55rem; font-size:0.85rem; font-weight:900; color:#991B1B;">
+            Status Saat Ini: TERTUTUP (Siswa tidak dapat masuk UAS)
+          </div>
+        </div>
+
+        <div>
+          <div style="font-weight:900; color:#78350F; font-size:1rem; margin-bottom:0.4rem;">
+            <i class="fa-solid fa-hourglass-half"></i> Pengaturan Waktu Mundur UAS:
+          </div>
+          <p style="font-size:0.82rem; color:#92400E; margin-bottom:0.7rem;">
+            Pilih total durasi waktu pengerjaan UAS. Ketika waktu habis, ujian otomatis tertutup dan nilai tersimpan.
+          </p>
+          <div style="display:flex; gap:0.5rem;">
+            <button type="button" class="filter-pill-btn" id="btn-dur-30" onclick="setUASDurationSetting(30)" style="flex:1;">30 Menit</button>
+            <button type="button" class="filter-pill-btn active" id="btn-dur-45" onclick="setUASDurationSetting(45)" style="flex:1;">45 Menit</button>
+            <button type="button" class="filter-pill-btn" id="btn-dur-60" onclick="setUASDurationSetting(60)" style="flex:1;">60 Menit</button>
+          </div>
+          <div id="teacher-duration-indicator" style="margin-top:0.55rem; font-size:0.85rem; font-weight:900; color:#0369A1;">
+            Durasi Aktif: 45 Menit
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB NAVIGASI DATA GURU -->
+      <div class="dash-tabs-bar">
+        <button class="nav-pill-btn active" id="tab-guru-uas" onclick="switchTeacherTab('uas')">
+          <i class="fa-solid fa-award"></i> Hasil Ujian Akhir Semester (UAS)
+        </button>
+        <button class="nav-pill-btn" id="tab-guru-eval" onclick="switchTeacherTab('eval')">
+          <i class="fa-solid fa-clipboard-check"></i> Hasil Kuis Evaluasi Formatif
+        </button>
+        <button class="nav-pill-btn" id="tab-guru-siswa" onclick="switchTeacherTab('siswa')">
+          <i class="fa-solid fa-users"></i> Data Murid (Kelas 7, 8, 9)
+        </button>
+      </div>
+
+      <div id="teacher-tab-content"></div>
+    </div>
+  </section>
+
   <!-- ========================================================
        MODAL: INTEGRASI AI (GEMINI API KEY STUDIO)
        ======================================================== -->
@@ -1857,193 +2280,963 @@
       }
     }
 
-    function openUASPrep(grade, sem) {
-      SoundEngine.playClick();
-      AppState.selectedGrade = Number(grade) || 7;
-      AppState.selectedSemester = Number(sem) || 1;
-      AppState.isUASMode = true;
 
-      const babModes = document.getElementById('eval-bab-modes');
-      const uasMode = document.getElementById('eval-uas-mode');
-      if (babModes) babModes.style.display = 'none';
-      if (uasMode) uasMode.style.display = 'block';
 
-      const b1 = document.getElementById('btn-uas-sem-1');
-      const b2 = document.getElementById('btn-uas-sem-2');
-      if (b1) b1.classList.toggle('active', AppState.selectedSemester === 1);
-      if (b2) b2.classList.toggle('active', AppState.selectedSemester === 2);
 
-      renderStudentInputs();
-      updateUASCardPreview();
-      navTo('screen-eval-choice');
+
+
+    /* ========================================================
+       BANK SOAL RESMI UAS SEMESTER 1 (KELAS 7, 8, 9 - MASING-MASING 60 SOAL)
+       ======================================================== */
+    const OFFICIAL_UAS_BANK_SEM1 = {"7_1": [{"no": 1, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Ilmu pengetahuan yang mempelajari gejala alam melalui pengamatan dan penelitian disebut ....", "opts": ["A. Sejarah", "B. Sains", "C. Geografi", "D. Seni"], "ans": 1, "bs_q": "Sains adalah ilmu pengetahuan yang mempelajari gejala alam melalui pengamatan dan penelitian yang sistematis.", "bs_ans": 0, "isian_q": "Ilmu pengetahuan yang mempelajari gejala alam melalui pengamatan dan penelitian sistematis disebut ....", "isian_valid": ["sains", "ilmu sains", "ipa"]}, {"no": 2, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Cabang ilmu sains yang mempelajari makhluk hidup adalah ....", "opts": ["A. Fisika", "B. Kimia", "C. Biologi", "D. Astronomi"], "ans": 2, "bs_q": "Astronomi merupakan cabang ilmu sains yang secara khusus mempelajari struktur dan kehidupan makhluk hidup.", "bs_ans": 1, "isian_q": "Cabang ilmu sains yang mempelajari tentang makhluk hidup disebut ....", "isian_valid": ["biologi"]}, {"no": 3, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Ilmu yang mempelajari benda-benda langit seperti planet, bintang, dan Bulan disebut ....", "opts": ["A. Biologi", "B. Geologi", "C. Kimia", "D. Astronomi"], "ans": 3, "bs_q": "Astronomi mempelajari benda-benda langit seperti planet, bintang, dan Bulan.", "bs_ans": 0, "isian_q": "Cabang sains yang mempelajari planet, bintang, Bulan, dan benda langit lainnya adalah ....", "isian_valid": ["astronomi"]}, {"no": 4, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Berikut ini yang termasuk contoh penerapan ilmu fisika adalah ....", "opts": ["A. Mempelajari pertumbuhan tanaman", "B. Mengamati gerak kendaraan", "C. Mempelajari struktur sel", "D. Mengamati perkembangbiakan hewan"], "ans": 1, "bs_q": "Mengamati gerak kendaraan dan gaya yang bekerja padanya merupakan contoh kajian ilmu fisika.", "bs_ans": 0, "isian_q": "Cabang ilmu sains yang mengkaji gerak kendaraan, gaya, dan energi disebut ....", "isian_valid": ["fisika"]}, {"no": 5, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Langkah pertama dalam metode ilmiah adalah ....", "opts": ["A. Menarik kesimpulan", "B. Membuat laporan", "C. Melakukan pengamatan", "D. Menganalisis data"], "ans": 2, "bs_q": "Dalam metode ilmiah, menarik kesimpulan dilakukan sebagai langkah paling pertama sebelum pengamatan.", "bs_ans": 1, "isian_q": "Tahap paling awal dalam urutan metode ilmiah sebelum merumuskan hipotesis adalah melakukan ....", "isian_valid": ["pengamatan", "observasi"]}, {"no": 6, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Dugaan sementara terhadap suatu permasalahan penelitian disebut ....", "opts": ["A. Kesimpulan", "B. Hipotesis", "C. Teori", "D. Fakta"], "ans": 1, "bs_q": "Hipotesis merupakan jawaban atau dugaan sementara terhadap rumusan masalah penelitian yang masih harus diuji.", "bs_ans": 0, "isian_q": "Jawaban atau dugaan sementara terhadap suatu permasalahan penelitian disebut ....", "isian_valid": ["hipotesis"]}, {"no": 7, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Kegiatan melakukan percobaan untuk menguji hipotesis disebut ....", "opts": ["A. Eksperimen", "B. Observasi", "C. Kesimpulan", "D. Komunikasi"], "ans": 0, "bs_q": "Eksperimen dilakukan oleh peneliti untuk menguji kebenaran suatu hipotesis.", "bs_ans": 0, "isian_q": "Kegiatan percobaan ilmiah yang dirancang untuk menguji hipotesis disebut ....", "isian_valid": ["eksperimen", "percobaan"]}, {"no": 8, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Sikap yang harus dimiliki seorang ilmuwan ketika melakukan penelitian adalah ....", "opts": ["A. Ceroboh", "B. Tidak jujur", "C. Mudah menyerah", "D. Teliti dan objektif"], "ans": 3, "bs_q": "Seorang ilmuwan wajib bersikap teliti dan objektif apa adanya sesuai fakta saat melakukan penelitian.", "bs_ans": 0, "isian_q": "Dua sikap ilmiah utama yang wajib dimiliki peneliti saat mengamati dan mencatat data adalah teliti dan ....", "isian_valid": ["objektif", "jujur"]}, {"no": 9, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Alat yang digunakan untuk mengamati benda berukuran sangat kecil adalah ....", "opts": ["A. Termometer", "B. Mikroskop", "C. Neraca", "D. Stopwatch"], "ans": 1, "bs_q": "Termometer digunakan di laboratorium untuk mengamati sel dan mikroorganisme berukuran sangat kecil.", "bs_ans": 1, "isian_q": "Alat optik laboratorium untuk mengamati objek mikroskopis yang sangat kecil adalah ....", "isian_valid": ["mikroskop"]}, {"no": 10, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Alat yang digunakan untuk mengukur massa suatu benda adalah ....", "opts": ["A. Mistar", "B. Termometer", "C. Neraca", "D. Gelas ukur"], "ans": 2, "bs_q": "Neraca atau timbangan merupakan alat ukur standar untuk mengetahui massa suatu benda.", "bs_ans": 0, "isian_q": "Alat laboratorium yang digunakan untuk mengukur massa benda disebut ....", "isian_valid": ["neraca", "timbangan"]}, {"no": 11, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Satuan internasional untuk besaran panjang adalah ....", "opts": ["A. Meter", "B. Kilogram", "C. Sekon", "D. Liter"], "ans": 0, "bs_q": "Satuan Sistem Internasional (SI) untuk besaran panjang adalah kilometer.", "bs_ans": 1, "isian_q": "Satuan baku dalam Sistem Internasional (SI) untuk besaran panjang adalah ....", "isian_valid": ["meter", "m"]}, {"no": 12, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Berikut ini yang termasuk besaran pokok adalah ....", "opts": ["A. Luas", "B. Volume", "C. Kecepatan", "D. Massa"], "ans": 3, "bs_q": "Massa merupakan salah satu besaran pokok dalam Sistem Internasional, sedangkan luas dan volume adalah besaran turunan.", "bs_ans": 0, "isian_q": "Besaran yang satuannya telah ditetapkan terlebih dahulu dan tidak diturunkan dari besaran lain disebut besaran ....", "isian_valid": ["pokok"]}, {"no": 13, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Contoh satuan tidak baku adalah ....", "opts": ["A. Meter", "B. Kilogram", "C. Jengkal", "D. Sekon"], "ans": 2, "bs_q": "Jengkal dan depa termasuk satuan tidak baku karena hasil pengukurannya berbeda-beda pada setiap orang.", "bs_ans": 0, "isian_q": "Jengkal, hasta, dan depa merupakan contoh satuan pengukuran yang bersifat tidak ....", "isian_valid": ["baku"]}, {"no": 14, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Alat yang tepat untuk mengukur waktu dalam suatu percobaan adalah ....", "opts": ["A. Stopwatch", "B. Mistar", "C. Neraca", "D. Termometer"], "ans": 0, "bs_q": "Stopwatch digunakan di laboratorium untuk mengukur selang waktu berlangsungnya suatu percobaan.", "bs_ans": 0, "isian_q": "Alat ukur presisi yang digunakan untuk mencatat waktu tempuh dalam percobaan adalah ....", "isian_valid": ["stopwatch"]}, {"no": 15, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Besaran yang diperoleh dari hasil perkalian panjang dan lebar adalah ....", "opts": ["A. Massa", "B. Luas", "C. Waktu", "D. Suhu"], "ans": 1, "bs_q": "Luas merupakan besaran turunan yang diperoleh dari hasil perkalian besaran panjang dan lebar.", "bs_ans": 0, "isian_q": "Besaran turunan yang dihasilkan dari perkalian panjang dan lebar suatu bidang adalah ....", "isian_valid": ["luas"]}, {"no": 16, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Massa sebuah benda adalah 300 gram dan volumenya 100 cm³. Massa jenis benda tersebut adalah ....", "opts": ["A. 1 g/cm³", "B. 2 g/cm³", "C. 3 g/cm³", "D. 4 g/cm³"], "ans": 2, "bs_q": "Benda bermassa 300 gram dengan volume 100 cm³ memiliki massa jenis sebesar 3 g/cm³.", "bs_ans": 0, "isian_q": "Jika massa benda 300 gram dan volumenya 100 cm³, maka nilai massa jenisnya adalah ... g/cm³.", "isian_valid": ["3", "3 g/cm3", "3 g/cm³"]}, {"no": 17, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Tujuan penggunaan jas laboratorium adalah ....", "opts": ["A. Agar terlihat menarik", "B. Melindungi tubuh dari bahan atau percikan berbahaya", "C. Mempermudah pengukuran", "D. Mempercepat percobaan"], "ans": 1, "bs_q": "Jas laboratorium dikenakan untuk melindungi tubuh dan pakaian dari percikan bahan kimia berbahaya.", "bs_ans": 0, "isian_q": "Alat pelindung diri berupa pakaian khusus yang dipakai untuk melindungi tubuh dari percikan bahan kimia adalah jas ....", "isian_valid": ["laboratorium", "lab"]}, {"no": 18, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Setelah melakukan percobaan, seorang siswa mencatat semua hasil pengamatan. Kegiatan tersebut merupakan tahap ....", "opts": ["A. Pengumpulan data", "B. Perumusan masalah", "C. Penyusunan hipotesis", "D. Penarikan kesimpulan"], "ans": 0, "bs_q": "Mencatat seluruh hasil pengukuran dan pengamatan selama percobaan termasuk tahap pengumpulan data.", "bs_ans": 0, "isian_q": "Tahap pencatatan seluruh hasil pengukuran dan pengamatan selama eksperimen disebut pengumpulan ....", "isian_valid": ["data"]}, {"no": 19, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Seorang siswa ingin mengetahui pengaruh cahaya matahari terhadap pertumbuhan tanaman. Variabel yang sengaja diubah dalam percobaan tersebut adalah ....", "opts": ["A. Jenis tanaman", "B. Jumlah daun", "C. Tinggi tanaman", "D. Intensitas cahaya"], "ans": 3, "bs_q": "Dalam percobaan pengaruh cahaya terhadap tanaman, intensitas cahaya berperan sebagai variabel bebas yang sengaja diubah.", "bs_ans": 0, "isian_q": "Variabel yang sengaja diubah-ubah oleh peneliti untuk mengetahui pengaruhnya disebut variabel ....", "isian_valid": ["bebas"]}, {"no": 20, "bab": "Bab 1 - Hakikat Ilmu Sains", "q": "Seorang peneliti memperoleh hasil percobaan yang tidak sesuai dengan hipotesisnya. Sikap yang benar adalah ....", "opts": ["A. Mengubah data agar sesuai hipotesis", "B. Mengabaikan hasil percobaan", "C. Melaporkan hasil sesuai fakta", "D. Menghapus hasil penelitian"], "ans": 2, "bs_q": "Jika data percobaan tidak sesuai hipotesis, peneliti boleh mengubah angkanya agar sesuai harapan.", "bs_ans": 1, "isian_q": "Apabila hasil eksperimen berbeda dengan hipotesis awal, peneliti tetap wajib melaporkan hasil sesuai ....", "isian_valid": ["fakta", "data", "kenyataan"]}, {"no": 21, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Segala sesuatu yang memiliki massa dan menempati ruang disebut ....", "opts": ["A. Energi", "B. Gaya", "C. Materi", "D. Suhu"], "ans": 2, "bs_q": "Materi adalah segala sesuatu di alam yang memiliki massa serta menempati ruang (memiliki volume).", "bs_ans": 0, "isian_q": "Segala sesuatu yang mempunyai massa dan menempati ruang disebut ....", "isian_valid": ["materi", "zat"]}, {"no": 22, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Berikut ini yang merupakan contoh zat padat adalah ....", "opts": ["A. Udara", "B. Air", "C. Minyak", "D. Batu"], "ans": 3, "bs_q": "Udara dan minyak merupakan contoh zat padat karena partikelnya tidak dapat bergerak bebas.", "bs_ans": 1, "isian_q": "Zat yang memiliki bentuk dan volume tetap dengan susunan partikel sangat rapat adalah zat ....", "isian_valid": ["padat"]}, {"no": 23, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Zat cair memiliki sifat ....", "opts": ["A. Bentuk dan volume selalu tetap", "B. Bentuk mengikuti wadah, volume tetap", "C. Bentuk dan volume tidak tetap", "D. Tidak memiliki massa"], "ans": 1, "bs_q": "Zat cair memiliki volume tetap tetapi bentuknya selalu berubah mengikuti bentuk wadahnya.", "bs_ans": 0, "isian_q": "Zat yang volumenya tetap namun bentuknya selalu mengikuti wadah tempatnya berada adalah zat ....", "isian_valid": ["cair"]}, {"no": 24, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Zat yang bentuk dan volumenya selalu berubah mengikuti wadah adalah ....", "opts": ["A. Gas", "B. Padat", "C. Cair", "D. Kristal"], "ans": 0, "bs_q": "Zat gas memiliki bentuk dan volume yang tidak tetap karena jarak antarpartikelnya berjauhan.", "bs_ans": 0, "isian_q": "Wujud zat yang bentuk dan volumenya selalu berubah mengisi seluruh ruang wadah adalah ....", "isian_valid": ["gas"]}, {"no": 25, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Perubahan wujud dari padat menjadi cair disebut ....", "opts": ["A. Membeku", "B. Mengembun", "C. Mencair", "D. Menyublim"], "ans": 2, "bs_q": "Peristiwa perubahan wujud zat dari padat menjadi cair disebut mencair (melebur).", "bs_ans": 0, "isian_q": "Perubahan wujud zat dari padat menjadi cair karena menyerap kalor disebut ....", "isian_valid": ["mencair", "melebur"]}, {"no": 26, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Peristiwa perubahan air menjadi es disebut ....", "opts": ["A. Menguap", "B. Membeku", "C. Mencair", "D. Mengembun"], "ans": 1, "bs_q": "Perubahan wujud dari air (cair) menjadi es (padat) disebut membeku.", "bs_ans": 0, "isian_q": "Perubahan wujud zat cair menjadi padat akibat pelepasan kalor disebut ....", "isian_valid": ["membeku"]}, {"no": 27, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Perubahan wujud dari cair menjadi gas disebut ....", "opts": ["A. Menguap", "B. Membeku", "C. Menyublim", "D. Mengkristal"], "ans": 0, "bs_q": "Peristiwa perubahan wujud zat dari cair menjadi gas disebut mengembun.", "bs_ans": 1, "isian_q": "Perubahan wujud zat dari cair menjadi uap atau gas disebut ....", "isian_valid": ["menguap", "penguapan"]}, {"no": 28, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Terbentuknya titik-titik air pada bagian luar gelas yang berisi es merupakan contoh ....", "opts": ["A. Mencair", "B. Menguap", "C. Membeku", "D. Mengembun"], "ans": 3, "bs_q": "Titik-titik air di bagian luar gelas berisi es terjadi karena uap air di udara mengalami peristiwa mengembun.", "bs_ans": 0, "isian_q": "Perubahan wujud dari gas (uap air) menjadi titik-titik zat cair disebut ....", "isian_valid": ["mengembun", "kondensasi"]}, {"no": 29, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Kapur barus yang lama-kelamaan mengecil merupakan contoh peristiwa ....", "opts": ["A. Mengembun", "B. Menyublim", "C. Membeku", "D. Mencair"], "ans": 1, "bs_q": "Kapur barus yang mengecil di lemari mengalami penyubliman, yaitu perubahan langsung dari padat menjadi gas.", "bs_ans": 0, "isian_q": "Perubahan wujud zat secara langsung dari padat menjadi gas tanpa mencair terlebih dahulu disebut ....", "isian_valid": ["menyublim", "sublimasi"]}, {"no": 30, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Perubahan fisika adalah perubahan yang ....", "opts": ["A. Menghasilkan zat baru", "B. Mengubah susunan kimia zat", "C. Tidak menghasilkan zat baru", "D. Selalu menghasilkan gas"], "ans": 2, "bs_q": "Perubahan fisika tidak menghasilkan zat jenis baru, melainkan hanya mengubah bentuk atau wujud zat.", "bs_ans": 0, "isian_q": "Perubahan materi yang tidak menghasilkan zat jenis baru disebut perubahan ....", "isian_valid": ["fisika"]}, {"no": 31, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Berikut ini yang merupakan contoh perubahan kimia adalah ....", "opts": ["A. Es mencair", "B. Air membeku", "C. Kertas dipotong", "D. Besi berkarat"], "ans": 3, "bs_q": "Besi yang berkarat merupakan contoh perubahan kimia karena terbentuk zat baru berupa karat besi.", "bs_ans": 0, "isian_q": "Perubahan materi yang menghasilkan zat baru dengan sifat berbeda dari zat asalnya disebut perubahan ....", "isian_valid": ["kimia"]}, {"no": 32, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Peristiwa pembakaran kayu termasuk perubahan ....", "opts": ["A. Kimia", "B. Fisika", "C. Wujud", "D. Bentuk"], "ans": 0, "bs_q": "Kayu yang dibakar menjadi arang dan abu merupakan contoh perubahan fisika.", "bs_ans": 1, "isian_q": "Kayu yang terbakar menghasilkan arang, asap, dan abu termasuk contoh perubahan ....", "isian_valid": ["kimia"]}, {"no": 33, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Zat tunggal yang tidak dapat diuraikan menjadi zat yang lebih sederhana melalui reaksi kimia biasa disebut ....", "opts": ["A. Campuran", "B. Unsur", "C. Larutan", "D. Suspensi"], "ans": 1, "bs_q": "Unsur adalah zat tunggal yang tidak dapat diuraikan lagi menjadi zat lebih sederhana dengan reaksi kimia biasa.", "bs_ans": 0, "isian_q": "Zat tunggal murni yang tersusun dari satu jenis atom dan tidak dapat diuraikan secara kimia biasa disebut ....", "isian_valid": ["unsur"]}, {"no": 34, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Berikut ini yang merupakan contoh unsur adalah ....", "opts": ["A. Air", "B. Garam", "C. Besi", "D. Gula"], "ans": 2, "bs_q": "Besi (Fe) adalah contoh unsur, sedangkan air (H2O) dan gula merupakan senyawa.", "bs_ans": 0, "isian_q": "Zat murni dengan lambang kimia Fe yang termasuk kelompok unsur logam adalah ....", "isian_valid": ["besi"]}, {"no": 35, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Air (H2O) merupakan contoh ....", "opts": ["A. Unsur", "B. Campuran", "C. Logam", "D. Senyawa"], "ans": 3, "bs_q": "Air murni (H2O) merupakan senyawa yang terbentuk dari ikatan kimia unsur hidrogen dan oksigen.", "bs_ans": 0, "isian_q": "Zat tunggal yang terbentuk dari gabungan dua atau lebih unsur melalui reaksi kimia (contoh H2O) disebut ....", "isian_valid": ["senyawa"]}, {"no": 36, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Campuran yang memiliki komposisi seragam disebut ....", "opts": ["A. Campuran homogen", "B. Campuran heterogen", "C. Unsur", "D. Senyawa"], "ans": 0, "bs_q": "Campuran homogen adalah campuran yang komposisi penyusunnya tercampur merata dan seragam.", "bs_ans": 0, "isian_q": "Campuran yang zat-zat penyusunnya tercampur sempurna sehingga tampak seragam disebut campuran ....", "isian_valid": ["homogen"]}, {"no": 37, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Campuran air dan pasir termasuk ....", "opts": ["A. Unsur", "B. Senyawa", "C. Campuran homogen", "D. Campuran heterogen"], "ans": 3, "bs_q": "Campuran air dan pasir tergolong campuran homogen karena pasir larut sempurna dalam air.", "bs_ans": 1, "isian_q": "Campuran yang komponen penyusunnya masih dapat dibedakan secara fisik (seperti air dan pasir) disebut campuran ....", "isian_valid": ["heterogen"]}, {"no": 38, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Metode pemisahan campuran yang digunakan untuk memisahkan pasir dari air adalah ....", "opts": ["A. Distilasi", "B. Filtrasi", "C. Kromatografi", "D. Sublimasi"], "ans": 1, "bs_q": "Filtrasi (penyaringan) merupakan metode yang tepat untuk memisahkan padatan pasir dari air.", "bs_ans": 0, "isian_q": "Metode pemisahan campuran dengan cara menyaring padatan tidak larut dari cairannya disebut ....", "isian_valid": ["filtrasi", "penyaringan"]}, {"no": 39, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Pembuatan garam dari air laut menggunakan prinsip ....", "opts": ["A. Filtrasi", "B. Distilasi", "C. Evaporasi", "D. Magnetisasi"], "ans": 2, "bs_q": "Petani garam memisahkan kristal garam dari air laut dengan memanfaatkan prinsip penguapan (evaporasi).", "bs_ans": 0, "isian_q": "Metode pemisahan zat terlarut dengan cara menguapkan pelarutnya (seperti pembuatan garam) disebut ....", "isian_valid": ["evaporasi", "penguapan"]}, {"no": 40, "bab": "Bab 2 - Zat dan Perubahannya", "q": "Pemisahan serbuk besi dari pasir paling tepat dilakukan menggunakan ....", "opts": ["A. Magnet", "B. Kertas saring", "C. Corong", "D. Gelas ukur"], "ans": 0, "bs_q": "Serbuk besi yang tercampur dalam pasir dapat dipisahkan dengan mudah menggunakan gaya tarik magnet.", "bs_ans": 0, "isian_q": "Alat yang digunakan untuk menarik dan memisahkan serbuk besi dari campuran pasir adalah ....", "isian_valid": ["magnet"]}, {"no": 41, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Ukuran derajat panas atau dinginnya suatu benda disebut ....", "opts": ["A. Kalor", "B. Energi", "C. Suhu", "D. Massa"], "ans": 2, "bs_q": "Suhu adalah besaran yang menyatakan ukuran derajat panas atau dinginnya suatu benda.", "bs_ans": 0, "isian_q": "Besaran fisika yang menyatakan ukuran derajat panas atau dingin suatu benda adalah ....", "isian_valid": ["suhu", "temperatur"]}, {"no": 42, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Alat yang digunakan untuk mengukur suhu adalah ....", "opts": ["A. Neraca", "B. Termometer", "C. Stopwatch", "D. Mistar"], "ans": 1, "bs_q": "Termometer merupakan alat ukur yang digunakan untuk mengetahui suhu suatu benda secara tepat.", "bs_ans": 0, "isian_q": "Alat laboratorium yang digunakan untuk mengukur suhu suatu zat adalah ....", "isian_valid": ["termometer"]}, {"no": 43, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Satuan suhu dalam Sistem Internasional adalah ....", "opts": ["A. Celsius", "B. Fahrenheit", "C. Reamur", "D. Kelvin"], "ans": 3, "bs_q": "Satuan standar Sistem Internasional (SI) untuk besaran suhu adalah derajat Celsius.", "bs_ans": 1, "isian_q": "Satuan baku untuk besaran suhu dalam Sistem Internasional (SI) adalah ....", "isian_valid": ["kelvin", "k"]}, {"no": 44, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Titik beku air pada skala Celsius adalah ....", "opts": ["A. 0 °C", "B. 32 °C", "C. 80 °C", "D. 100 °C"], "ans": 0, "bs_q": "Pada tekanan udara normal, titik beku air murni pada termometer skala Celsius adalah 0 °C.", "bs_ans": 0, "isian_q": "Titik tetap bawah (titik beku air) pada termometer skala Celsius bernilai ... °C.", "isian_valid": ["0", "0°c", "0 °c"]}, {"no": 45, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Suhu 100 °C jika diubah ke skala Fahrenheit menjadi ....", "opts": ["A. 100 °F", "B. 180 °F", "C. 212 °F", "D. 273 °F"], "ans": 2, "bs_q": "Suhu titik didih air 100 °C setara dengan 212 °F pada skala Fahrenheit.", "bs_ans": 0, "isian_q": "Suhu 100 °C apabila dikonversikan ke dalam skala Fahrenheit bernilai ... °F.", "isian_valid": ["212", "212°f", "212 °f"]}, {"no": 46, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Kalor adalah ....", "opts": ["A. Ukuran massa benda", "B. Energi yang berpindah karena perbedaan suhu", "C. Ukuran volume benda", "D. Besaran panjang benda"], "ans": 1, "bs_q": "Kalor adalah bentuk energi panas yang berpindah dari benda bersuhu tinggi ke benda bersuhu rendah.", "bs_ans": 0, "isian_q": "Energi panas yang berpindah dari benda bersuhu tinggi ke benda bersuhu lebih rendah disebut ....", "isian_valid": ["kalor"]}, {"no": 47, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Satuan kalor dalam Sistem Internasional adalah ....", "opts": ["A. Meter", "B. Kilogram", "C. Sekon", "D. Joule"], "ans": 3, "bs_q": "Satuan energi kalor dalam Sistem Internasional (SI) dinyatakan dalam Joule (J).", "bs_ans": 0, "isian_q": "Satuan Sistem Internasional (SI) untuk besaran kalor dan energi adalah ....", "isian_valid": ["joule", "j"]}, {"no": 48, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Kalor secara alami berpindah dari benda ....", "opts": ["A. Bersuhu tinggi ke suhu rendah", "B. Bersuhu rendah ke suhu tinggi", "C. Bermassa besar ke kecil", "D. Bervolume kecil ke besar"], "ans": 0, "bs_q": "Secara alami, kalor berpindah dari benda yang bersuhu rendah menuju benda yang bersuhu tinggi.", "bs_ans": 1, "isian_q": "Secara alami, kalor selalu mengalir dari benda bersuhu tinggi menuju benda bersuhu ....", "isian_valid": ["rendah", "lebih rendah"]}, {"no": 49, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Perpindahan kalor melalui suatu zat tanpa disertai perpindahan partikel zat secara keseluruhan disebut ....", "opts": ["A. Konveksi", "B. Radiasi", "C. Konduksi", "D. Evaporasi"], "ans": 2, "bs_q": "Konduksi adalah perpindahan kalor melalui zat perantara tanpa disertai perpindahan partikel zat tersebut.", "bs_ans": 0, "isian_q": "Perpindahan kalor melalui zat penghantar tanpa disertai perpindahan partikel zatnya disebut ....", "isian_valid": ["konduksi"]}, {"no": 50, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Contoh perpindahan kalor secara konduksi adalah ....", "opts": ["A. Panas Matahari sampai ke Bumi", "B. Sendok logam menjadi panas saat dicelupkan ke air panas", "C. Terjadinya angin darat", "D. Air bergerak saat dipanaskan"], "ans": 1, "bs_q": "Ujung sendok logam yang ikut terasa panas saat ujung lainnya dicelupkan ke air panas adalah contoh konduksi.", "bs_ans": 0, "isian_q": "Panas yang merambat pada batang sendok logam saat dipanaskan merupakan contoh perpindahan kalor secara ....", "isian_valid": ["konduksi"]}, {"no": 51, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Perpindahan kalor yang disertai perpindahan partikel zat disebut ....", "opts": ["A. Radiasi", "B. Konduksi", "C. Refleksi", "D. Konveksi"], "ans": 3, "bs_q": "Konveksi terjadi pada zat cair dan gas karena perpindahan kalornya disertai perpindahan partikel zat.", "bs_ans": 0, "isian_q": "Perpindahan kalor yang disertai aliran perpindahan partikel zat perantaranya disebut ....", "isian_valid": ["konveksi"]}, {"no": 52, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Panas Matahari sampai ke Bumi melalui proses ....", "opts": ["A. Radiasi", "B. Konduksi", "C. Konveksi", "D. Evaporasi"], "ans": 0, "bs_q": "Energi panas Matahari sampai ke Bumi melewati ruang hampa melalui perpindahan kalor secara radiasi.", "bs_ans": 0, "isian_q": "Perpindahan kalor tanpa memerlukan zat perantara (medium), seperti panas Matahari ke Bumi, disebut ....", "isian_valid": ["radiasi"]}, {"no": 53, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Bahan yang sulit menghantarkan panas disebut ....", "opts": ["A. Konduktor", "B. Isolator", "C. Konvektor", "D. Radiator"], "ans": 1, "bs_q": "Bahan yang sangat buruk atau sulit menghantarkan kalor disebut isolator panas.", "bs_ans": 0, "isian_q": "Bahan yang sulit menghantarkan arus panas dengan baik (seperti kayu dan plastik) disebut ....", "isian_valid": ["isolator"]}, {"no": 54, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Berikut ini yang termasuk bahan konduktor panas adalah ....", "opts": ["A. Kayu", "B. Plastik", "C. Aluminium", "D. Karet"], "ans": 2, "bs_q": "Aluminium dan tembaga termasuk bahan konduktor karena mampu menghantarkan panas dengan baik.", "bs_ans": 0, "isian_q": "Bahan logam yang dapat menghantarkan kalor dengan sangat baik disebut ....", "isian_valid": ["konduktor"]}, {"no": 55, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Pemuaian adalah peristiwa ....", "opts": ["A. Berkurangnya massa benda", "B. Berkurangnya volume benda", "C. Berubahnya warna benda", "D. Bertambahnya ukuran benda akibat kenaikan suhu"], "ans": 3, "bs_q": "Pemuaian adalah peristiwa bertambahnya ukuran panjang, luas, atau volume benda akibat kenaikan suhu.", "bs_ans": 0, "isian_q": "Peristiwa bertambahnya ukuran panjang, luas, atau volume suatu benda ketika dipanaskan disebut ....", "isian_valid": ["pemuaian", "memuai"]}, {"no": 56, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Rel kereta api diberi celah dengan tujuan ....", "opts": ["A. Memberikan ruang ketika rel memuai", "B. Mengurangi massa rel", "C. Mempercepat kereta", "D. Mengurangi panjang rel"], "ans": 0, "bs_q": "Celah pada sambungan rel kereta api bertujuan memberi ruang muai agar rel tidak melengkung saat siang hari.", "bs_ans": 0, "isian_q": "Sambungan rel kereta api sengaja diberi celah agar tidak melengkung ketika mengalami peristiwa ....", "isian_valid": ["pemuaian", "memuai"]}, {"no": 57, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Ketika air dipanaskan, volumenya pada umumnya akan ....", "opts": ["A. Berkurang", "B. Bertambah", "C. Tetap", "D. Hilang"], "ans": 1, "bs_q": "Saat zat cair seperti air dipanaskan di atas suhu 4 °C, volumenya umumnya akan bertambah karena memuai.", "bs_ans": 0, "isian_q": "Ketika air dipanaskan dari suhu ruang hingga mendidih, ukuran volumenya akan ....", "isian_valid": ["bertambah", "memuai", "meningkat"]}, {"no": 58, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Sebuah benda menerima kalor sebesar 4.200 Joule. Jika massa air 1 kg dan kalor jenisnya 4.200 J/kg°C, kenaikan suhu air adalah ....", "opts": ["A. 1 °C", "B. 2 °C", "C. 4 °C", "D. 10 °C"], "ans": 0, "bs_q": "Air bermassa 1 kg dengan kalor jenis 4.200 J/kg°C yang menerima kalor 4.200 J akan naik suhunya sebesar 1 °C.", "bs_ans": 0, "isian_q": "Air 1 kg (c = 4.200 J/kg°C) diberi kalor 4.200 Joule mengalami kenaikan suhu sebesar ... °C.", "isian_valid": ["1", "1°c", "1 °c"]}, {"no": 59, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Suhu 40 °C jika diubah ke skala Reamur adalah ....", "opts": ["A. 20 °R", "B. 24 °R", "C. 32 °R", "D. 40 °R"], "ans": 2, "bs_q": "Suhu 40 °C apabila dikonversikan ke dalam skala Reamur (4/5 × 40) menghasilkan 32 °R.", "bs_ans": 0, "isian_q": "Hasil konversi suhu 40 °C ke dalam skala termometer Reamur adalah ... °R.", "isian_valid": ["32", "32°r", "32 °r"]}, {"no": 60, "bab": "Bab 3 - Suhu, Kalor, dan Pemuaian", "q": "Perhatikan peristiwa berikut: (1) Sendok logam menjadi panas. (2) Panas Matahari sampai ke Bumi. (3) Air bergerak ketika dipanaskan. Urutan jenis perpindahan kalor yang tepat adalah ....", "opts": ["A. Konduksi, radiasi, konveksi", "B. Radiasi, konduksi, konveksi", "C. Konveksi, radiasi, konduksi", "D. Konduksi, konveksi, radiasi"], "ans": 0, "bs_q": "Sendok panas adalah konduksi, panas Matahari ke Bumi adalah radiasi, dan sirkulasi air mendidih adalah konveksi.", "bs_ans": 0, "isian_q": "Peristiwa naiknya air hangat dan turunnya air dingin saat air direbus dalam panci merupakan perpindahan kalor secara ....", "isian_valid": ["konveksi"]}], "8_1": [{"no": 1, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Organ yang memompa darah ke seluruh tubuh adalah ....", "opts": ["A. Paru-paru", "B. Jantung", "C. Ginjal", "D. Hati"], "ans": 1, "bs_q": "Jantung merupakan organ utama sistem peredaran darah yang memompa darah ke seluruh tubuh.", "bs_ans": 0, "isian_q": "Organ berotot dalam sistem peredaran darah yang memompa darah ke seluruh tubuh adalah ....", "isian_valid": ["jantung"]}, {"no": 2, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Sel darah yang mengangkut oksigen dengan bantuan hemoglobin adalah ....", "opts": ["A. Eritrosit", "B. Leukosit", "C. Trombosit", "D. Plasma"], "ans": 0, "bs_q": "Eritrosit (sel darah merah) mengandung hemoglobin yang berfungsi mengikat dan mengangkut oksigen.", "bs_ans": 0, "isian_q": "Istilah ilmiah untuk sel darah merah yang mengangkut oksigen dengan bantuan hemoglobin adalah ....", "isian_valid": ["eritrosit", "sel darah merah"]}, {"no": 3, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Komponen darah yang berperan dalam pertahanan tubuh adalah ....", "opts": ["A. Eritrosit", "B. Plasma", "C. Leukosit", "D. Trombosit"], "ans": 2, "bs_q": "Leukosit atau sel darah putih berperan penting melawan kuman penyakit dalam pertahanan tubuh.", "bs_ans": 0, "isian_q": "Komponen sel darah putih yang berfungsi melawan infeksi kuman penyakit disebut ....", "isian_valid": ["leukosit", "sel darah putih"]}, {"no": 4, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Keping darah disebut ....", "opts": ["A. Eritrosit", "B. Leukosit", "C. Plasma", "D. Trombosit"], "ans": 3, "bs_q": "Keping-keping darah yang berperan dalam proses pembekuan luka disebut trombosit.", "bs_ans": 0, "isian_q": "Nama ilmiah untuk keping darah yang membantu proses penutupan luka adalah ....", "isian_valid": ["trombosit"]}, {"no": 5, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Pembuluh yang membawa darah keluar dari jantung disebut ....", "opts": ["A. Vena", "B. Arteri", "C. Kapiler", "D. Venula"], "ans": 1, "bs_q": "Pembuluh darah vena berfungsi membawa darah mengalir keluar meninggalkan jantung.", "bs_ans": 1, "isian_q": "Pembuluh darah yang mengalirkan darah keluar dari jantung disebut pembuluh nadi atau ....", "isian_valid": ["arteri"]}, {"no": 6, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Ruang jantung yang menerima darah dari seluruh tubuh adalah ....", "opts": ["A. Serambi kanan", "B. Bilik kanan", "C. Serambi kiri", "D. Bilik kiri"], "ans": 0, "bs_q": "Serambi kanan (atrium dekster) menerima darah kaya karbon dioksida dari seluruh tubuh melalui vena kava.", "bs_ans": 0, "isian_q": "Ruang jantung bagian atas kanan yang menerima darah dari seluruh tubuh disebut ....", "isian_valid": ["serambi kanan", "atrium kanan"]}, {"no": 7, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Peredaran darah kecil berlangsung dari jantung menuju ....", "opts": ["A. Otak", "B. Ginjal", "C. Paru-paru", "D. Seluruh tubuh"], "ans": 2, "bs_q": "Peredaran darah kecil (pulmonal) mengalirkan darah dari jantung menuju ke paru-paru dan kembali ke jantung.", "bs_ans": 0, "isian_q": "Organ tujuan utama aliran darah pada sistem peredaran darah kecil (pulmonal) adalah ....", "isian_valid": ["paru-paru", "paru"]}, {"no": 8, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Pembuluh yang menghubungkan arteriol dan venula adalah ....", "opts": ["A. Aorta", "B. Vena kava", "C. Arteri pulmonalis", "D. Kapiler"], "ans": 3, "bs_q": "Pembuluh kapiler menghubungkan ujung arteriol dan venula serta menjadi tempat pertukaran zat dengan jaringan.", "bs_ans": 0, "isian_q": "Pembuluh darah mikroskopis berdinding sangat tipis yang menghubungkan arteriol dan venula adalah ....", "isian_valid": ["kapiler", "pembuluh kapiler"]}, {"no": 9, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Bagian cair darah yang terutama mengandung air disebut ....", "opts": ["A. Eritrosit", "B. Plasma", "C. Trombosit", "D. Leukosit"], "ans": 1, "bs_q": "Plasma darah adalah komponen cair darah yang tersusun sebagian besar oleh air serta protein terlarut.", "bs_ans": 0, "isian_q": "Komponen cair penyusun darah yang mengangkut sari makanan dan hormon disebut ....", "isian_valid": ["plasma", "plasma darah"]}, {"no": 10, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Fungsi utama trombosit adalah membantu ....", "opts": ["A. Pembekuan darah", "B. Mengangkut oksigen", "C. Mencerna makanan", "D. Menghasilkan hormon"], "ans": 0, "bs_q": "Fungsi utama trombosit adalah membantu proses pembekuan darah ketika terjadi luka.", "bs_ans": 0, "isian_q": "Trombosit berperan utama dalam proses ... darah saat tubuh mengalami luka.", "isian_valid": ["pembekuan", "penggumpalan"]}, {"no": 11, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Urutan peredaran darah kecil yang benar adalah ....", "opts": ["A. Bilik kiri - aorta - tubuh - vena kava - serambi kanan", "B. Bilik kanan - arteri pulmonalis - paru-paru - vena pulmonalis - serambi kiri", "C. Serambi kiri - vena kava - paru-paru - aorta - bilik kanan", "D. Bilik kanan - aorta - tubuh - vena pulmonalis - serambi kiri"], "ans": 1, "bs_q": "Alur peredaran darah kecil dimulai dari bilik kanan menuju arteri pulmonalis, paru-paru, vena pulmonalis, hingga serambi kiri.", "bs_ans": 0, "isian_q": "Darah dari paru-paru yang kaya oksigen masuk kembali ke jantung melalui pembuluh ....", "isian_valid": ["vena pulmonalis"]}, {"no": 12, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Ruang jantung yang memompa darah ke seluruh tubuh adalah ....", "opts": ["A. Serambi kanan", "B. Bilik kanan", "C. Serambi kiri", "D. Bilik kiri"], "ans": 3, "bs_q": "Bilik kiri memiliki otot dinding paling tebal karena memompa darah kaya oksigen ke seluruh tubuh melalui aorta.", "bs_ans": 0, "isian_q": "Ruang jantung berotot paling tebal yang memompa darah kaya oksigen ke seluruh tubuh adalah ....", "isian_valid": ["bilik kiri", "ventrikel kiri"]}, {"no": 13, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Vena pulmonalis membawa darah ....", "opts": ["A. Kaya oksigen dari paru-paru ke jantung", "B. Kaya karbon dioksida dari jantung ke paru", "C. Kaya oksigen dari jantung ke tubuh", "D. Kaya karbon dioksida dari tubuh ke jantung"], "ans": 0, "bs_q": "Vena pulmonalis merupakan satu-satunya vena yang membawa darah kaya oksigen dari paru-paru menuju serambi kiri jantung.", "bs_ans": 0, "isian_q": "Pembuluh vena yang membawa darah kaya oksigen dari paru-paru menuju serambi kiri jantung adalah ....", "isian_valid": ["vena pulmonalis"]}, {"no": 14, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Dinding arteri tebal dan elastis karena ....", "opts": ["A. Darahnya selalu dingin", "B. Tidak memiliki darah", "C. Menerima tekanan besar dari pompa jantung", "D. Selalu berada dekat kulit"], "ans": 2, "bs_q": "Pembuluh arteri memiliki dinding tebal dan elastis untuk menahan tekanan darah yang kuat akibat pompaan jantung.", "bs_ans": 0, "isian_q": "Dinding pembuluh arteri dibuat tebal dan elastis karena menerima ... darah yang tinggi dari pompa jantung.", "isian_valid": ["tekanan"]}, {"no": 15, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Dampak anemia yang paling berkaitan adalah ....", "opts": ["A. Darah membeku terlalu cepat", "B. Pengangkutan oksigen ke jaringan berkurang", "C. Jumlah tulang bertambah", "D. Semua pembuluh melebar"], "ans": 1, "bs_q": "Kekurangan sel darah merah atau hemoglobin (anemia) menyebabkan pengangkutan oksigen ke sel tubuh berkurang.", "bs_ans": 0, "isian_q": "Gangguan kekurangan sel darah merah atau hemoglobin yang menyebabkan tubuh mudah lemas disebut ....", "isian_valid": ["anemia"]}, {"no": 16, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Katup jantung berfungsi untuk ....", "opts": ["A. Menghasilkan sel darah", "B. Menyaring kuman", "C. Mempercepat pembekuan", "D. Mencegah aliran balik darah"], "ans": 3, "bs_q": "Katup-katup di dalam jantung berfungsi menjaga agar aliran darah tetap satu arah dan tidak mengalir balik.", "bs_ans": 0, "isian_q": "Struktur di dalam jantung yang berfungsi mencegah darah mengalir balik ke ruang sebelumnya adalah ....", "isian_valid": ["katup", "katup jantung", "klep"]}, {"no": 17, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Tempat utama pertukaran zat antara darah dan jaringan adalah ....", "opts": ["A. Kapiler", "B. Aorta", "C. Vena kava", "D. Arteri besar"], "ans": 0, "bs_q": "Pertukaran oksigen, sari makanan, dan karbon dioksida antara darah dan sel jaringan terjadi di pembuluh kapiler.", "bs_ans": 0, "isian_q": "Lokasi utama terjadinya pertukaran gas dan nutrisi antara darah dan sel jaringan adalah pembuluh ....", "isian_valid": ["kapiler"]}, {"no": 18, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Tekanan sistolik terjadi ketika ....", "opts": ["A. Jantung berhenti", "B. Jantung seluruhnya relaksasi", "C. Bilik jantung berkontraksi", "D. Darah tidak mengalir"], "ans": 2, "bs_q": "Tekanan darah sistolik diukur pada saat otot bilik jantung berkontraksi memompa darah keluar dari jantung.", "bs_ans": 0, "isian_q": "Tekanan darah maksimum yang tercatat saat bilik jantung berkontraksi disebut tekanan ....", "isian_valid": ["sistolik", "sistole"]}, {"no": 19, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Fibrin membantu pembekuan darah dengan cara ....", "opts": ["A. Membawa oksigen", "B. Membentuk jaring penahan sel darah", "C. Menghancurkan eritrosit", "D. Mengubah darah menjadi plasma"], "ans": 1, "bs_q": "Benang-benang fibrin membentuk anyaman jaring yang menjerat sel darah merah sehingga luka tertutup.", "bs_ans": 0, "isian_q": "Benang-benang protein yang membentuk jaring penahan sel darah saat pembekuan luka disebut ....", "isian_valid": ["fibrin"]}, {"no": 20, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Peredaran darah manusia disebut ganda karena ....", "opts": ["A. Darah memiliki dua warna", "B. Jantung punya dua serambi", "C. Ada dua jenis sel darah", "D. Darah melewati jantung dua kali dalam satu putaran"], "ans": 3, "bs_q": "Manusia memiliki sistem peredaran darah ganda karena darah melewati jantung sebanyak dua kali dalam satu siklus lengkap.", "bs_ans": 0, "isian_q": "Sistem peredaran darah manusia disebut peredaran darah ... karena darah melewati jantung dua kali dalam satu putaran.", "isian_valid": ["ganda", "rangkap"]}, {"no": 21, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Saat berlari, denyut jantung meningkat karena ....", "opts": ["A. Otot membutuhkan lebih banyak oksigen dan nutrisi", "B. Tubuh berhenti menghasilkan karbon dioksida", "C. Darah tidak mengalir ke paru", "D. Jantung menyimpan seluruh darah"], "ans": 0, "bs_q": "Denyut jantung meningkat saat berlari agar pasokan oksigen dan nutrisi menuju jaringan otot terpenuhi lebih cepat.", "bs_ans": 0, "isian_q": "Saat beraktivitas berat seperti berlari, denyut jantung meningkat untuk memasok lebih banyak ... ke otot.", "isian_valid": ["oksigen", "oksigen dan nutrisi"]}, {"no": 22, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Dinding kapiler sangat tipis agar ....", "opts": ["A. Menahan tekanan tertinggi", "B. Mencegah semua zat keluar", "C. Pertukaran gas dan zat dengan jaringan mudah terjadi", "D. Darah selalu mengalir satu arah tanpa bantuan"], "ans": 2, "bs_q": "Dinding pembuluh kapiler tersusun dari satu lapis sel yang sangat tipis sehingga memudahkan proses difusi zat.", "bs_ans": 0, "isian_q": "Dinding pembuluh kapiler sangat tipis agar proses ... gas dan zat gizi dengan sel jaringan berlangsung mudah.", "isian_valid": ["pertukaran", "difusi"]}, {"no": 23, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Jika katup jantung tidak menutup sempurna, akibat yang mungkin terjadi adalah ....", "opts": ["A. Plasma menghilang", "B. Sebagian darah mengalir kembali", "C. Paru berhenti bertukar gas", "D. Semua pembuluh menjadi arteri"], "ans": 1, "bs_q": "Kebocoran atau ketidaksempurnaan penutupan katup jantung dapat menyebabkan sebagian darah mengalir mundur.", "bs_ans": 0, "isian_q": "Apabila katup jantung gagal menutup rapat, sebagian darah dapat mengalir ... ke ruang sebelumnya.", "isian_valid": ["balik", "kembali", "mundur"]}, {"no": 24, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Kebiasaan yang paling tepat untuk menjaga kesehatan peredaran darah adalah ....", "opts": ["A. Menghindari aktivitas", "B. Menambah makanan asin", "C. Tidur sepanjang hari", "D. Berolahraga teratur dan makan seimbang"], "ans": 3, "bs_q": "Berolahraga secara teratur dan mengonsumsi makanan bergizi seimbang membantu menjaga kesehatan jantung.", "bs_ans": 0, "isian_q": "Salah satu kebiasaan sehat untuk menjaga kebugaran jantung dan pembuluh darah adalah ... secara teratur.", "isian_valid": ["olahraga", "berolahraga"]}, {"no": 25, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Jumlah leukosit dapat meningkat saat infeksi. Ini menunjukkan fungsi leukosit dalam ....", "opts": ["A. Pertahanan tubuh", "B. Angkutan oksigen utama", "C. Pembekuan darah", "D. Pembentukan tulang"], "ans": 0, "bs_q": "Peningkatan jumlah leukosit ketika terjadi infeksi menunjukkan perannya dalam sistem pertahanan tubuh.", "bs_ans": 0, "isian_q": "Meningkatnya jumlah sel darah putih saat tubuh terserang infeksi membuktikan perannya dalam sistem ... tubuh.", "isian_valid": ["pertahanan", "kekebalan", "imun"]}, {"no": 26, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Penyempitan arteri koroner paling langsung mengganggu pasokan darah ke ....", "opts": ["A. Kulit", "B. Otot jantung", "C. Rambut", "D. Kuku"], "ans": 1, "bs_q": "Arteri koroner bertugas menyuplai darah kaya oksigen dan nutrisi secara langsung menuju otot jantung.", "bs_ans": 0, "isian_q": "Pembuluh arteri yang memasok darah kaya oksigen dan nutrisi langsung ke otot jantung adalah arteri ....", "isian_valid": ["koroner"]}, {"no": 27, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Arteri pulmonalis tetap disebut arteri karena ....", "opts": ["A. Ukurannya paling besar", "B. Mengandung banyak trombosit", "C. Membawa darah keluar dari jantung", "D. Selalu berada di paru"], "ans": 2, "bs_q": "Meskipun membawa darah kaya karbon dioksida, arteri pulmonalis tetap disebut arteri karena mengalirkan darah keluar dari jantung.", "bs_ans": 0, "isian_q": "Arteri pulmonalis diklasifikasikan sebagai pembuluh arteri karena arah alirannya membawa darah ... dari jantung.", "isian_valid": ["keluar", "menjauh"]}, {"no": 28, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Gangguan trombosit terutama menghambat proses ....", "opts": ["A. Pengangkutan hormon", "B. Pertukaran gas", "C. Pengangkutan nutrisi", "D. Pembentukan sumbat dan pembekuan darah"], "ans": 3, "bs_q": "Penurunan jumlah trombosit secara drastis dapat menghambat pembentukan sumbat luka dan proses pembekuan darah.", "bs_ans": 0, "isian_q": "Gangguan kekurangan trombosit akan memperlambat proses ... darah ketika pembuluh darah terluka.", "isian_valid": ["pembekuan", "penggumpalan"]}, {"no": 29, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Darah dari seluruh tubuh masuk ke ruang jantung ....", "opts": ["A. Serambi kanan", "B. Bilik kanan", "C. Serambi kiri", "D. Bilik kiri"], "ans": 0, "bs_q": "Darah dari seluruh jaringan tubuh masuk kembali ke jantung pertama kali melalui serambi kiri.", "bs_ans": 1, "isian_q": "Darah kotor dari seluruh tubuh dialirkan melalui vena kava masuk ke ruang jantung bagian ....", "isian_valid": ["serambi kanan", "atrium kanan"]}, {"no": 30, "bab": "Bab 1 - Sistem Peredaran Darah", "q": "Model bilik kiri → paru-paru → serambi kanan keliru karena ....", "opts": ["A. Bilik kiri tidak memompa", "B. Bilik kiri seharusnya mengirim darah ke seluruh tubuh", "C. Paru tidak memiliki pembuluh", "D. Serambi kanan menerima darah dari paru-paru"], "ans": 1, "bs_q": "Bilik kiri jantung memompa darah menuju ke seluruh tubuh melalui aorta, bukan menuju paru-paru.", "bs_ans": 0, "isian_q": "Pembuluh nadi utama terbesar yang menerima darah langsung dari bilik kiri jantung adalah ....", "isian_valid": ["aorta"]}, {"no": 31, "bab": "Bab 2 - Sistem Pernapasan", "q": "Tempat utama pertukaran gas di paru-paru adalah ....", "opts": ["A. Trakea", "B. Laring", "C. Alveolus", "D. Faring"], "ans": 2, "bs_q": "Pertukaran gas oksigen dan karbon dioksida di dalam paru-paru berlangsung di gelembung alveolus.", "bs_ans": 0, "isian_q": "Gelembung-gelembung halus di dalam paru-paru yang menjadi tempat pertukaran gas O2 dan CO2 adalah ....", "isian_valid": ["alveolus", "alveoli"]}, {"no": 32, "bab": "Bab 2 - Sistem Pernapasan", "q": "Organ yang umumnya pertama dilalui udara adalah ....", "opts": ["A. Hidung", "B. Bronkus", "C. Alveolus", "D. Diafragma"], "ans": 0, "bs_q": "Rongga hidung merupakan pintu masuk pertama udara pernapasan yang dilengkapi rambut penyaring dan selaput lendir.", "bs_ans": 0, "isian_q": "Organ pernapasan terluar yang pertama kali dilalui udara saat kita menarik napas adalah ....", "isian_valid": ["hidung", "rongga hidung"]}, {"no": 33, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saluran antara laring dan bronkus adalah ....", "opts": ["A. Faring", "B. Trakea", "C. Alveolus", "D. Bronkiolus"], "ans": 1, "bs_q": "Trakea (batang tenggorokan) merupakan saluran napas yang menghubungkan laring dengan cabang bronkus.", "bs_ans": 0, "isian_q": "Saluran batang tenggorokan bercincin tulang rawan yang terletak di antara laring dan bronkus disebut ....", "isian_valid": ["trakea"]}, {"no": 34, "bab": "Bab 2 - Sistem Pernapasan", "q": "Cabang trakea menuju paru-paru disebut ....", "opts": ["A. Alveolus", "B. Faring", "C. Laring", "D. Bronkus"], "ans": 3, "bs_q": "Percabangan trakea yang menuju ke paru-paru kanan dan paru-paru kiri disebut bronkus.", "bs_ans": 0, "isian_q": "Cabang batang tenggorokan (trakea) yang menuju ke paru-paru kanan dan kiri disebut ....", "isian_valid": ["bronkus"]}, {"no": 35, "bab": "Bab 2 - Sistem Pernapasan", "q": "Otot utama yang membantu pernapasan adalah ....", "opts": ["A. Bisep", "B. Diafragma", "C. Otot paha", "D. Otot lengan"], "ans": 1, "bs_q": "Diafragma adalah sekat otot utama di bawah rongga dada yang berperan penting dalam mekanisme pernapasan.", "bs_ans": 0, "isian_q": "Sekat otot melengkung yang membatasi rongga dada dan rongga perut serta berperan utama dalam pernapasan adalah ....", "isian_valid": ["diafragma"]}, {"no": 36, "bab": "Bab 2 - Sistem Pernapasan", "q": "Proses masuknya udara ke paru-paru disebut ....", "opts": ["A. Inspirasi", "B. Ekspirasi", "C. Difusi", "D. Pencernaan"], "ans": 0, "bs_q": "Proses menghirup atau memasukkan udara dari luar ke dalam paru-paru disebut inspirasi.", "bs_ans": 0, "isian_q": "Proses masuknya udara pernapasan dari lingkungan luar ke dalam paru-paru disebut ....", "isian_valid": ["inspirasi", "inhalasi"]}, {"no": 37, "bab": "Bab 2 - Sistem Pernapasan", "q": "Gas yang diperlukan sel untuk menghasilkan energi adalah ....", "opts": ["A. Nitrogen", "B. Karbon dioksida", "C. Oksigen", "D. Uap air"], "ans": 2, "bs_q": "Sel-sel tubuh membutuhkan gas oksigen untuk membakar sari makanan menjadi energi.", "bs_ans": 0, "isian_q": "Gas di atmosfer yang dihirup manusia dan diperlukan sel untuk respirasi menghasilkan energi adalah ....", "isian_valid": ["oksigen", "o2"]}, {"no": 38, "bab": "Bab 2 - Sistem Pernapasan", "q": "Rambut hidung dan lendir membantu ....", "opts": ["A. Memompa darah", "B. Menghasilkan suara", "C. Mencerna makanan", "D. Menyaring partikel udara"], "ans": 3, "bs_q": "Rambut halus dan selaput lendir di rongga hidung berfungsi menyaring debu serta kotoran yang terbawa udara.", "bs_ans": 0, "isian_q": "Rambut hidung dan selaput lendir di rongga hidung berfungsi untuk ... partikel debu dan kotoran udara.", "isian_valid": ["menyaring", "menangkap"]}, {"no": 39, "bab": "Bab 2 - Sistem Pernapasan", "q": "Cabang kecil bronkus disebut ....", "opts": ["A. Faring", "B. Bronkiolus", "C. Trakea", "D. Laring"], "ans": 1, "bs_q": "Bronkiolus merupakan cabang-cabang kecil dari bronkus yang ujungnya bermuara pada alveolus.", "bs_ans": 0, "isian_q": "Percabangan halus dari bronkus yang langsung menuju ke kantung alveolus disebut ....", "isian_valid": ["bronkiolus"]}, {"no": 40, "bab": "Bab 2 - Sistem Pernapasan", "q": "Gas sisa metabolisme yang dikeluarkan melalui paru-paru adalah ....", "opts": ["A. Karbon dioksida", "B. Oksigen", "C. Helium", "D. Hidrogen"], "ans": 0, "bs_q": "Gas sisa respirasi sel yang diembuskan keluar melalui paru-paru adalah karbon dioksida dan uap air.", "bs_ans": 0, "isian_q": "Gas sisa hasil metabolisme sel yang diembuskan keluar melalui paru-paru adalah ....", "isian_valid": ["karbon dioksida", "co2", "karbondioksida"]}, {"no": 41, "bab": "Bab 2 - Sistem Pernapasan", "q": "Urutan jalannya udara yang benar adalah ....", "opts": ["A. Hidung - trakea - faring - laring - alveolus", "B. Hidung - faring - laring - trakea - bronkus - bronkiolus - alveolus", "C. Hidung - bronkus - laring - faring - alveolus", "D. Alveolus - bronkiolus - trakea - hidung"], "ans": 1, "bs_q": "Urutan saluran pernapasan manusia adalah hidung, faring, laring, trakea, bronkus, bronkiolus, dan alveolus.", "bs_ans": 0, "isian_q": "Setelah melewati rongga hidung dan faring, udara pernapasan masuk ke pangkal tenggorokan yang disebut ....", "isian_valid": ["laring"]}, {"no": 42, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saat inspirasi normal ....", "opts": ["A. Rongga dada mengecil", "B. Diafragma naik", "C. Volume rongga dada membesar dan udara masuk", "D. Tekanan paru meningkat melebihi tekanan luar"], "ans": 2, "bs_q": "Ketika inspirasi berlangsung, volume rongga dada membesar sehingga tekanan udara dalam paru mengecil dan udara masuk.", "bs_ans": 0, "isian_q": "Saat terjadi inspirasi, volume rongga dada membesar sehingga tekanan udara di dalam paru-paru menjadi ....", "isian_valid": ["kecil", "mengecil", "menurun", "rendah"]}, {"no": 43, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saat ekspirasi tenang, diafragma ....", "opts": ["A. Relaksasi dan melengkung ke atas", "B. Berkontraksi dan mendatar", "C. Tidak berubah", "D. Berubah menjadi tulang"], "ans": 0, "bs_q": "Pada saat ekspirasi, otot diafragma berelaksasi dan kembali melengkung ke atas sehingga udara terdorong keluar.", "bs_ans": 0, "isian_q": "Proses mengembuskan udara keluar dari paru-paru ke atmosfer disebut ....", "isian_valid": ["ekspirasi", "ekshalasi"]}, {"no": 44, "bab": "Bab 2 - Sistem Pernapasan", "q": "Pertukaran oksigen dari alveolus ke kapiler terjadi melalui ....", "opts": ["A. Pencernaan", "B. Pemompaan otot", "C. Penyaringan tulang", "D. Difusi"], "ans": 3, "bs_q": "Pertukaran oksigen dan karbon dioksida di alveolus terjadi secara difusi akibat perbedaan tekanan parsial gas.", "bs_ans": 0, "isian_q": "Perpindahan gas oksigen dari alveolus ke pembuluh kapiler darah berlangsung melalui proses ....", "isian_valid": ["difusi"]}, {"no": 45, "bab": "Bab 2 - Sistem Pernapasan", "q": "Alveolus sesuai untuk pertukaran gas karena ....", "opts": ["A. Berdinding tebal", "B. Berdinding tipis dan dikelilingi kapiler", "C. Tidak memiliki pembuluh darah", "D. Tersusun dari tulang rawan"], "ans": 1, "bs_q": "Dinding alveolus sangat tipis, lembap, dan dikelilingi banyak kapiler darah agar difusi gas berlangsung cepat.", "bs_ans": 0, "isian_q": "Alveolus memiliki dinding yang sangat ... dan dikelilingi banyak kapiler darah untuk mempercepat pertukaran gas.", "isian_valid": ["tipis"]}, {"no": 46, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saat berolahraga, frekuensi napas meningkat karena ....", "opts": ["A. Tubuh tidak perlu oksigen", "B. Paru berhenti bekerja", "C. Kebutuhan oksigen dan produksi karbon dioksida meningkat", "D. Suhu tubuh selalu turun"], "ans": 2, "bs_q": "Frekuensi pernapasan meningkat saat berolahraga karena sel otot membutuhkan lebih banyak oksigen untuk metabolisme energi.", "bs_ans": 0, "isian_q": "Saat seseorang berlari atau berolahraga, frekuensi pernapasan akan menjadi lebih ....", "isian_valid": ["cepat", "meningkat", "tinggi"]}, {"no": 47, "bab": "Bab 2 - Sistem Pernapasan", "q": "Sebagian besar oksigen diangkut dalam darah dengan ....", "opts": ["A. Terikat pada hemoglobin", "B. Larut seluruhnya dalam plasma", "C. Menempel pada trombosit", "D. Disimpan di tulang"], "ans": 0, "bs_q": "Sebagian besar oksigen dalam darah diangkut dalam bentuk oksihemoglobin karena terikat pada hemoglobin eritrosit.", "bs_ans": 0, "isian_q": "Protein pengikat oksigen di dalam sel darah merah disebut ....", "isian_valid": ["hemoglobin"]}, {"no": 48, "bab": "Bab 2 - Sistem Pernapasan", "q": "Epiglotis membantu mencegah ....", "opts": ["A. Oksigen masuk alveolus", "B. Darah masuk bronkus", "C. Udara masuk hidung", "D. Makanan masuk saluran napas"], "ans": 3, "bs_q": "Katup epiglotis menutup pangkal tenggorokan saat menelan agar makanan tidak masuk ke saluran pernapasan.", "bs_ans": 0, "isian_q": "Katup tulang rawan pada pangkal tenggorokan yang mencegah makanan masuk ke saluran napas adalah ....", "isian_valid": ["epiglotis"]}, {"no": 49, "bab": "Bab 2 - Sistem Pernapasan", "q": "Volume tidal adalah ....", "opts": ["A. Udara tersisa setelah ekspirasi maksimal", "B. Udara masuk/keluar saat bernapas biasa", "C. Udara tambahan setelah inspirasi maksimal", "D. Udara di trakea saja"], "ans": 1, "bs_q": "Volume udara yang keluar masuk paru-paru pada saat pernapasan biasa (normal) disebut volume tidal.", "bs_ans": 0, "isian_q": "Volume udara yang masuk dan keluar paru-paru saat bernapas biasa (± 500 mL) disebut volume ....", "isian_valid": ["tidal"]}, {"no": 50, "bab": "Bab 2 - Sistem Pernapasan", "q": "Peradangan pada bronkus disebut ....", "opts": ["A. Anemia", "B. Varises", "C. Bronkitis", "D. Hipertensi"], "ans": 2, "bs_q": "Bronkitis adalah gangguan pernapasan berupa peradangan pada selaput lendir cabang tenggorokan (bronkus).", "bs_ans": 0, "isian_q": "Gangguan sistem pernapasan berupa peradangan pada saluran bronkus disebut ....", "isian_valid": ["bronkitis"]}, {"no": 51, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saat menarik napas, diafragma turun. Akibat langsungnya ....", "opts": ["A. Volume rongga dada meningkat dan tekanan paru menurun", "B. Volume rongga dada menurun", "C. Paru mengecil dan udara keluar", "D. Tekanan paru meningkat"], "ans": 0, "bs_q": "Kontraksi diafragma yang mendatar ke bawah memperbesar volume rongga dada sehingga tekanan paru turun dan udara masuk.", "bs_ans": 0, "isian_q": "Ketika otot diafragma berkontraksi dan turun mendatar, volume rongga dada akan ....", "isian_valid": ["membesar", "meningkat", "bertambah"]}, {"no": 52, "bab": "Bab 2 - Sistem Pernapasan", "q": "Kerusakan alveolus mengurangi luas permukaan. Dampaknya ....", "opts": ["A. Darah membeku cepat", "B. Pertukaran gas kurang efektif", "C. Jumlah tulang rusuk bertambah", "D. Makanan sulit dicerna"], "ans": 1, "bs_q": "Kerusakan dinding alveolus seperti pada emfisema mempersempit luas permukaan sehingga pertukaran gas kurang efektif.", "bs_ans": 0, "isian_q": "Kerusakan pada gelembung alveolus akan menghambat proses ... gas oksigen dan karbon dioksida.", "isian_valid": ["pertukaran", "difusi"]}, {"no": 53, "bab": "Bab 2 - Sistem Pernapasan", "q": "Batuk saat menghirup debu merupakan respons untuk ....", "opts": ["A. Mempercepat aliran darah", "B. Meningkatkan eritrosit", "C. Membantu mengeluarkan benda asing dari saluran napas", "D. Menghentikan diafragma"], "ans": 2, "bs_q": "Refleks batuk merupakan mekanisme pertahanan saluran napas untuk mengeluarkan debu atau benda asing.", "bs_ans": 0, "isian_q": "Refleks batuk atau bersin saat menghirup debu berfungsi untuk mengeluarkan ... asing dari saluran pernapasan.", "isian_valid": ["benda", "partikel", "kotoran"]}, {"no": 54, "bab": "Bab 2 - Sistem Pernapasan", "q": "Napas lebih cepat dan dalam saat berlari membantu ....", "opts": ["A. Mengurangi kebutuhan energi", "B. Menghentikan produksi karbon dioksida", "C. Menurunkan aliran darah", "D. Memasok oksigen dan membuang karbon dioksida lebih cepat"], "ans": 3, "bs_q": "Bernapas lebih cepat dan dalam saat berlari mempercepat pemasokan oksigen sekaligus pembuangan karbon dioksida.", "bs_ans": 0, "isian_q": "Saat berlari, napas menjadi lebih cepat agar tubuh dapat segera membuang gas sisa berupa ....", "isian_valid": ["karbon dioksida", "co2", "karbondioksida"]}, {"no": 55, "bab": "Bab 2 - Sistem Pernapasan", "q": "Jika silia trakea terganggu oleh asap rokok ....", "opts": ["A. Partikel dan lendir lebih sulit dibersihkan", "B. Alveolus menjadi pembuluh darah", "C. Diafragma kehilangan fungsi", "D. Hemoglobin terbentuk di jantung"], "ans": 0, "bs_q": "Asap rokok dapat melumpuhkan silia pada trakea sehingga lendir dan partikel debu sulit dibersihkan.", "bs_ans": 0, "isian_q": "Rambut-rambut getar halus pada dinding trakea yang berfungsi menyapu lendir dan kotoran disebut ....", "isian_valid": ["silia"]}, {"no": 56, "bab": "Bab 2 - Sistem Pernapasan", "q": "Pertukaran gas berlangsung cepat di alveolus karena ....", "opts": ["A. Jauh dari pembuluh darah", "B. Permukaan luas, dinding tipis, banyak kapiler", "C. Udara tidak pernah berubah", "D. Dindingnya terbuat dari tulang"], "ans": 1, "bs_q": "Struktur alveolus yang berjumlah jutaan memperluas bidang difusi sehingga pertukaran gas berlangsung sangat cepat.", "bs_ans": 0, "isian_q": "Jumlah alveolus yang sangat banyak berfungsi untuk memperluas ... permukaan pertukaran gas di paru-paru.", "isian_valid": ["luas", "bidang"]}, {"no": 57, "bab": "Bab 2 - Sistem Pernapasan", "q": "Variabel tepat untuk membandingkan frekuensi napas sebelum dan sesudah berlari adalah ....", "opts": ["A. Warna rambut", "B. Panjang telapak kaki", "C. Jumlah napas per menit", "D. Tinggi badan"], "ans": 2, "bs_q": "Frekuensi pernapasan diukur dengan menghitung jumlah tarikan napas yang dilakukan dalam satu menit.", "bs_ans": 0, "isian_q": "Satuan waktu standar yang digunakan untuk menghitung frekuensi pernapasan seseorang adalah jumlah napas per ....", "isian_valid": ["menit"]}, {"no": 58, "bab": "Bab 2 - Sistem Pernapasan", "q": "Penyempitan saluran napas pada asma menyebabkan ....", "opts": ["A. Darah kehilangan plasma", "B. Jantung kehilangan ruang", "C. Oksigen berubah menjadi nitrogen", "D. Aliran udara keluar-masuk paru lebih sulit"], "ans": 3, "bs_q": "Penyakit asma ditandai oleh penyempitan saluran pernapasan sehingga penderita mengalami sesak napas.", "bs_ans": 0, "isian_q": "Kelainan pernapasan akibat penyempitan saluran napas yang menimbulkan bunyi mengi dan sesak disebut ....", "isian_valid": ["asma"]}, {"no": 59, "bab": "Bab 2 - Sistem Pernapasan", "q": "Saat ekspirasi tenang, udara keluar karena ....", "opts": ["A. Volume rongga dada mengecil dan tekanan paru meningkat", "B. Diafragma turun", "C. Volume rongga dada membesar", "D. Tekanan paru lebih rendah dari udara luar"], "ans": 0, "bs_q": "Udara keluar dari paru-paru saat ekspirasi karena volume rongga dada mengecil sehingga tekanan dalam paru meningkat.", "bs_ans": 0, "isian_q": "Pada fase ekspirasi, volume rongga dada mengecil sehingga tekanan udara dalam paru-paru menjadi lebih ... dari udara luar.", "isian_valid": ["besar", "tinggi", "meningkat"]}, {"no": 60, "bab": "Bab 2 - Sistem Pernapasan", "q": "Cara tepat mengurangi paparan debu di rumah adalah ....", "opts": ["A. Menutup semua ventilasi sepanjang hari", "B. Mengurangi debu masuk, membersihkan rumah, dan menjaga ventilasi baik", "C. Membakar sampah di dalam rumah", "D. Menutupi bau asap dengan pewangi"], "ans": 1, "bs_q": "Membersihkan rumah secara rutin dan menjaga sirkulasi ventilasi udara yang baik efektif mengurangi paparan debu.", "bs_ans": 0, "isian_q": "Pertukaran udara segar di dalam ruangan rumah agar tidak pengap dan berdebu membutuhkan sistem ... yang baik.", "isian_valid": ["ventilasi", "sirkulasi udara"]}], "9_1": [{"no": 1, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Proses bertambahnya ukuran, massa, dan volume tubuh disebut ....", "opts": ["A. Adaptasi", "B. Pertumbuhan", "C. Reproduksi", "D. Respirasi"], "ans": 1, "bs_q": "Pertumbuhan adalah proses bertambahnya ukuran, massa, dan volume sel tubuh yang bersifat tidak dapat balik.", "bs_ans": 0, "isian_q": "Proses bertambahnya ukuran, tinggi, massa, dan volume tubuh makhluk hidup yang bersifat kuantitatif disebut ....", "isian_valid": ["pertumbuhan"]}, {"no": 2, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Perubahan menuju kedewasaan disebut ....", "opts": ["A. Perkembangan", "B. Pernapasan", "C. Ekskresi", "D. Iritabilitas"], "ans": 0, "bs_q": "Perkembangan adalah proses perubahan fungsi organ dan pematangan struktur menuju kedewasaan.", "bs_ans": 0, "isian_q": "Proses pematangan fungsi organ tubuh menuju kedewasaan yang bersifat kualitatif disebut ....", "isian_valid": ["perkembangan"]}, {"no": 3, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Contoh pertumbuhan adalah ....", "opts": ["A. Anak mulai membaca", "B. Kupu-kupu berubah bentuk", "C. Tinggi anak bertambah", "D. Tumbuhan berbunga"], "ans": 2, "bs_q": "Bertambahnya tinggi badan seorang anak dari tahun ke tahun merupakan contoh peristiwa pertumbuhan.", "bs_ans": 0, "isian_q": "Bertambahnya tinggi badan dan berat badan anak merupakan contoh nyata dari proses ....", "isian_valid": ["pertumbuhan"]}, {"no": 4, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Faktor internal pertumbuhan adalah ....", "opts": ["A. Cahaya", "B. Air", "C. Suhu", "D. Gen"], "ans": 3, "bs_q": "Gen dan hormon merupakan faktor internal dari dalam tubuh yang memengaruhi pertumbuhan makhluk hidup.", "bs_ans": 0, "isian_q": "Faktor pembawa sifat dari dalam tubuh (internal) yang menentukan potensi pertumbuhan individu adalah ....", "isian_valid": ["gen", "genetik"]}, {"no": 5, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Zat kimia yang mengatur aktivitas tubuh disebut ....", "opts": ["A. Vitamin", "B. Hormon", "C. Mineral", "D. Karbohidrat"], "ans": 1, "bs_q": "Hormon merupakan senyawa kimia yang dihasilkan kelenjar endokrin untuk mengatur berbagai aktivitas fisiologis tubuh.", "bs_ans": 0, "isian_q": "Senyawa kimia organik yang diproduksi kelenjar endokrin untuk mengatur pertumbuhan dan aktivitas tubuh adalah ....", "isian_valid": ["hormon"]}, {"no": 6, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Awal perkecambahan umumnya ditandai ....", "opts": ["A. Biji menyerap air", "B. Buah matang", "C. Daun gugur", "D. Bunga menjadi buah"], "ans": 0, "bs_q": "Perkecambahan biji diawali dengan proses imbibisi, yaitu masuknya air ke dalam biji sehingga kulit biji melunak.", "bs_ans": 0, "isian_q": "Tahap awal perkecambahan biji selalu dimulai ketika biji menyerap ....", "isian_valid": ["air"]}, {"no": 7, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Hewan bermetamorfosis sempurna adalah ....", "opts": ["A. Belalang", "B. Kecoa", "C. Kupu-kupu", "D. Capung"], "ans": 2, "bs_q": "Belalang dan kecoa mengalami metamorfosis sempurna karena memiliki tahap pupa (kepompong).", "bs_ans": 1, "isian_q": "Contoh serangga yang mengalami metamorfosis sempurna dengan tahap larva dan pupa adalah ....", "isian_valid": ["kupu-kupu", "katak", "nyamuk", "lalat"]}, {"no": 8, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Faktor fotosintesis adalah ....", "opts": ["A. Suara", "B. Cahaya", "C. Getaran", "D. Tekanan udara saja"], "ans": 1, "bs_q": "Cahaya matahari merupakan sumber energi utama yang dibutuhkan tumbuhan untuk melangsungkan fotosintesis.", "bs_ans": 0, "isian_q": "Sumber energi utama dari lingkungan luar yang diperlukan tumbuhan hijau untuk fotosintesis adalah ....", "isian_valid": ["cahaya", "sinar matahari", "cahaya matahari"]}, {"no": 9, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Pertumbuhan primer menyebabkan ....", "opts": ["A. Akar dan batang memanjang", "B. Daun jadi bunga", "C. Buah manis", "D. Warna bunga berubah"], "ans": 0, "bs_q": "Pertumbuhan primer pada ujung akar dan ujung batang menyebabkan tumbuhan bertambah panjang atau tinggi.", "bs_ans": 0, "isian_q": "Aktivitas jaringan meristem apikal pada ujung akar dan batang menghasilkan pertumbuhan ....", "isian_valid": ["primer"]}, {"no": 10, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Masa peralihan anak menuju dewasa disebut ....", "opts": ["A. Bayi", "B. Lanjut usia", "C. Anak-anak", "D. Remaja"], "ans": 3, "bs_q": "Masa remaja (pubertas) merupakan tahap peralihan perkembangan manusia dari masa anak-anak menuju dewasa.", "bs_ans": 0, "isian_q": "Tahap perkembangan manusia yang menjadi masa peralihan dari anak-anak menuju dewasa disebut masa ....", "isian_valid": ["remaja", "pubertas"]}, {"no": 11, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Tanaman di tempat gelap tumbuh memanjang dan pucat. Ini menunjukkan ....", "opts": ["A. Cahaya tidak berpengaruh", "B. Cahaya memengaruhi pertumbuhan", "C. Tanaman tak butuh air", "D. Semua tanaman hidup gelap"], "ans": 1, "bs_q": "Gejala etiolasi (batang tumbuh cepat namun pucat di tempat gelap) membuktikan bahwa cahaya memengaruhi pertumbuhan.", "bs_ans": 0, "isian_q": "Pertumbuhan batang tanaman yang sangat cepat tetapi pucat dan lemah akibat kekurangan cahaya disebut ....", "isian_valid": ["etiolasi"]}, {"no": 12, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Pertumbuhan bersifat kuantitatif karena ....", "opts": ["A. Berkaitan perilaku", "B. Tidak berubah ukuran", "C. Dapat dinyatakan dengan angka", "D. Hanya pada manusia"], "ans": 2, "bs_q": "Pertumbuhan bersifat kuantitatif karena dapat diukur dan dinyatakan dengan angka menggunakan alat ukur.", "bs_ans": 0, "isian_q": "Pertumbuhan disebut bersifat ... karena hasil pengukurannya dapat dinyatakan dalam bentuk angka dan satuan.", "isian_valid": ["kuantitatif"]}, {"no": 13, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Urutan metamorfosis kupu-kupu adalah ....", "opts": ["A. Telur - pupa - larva - dewasa", "B. Larva - telur - dewasa - pupa", "C. Telur - nimfa - dewasa", "D. Telur - larva - pupa - dewasa"], "ans": 3, "bs_q": "Urutan daur hidup kupu-kupu yang benar adalah telur → larva (ulat) → pupa (kepompong) → imago (dewasa).", "bs_ans": 0, "isian_q": "Tahap kepompong pada daur hidup metamorfosis sempurna kupu-kupu disebut ....", "isian_valid": ["pupa", "kepompong"]}, {"no": 14, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Pertumbuhan sekunder menyebabkan ....", "opts": ["A. Batang bertambah tebal", "B. Biji berkecambah", "C. Daun berhenti fotosintesis", "D. Bunga menjadi akar"], "ans": 0, "bs_q": "Aktivitas kambium pada pertumbuhan sekunder menyebabkan diameter batang tumbuhan dikotil bertambah besar.", "bs_ans": 0, "isian_q": "Jaringan meristem lateral pada tumbuhan dikotil yang menyebabkan batang membesar adalah ....", "isian_valid": ["kambium"]}, {"no": 15, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Pupuk diberikan untuk ....", "opts": ["A. Mengurangi air", "B. Memenuhi unsur hara", "C. Menghentikan fotosintesis", "D. Menghambat akar"], "ans": 1, "bs_q": "Pemberian pupuk pada tanaman bertujuan memenuhi kebutuhan unsur hara dan mineral untuk pertumbuhan optimal.", "bs_ans": 0, "isian_q": "Pemberian pupuk pada tanah pertanian bertujuan untuk mencukupi kebutuhan unsur ... bagi tanaman.", "isian_valid": ["hara", "mineral", "nutrisi"]}, {"no": 16, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Kecepatan pertumbuhan individu berbeda karena ....", "opts": ["A. Lingkungan selalu sama", "B. Tak butuh nutrisi", "C. Genetik dan lingkungan berbeda", "D. Hanya dipengaruhi usia"], "ans": 2, "bs_q": "Perbedaan laju pertumbuhan antarindividu dipengaruhi oleh kombinasi faktor genetik dan faktor lingkungan.", "bs_ans": 0, "isian_q": "Laju pertumbuhan setiap individu berbeda karena dipengaruhi oleh faktor lingkungan dan faktor ....", "isian_valid": ["genetik", "gen", "internal"]}, {"no": 17, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Tanaman jarang disiram menjadi layu. Kesimpulan ....", "opts": ["A. Air tidak perlu", "B. Air penting bagi tumbuhan", "C. Hanya perlu cahaya", "D. Tanaman hidup tanpa air"], "ans": 1, "bs_q": "Tanaman yang layu akibat jarang disiram menunjukkan bahwa air sangat penting bagi kelangsungan hidup tumbuhan.", "bs_ans": 0, "isian_q": "Tanaman yang kekurangan air akan kehilangan tekanan turgor selnya sehingga tampak ....", "isian_valid": ["layu"]}, {"no": 18, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Kecambah tumbuh ke arah cahaya disebut ....", "opts": ["A. Fototropisme", "B. Hidrotropisme", "C. Geotropisme", "D. Tigmotropisme"], "ans": 0, "bs_q": "Gerak tumbuh ujung batang kecambah membelok menuju datangnya arah cahaya disebut fototropisme.", "bs_ans": 0, "isian_q": "Gerak tumbuh bagian tumbuhan yang arahnya dipengaruhi oleh rangsangan cahaya disebut ....", "isian_valid": ["fototropisme"]}, {"no": 19, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Perbedaan metamorfosis sempurna dan tidak sempurna ....", "opts": ["A. Sempurna tanpa telur", "B. Tidak sempurna punya pupa", "C. Sempurna memiliki tahap pupa", "D. Tidak sempurna tidak tumbuh"], "ans": 2, "bs_q": "Perbedaan utama metamorfosis sempurna dengan tidak sempurna adalah adanya fase pupa (kepompong).", "bs_ans": 0, "isian_q": "Tahap yang ada pada metamorfosis sempurna namun tidak ditemukan pada metamorfosis tidak sempurna adalah ....", "isian_valid": ["pupa", "kepompong"]}, {"no": 20, "bab": "Bab 1 - Pertumbuhan dan Perkembangan", "q": "Percobaan pengaruh cahaya yang tepat ....", "opts": ["A. Tanaman berbeda dan air berbeda", "B. Satu tanaman tanpa pengamatan", "C. Ubah semua faktor sekaligus", "D. Tanaman sejenis, kondisi sama kecuali cahaya"], "ans": 3, "bs_q": "Untuk menguji pengaruh cahaya secara adil, tanaman harus sejenis dengan kondisi sama kecuali perlakuan cahayanya.", "bs_ans": 0, "isian_q": "Faktor-faktor seperti jenis tanaman dan volume air yang dijaga sama selama percobaan disebut variabel ....", "isian_valid": ["kontrol"]}, {"no": 21, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Sistem koordinasi berfungsi ....", "opts": ["A. Mengatur aktivitas tubuh", "B. Menghasilkan makanan", "C. Membentuk tulang saja", "D. Mengedarkan udara"], "ans": 0, "bs_q": "Sistem koordinasi (saraf, hormon, dan alat indra) berfungsi mengatur serta menyelaraskan seluruh aktivitas tubuh.", "bs_ans": 0, "isian_q": "Sistem tubuh yang bekerja sama mengatur dan menyelaraskan kerja organ-organ tubuh disebut sistem ....", "isian_valid": ["koordinasi"]}, {"no": 22, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Sistem saraf pusat terdiri atas ....", "opts": ["A. Jantung dan paru", "B. Otak dan sumsum tulang belakang", "C. Mata dan telinga", "D. Ginjal dan hati"], "ans": 1, "bs_q": "Sistem saraf pusat manusia tersusun atas otak dan sumsum tulang belakang (medula spinalis).", "bs_ans": 0, "isian_q": "Dua organ utama penyusun sistem saraf pusat manusia adalah otak dan sumsum tulang ....", "isian_valid": ["belakang"]}, {"no": 23, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Bagian otak untuk koordinasi dan keseimbangan ....", "opts": ["A. Otak besar", "B. Batang otak", "C. Otak kecil", "D. Sumsum tulang belakang"], "ans": 2, "bs_q": "Otak kecil (serebelum) berperan utama mengatur keseimbangan tubuh dan koordinasi gerakan otot.", "bs_ans": 0, "isian_q": "Bagian otak yang berfungsi sebagai pusat keseimbangan tubuh dan koordinasi gerak adalah otak ....", "isian_valid": ["kecil", "serebelum"]}, {"no": 24, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Neuron yang membawa impuls dari reseptor ke pusat adalah ....", "opts": ["A. Motorik", "B. Penghubung", "C. Sel darah merah", "D. Sensorik"], "ans": 3, "bs_q": "Neuron sensorik berfungsi menghantarkan impuls rangsangan dari alat indra (reseptor) menuju sistem saraf pusat.", "bs_ans": 0, "isian_q": "Sel saraf yang menghantarkan impuls dari reseptor alat indra menuju saraf pusat adalah neuron ....", "isian_valid": ["sensorik", "aferen"]}, {"no": 25, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Indra penerima cahaya adalah ....", "opts": ["A. Mata", "B. Telinga", "C. Hidung", "D. Kulit"], "ans": 0, "bs_q": "Mata merupakan alat indra penglihatan yang memiliki fotoreseptor penerima rangsangan cahaya.", "bs_ans": 0, "isian_q": "Alat indra manusia yang berfungsi menerima rangsangan berupa gelombang cahaya adalah ....", "isian_valid": ["mata"]}, {"no": 26, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Kelenjar penghasil insulin adalah ....", "opts": ["A. Tiroid", "B. Pankreas", "C. Adrenal", "D. Hipofisis"], "ans": 1, "bs_q": "Kelenjar pankreas menghasilkan hormon insulin yang berperan menurunkan kadar gula dalam darah.", "bs_ans": 0, "isian_q": "Kelenjar endokrin yang memproduksi hormon insulin untuk mengatur kadar gula darah adalah ....", "isian_valid": ["pankreas"]}, {"no": 27, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Organ reproduksi pria penghasil sperma ....", "opts": ["A. Uretra", "B. Epididimis", "C. Testis", "D. Vas deferens"], "ans": 2, "bs_q": "Testis merupakan organ reproduksi pria yang berfungsi memproduksi sel sperma dan hormon testosteron.", "bs_ans": 0, "isian_q": "Organ kelamin utama pada pria yang memproduksi sel sperma dan hormon testosteron adalah ....", "isian_valid": ["testis"]}, {"no": 28, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Organ reproduksi perempuan penghasil sel telur ....", "opts": ["A. Rahim", "B. Vagina", "C. Serviks", "D. Ovarium"], "ans": 3, "bs_q": "Ovarium (indung telur) adalah organ reproduksi perempuan yang menghasilkan sel telur (ovum).", "bs_ans": 0, "isian_q": "Organ reproduksi perempuan yang berfungsi menghasilkan sel telur (ovum) adalah ....", "isian_valid": ["ovarium", "indung telur"]}, {"no": 29, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Pelepasan sel telur dari ovarium disebut ....", "opts": ["A. Ovulasi", "B. Menstruasi", "C. Fertilisasi", "D. Implantasi"], "ans": 0, "bs_q": "Peristiwa pelepasan sel telur yang telah matang dari ovarium menuju tuba falopi disebut ovulasi.", "bs_ans": 0, "isian_q": "Peristiwa pelepasan sel telur matang dari indung telur (ovarium) disebut ....", "isian_valid": ["ovulasi"]}, {"no": 30, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Kemampuan menjaga kestabilan kondisi internal disebut ....", "opts": ["A. Adaptasi", "B. Homeostasis", "C. Fotosintesis", "D. Metamorfosis"], "ans": 1, "bs_q": "Homeostasis adalah kemampuan tubuh mempertahankan kestabilan lingkungan internal meskipun kondisi luar berubah.", "bs_ans": 0, "isian_q": "Mekanisme tubuh untuk mempertahankan kestabilan kondisi internal (seperti suhu dan cairan tubuh) disebut ....", "isian_valid": ["homeostasis"]}, {"no": 31, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Tangan ditarik saat menyentuh benda panas merupakan ....", "opts": ["A. Gerak sadar", "B. Pertumbuhan", "C. Gerak refleks", "D. Gerak tumbuhan"], "ans": 2, "bs_q": "Gerakan menarik tangan secara cepat saat menyentuh benda panas merupakan contoh gerak refleks.", "bs_ans": 0, "isian_q": "Gerak cepat yang terjadi secara otomatis tanpa disadari terlebih dahulu untuk melindungi tubuh disebut gerak ....", "isian_valid": ["refleks"]}, {"no": 32, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Bagian neuron yang menghantarkan impuls menjauhi badan sel ....", "opts": ["A. Dendrit", "B. Inti sel", "C. Membran", "D. Akson"], "ans": 3, "bs_q": "Akson (neurit) berfungsi menghantarkan impuls saraf menjauhi badan sel menuju neuron berikutnya atau efektor.", "bs_ans": 0, "isian_q": "Serabut panjang pada sel saraf yang menghantarkan impuls menjauhi badan sel disebut ....", "isian_valid": ["akson", "neurit"]}, {"no": 33, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Hormon yang menurunkan gula darah ....", "opts": ["A. Insulin", "B. Adrenalin", "C. Testosteron", "D. Tiroksin"], "ans": 0, "bs_q": "Hormon insulin membantu menurunkan kadar glukosa darah dengan mengubahnya menjadi glikogen.", "bs_ans": 0, "isian_q": "Hormon yang dihasilkan pulau Langerhans pankreas untuk menurunkan kadar gula darah adalah ....", "isian_valid": ["insulin"]}, {"no": 34, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Tempat umum terjadinya fertilisasi ....", "opts": ["A. Vagina", "B. Tuba falopi", "C. Serviks", "D. Ovarium"], "ans": 1, "bs_q": "Pembuahan (fertilisasi) antara sel sperma dan sel telur umumnya berlangsung di dalam tuba falopi (oviduk).", "bs_ans": 0, "isian_q": "Saluran telur tempat bertemunya sel sperma dan ovum saat fertilisasi adalah ....", "isian_valid": ["tuba falopi", "oviduk", "saluran telur"]}, {"no": 35, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Saat suhu tubuh naik, tubuh ....", "opts": ["A. Menghentikan darah", "B. Mengurangi semua aktivitas", "C. Mengeluarkan keringat", "D. Menghentikan napas"], "ans": 2, "bs_q": "Ketika suhu tubuh meningkat, kelenjar keringat mengeluarkan keringat untuk membantu menurunkan suhu tubuh.", "bs_ans": 0, "isian_q": "Sebagai bagian dari homeostasis suhu, ketika tubuh kepanasan kulit akan mengeluarkan ....", "isian_valid": ["keringat"]}, {"no": 36, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Saat terkejut denyut jantung dapat meningkat karena ....", "opts": ["A. Parasimpatik saja", "B. Pencernaan", "C. Rangka", "D. Simpatik"], "ans": 3, "bs_q": "Sistem saraf simpatik bekerja memacu peningkatan denyut jantung dan kewaspadaan saat tubuh terkejut.", "bs_ans": 0, "isian_q": "Cabang sistem saraf otonom yang memacu peningkatan denyut jantung saat terkejut atau panik adalah saraf ....", "isian_valid": ["simpatik"]}, {"no": 37, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Tangan ditarik sebelum sadar karena ....", "opts": ["A. Tidak memakai saraf", "B. Jalur refleks melalui sumsum tulang belakang", "C. Otot menghasilkan cahaya", "D. Tulang mengirim hormon"], "ans": 1, "bs_q": "Pada gerak refleks, impuls saraf melewati jalur pendek melalui sumsum tulang belakang tanpa menunggu pengolahan otak.", "bs_ans": 0, "isian_q": "Pusat saraf yang mengendalikan jalur singkat gerak refleks adalah ... tulang belakang.", "isian_valid": ["sumsum"]}, {"no": 38, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Hormon yang membantu menaikkan gula darah ....", "opts": ["A. Insulin", "B. Estrogen", "C. Glukagon", "D. Progesteron"], "ans": 2, "bs_q": "Hormon glukagon bekerja berlawanan dengan insulin dengan cara menaikkan kembali kadar gula darah yang rendah.", "bs_ans": 0, "isian_q": "Hormon pankreas yang berfungsi memecah glikogen menjadi glukosa untuk menaikkan kadar gula darah adalah ....", "isian_valid": ["glukagon"]}, {"no": 39, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Jika ginjal gagal mengatur air, yang terganggu ....", "opts": ["A. Keseimbangan cairan", "B. Penglihatan warna", "C. Pendengaran", "D. Rambut"], "ans": 0, "bs_q": "Kegagalan fungsi ginjal akan mengganggu pengaturan homeostasis keseimbangan cairan dan elektrolit tubuh.", "bs_ans": 0, "isian_q": "Organ ekskresi utama yang menjaga homeostasis keseimbangan air dan garam mineral dalam darah adalah ....", "isian_valid": ["ginjal"]}, {"no": 40, "bab": "Bab 2 - Sistem Koordinasi, Reproduksi & Homeostasis", "q": "Sikap tepat menghadapi pubertas ....", "opts": ["A. Menganggap penyakit", "B. Membandingkan tubuh", "C. Mengabaikan kebersihan", "D. Memahami perubahan alami dan menjaga kesehatan"], "ans": 3, "bs_q": "Menjaga kebersihan organ reproduksi dan memahami perubahan fisik secara alami adalah sikap bijak menghadapi pubertas.", "bs_ans": 0, "isian_q": "Perubahan fisik dan emosional pada masa remaja merupakan proses pertumbuhan alami yang disebut masa ....", "isian_valid": ["pubertas"]}, {"no": 41, "bab": "Bab 3 - Tekanan Zat", "q": "Tekanan adalah ....", "opts": ["A. Massa kali volume", "B. Gaya per satuan luas", "C. Energi benda", "D. Kecepatan benda"], "ans": 1, "bs_q": "Tekanan didefinisikan sebagai besarnya gaya tekan yang bekerja secara tegak lurus pada setiap satuan luas bidang.", "bs_ans": 0, "isian_q": "Besarnya gaya yang bekerja tegak lurus per satuan luas bidang tekan disebut ....", "isian_valid": ["tekanan"]}, {"no": 42, "bab": "Bab 3 - Tekanan Zat", "q": "Satuan tekanan SI ....", "opts": ["A. Newton", "B. Joule", "C. Pascal", "D. Watt"], "ans": 2, "bs_q": "Satuan tekanan dalam Sistem Internasional (SI) adalah Pascal (Pa) yang setara dengan N/m².", "bs_ans": 0, "isian_q": "Satuan Sistem Internasional (SI) untuk besaran tekanan adalah ....", "isian_valid": ["pascal", "pa"]}, {"no": 43, "bab": "Bab 3 - Tekanan Zat", "q": "Rumus tekanan zat padat ....", "opts": ["A. P = F / A", "B. P = F × A", "C. P = A / F", "D. P = m × V"], "ans": 0, "bs_q": "Besar tekanan pada zat padat dirumuskan dengan membagi gaya tekan dengan luas bidang tekannya (P = F/A).", "bs_ans": 0, "isian_q": "Dalam rumus tekanan P = F / A, huruf A melambangkan ... bidang tekan.", "isian_valid": ["luas", "luas permukaan"]}, {"no": 44, "bab": "Bab 3 - Tekanan Zat", "q": "Alat berdasarkan Hukum Pascal ....", "opts": ["A. Termometer", "B. Barometer", "C. Termos", "D. Dongkrak hidrolik"], "ans": 3, "bs_q": "Dongkrak hidrolik dan rem hidrolik bekerja berdasarkan prinsip Hukum Pascal pada zat cair tertutup.", "bs_ans": 0, "isian_q": "Alat pengangkat mobil di bengkel yang bekerja menerapkan prinsip Hukum Pascal adalah dongkrak ....", "isian_valid": ["hidrolik"]}, {"no": 45, "bab": "Bab 3 - Tekanan Zat", "q": "Tekanan hidrostatis dipengaruhi ....", "opts": ["A. Warna cairan", "B. Kedalaman, massa jenis, gravitasi", "C. Bentuk wadah saja", "D. Suhu udara saja"], "ans": 1, "bs_q": "Besar tekanan hidrostatis dipengaruhi oleh kedalaman zat cair, massa jenis cairan, dan percepatan gravitasi.", "bs_ans": 0, "isian_q": "Tekanan di dalam zat cair diam yang dipengaruhi oleh kedalaman dan massa jenis cairan disebut tekanan ....", "isian_valid": ["hidrostatis"]}, {"no": 46, "bab": "Bab 3 - Tekanan Zat", "q": "Hukum Archimedes berkaitan dengan ....", "opts": ["A. Gesek", "B. Magnet", "C. Gaya apung", "D. Listrik"], "ans": 2, "bs_q": "Hukum Archimedes menjelaskan besarnya gaya apung ke atas yang dialami benda ketika dicelupkan dalam fluida.", "bs_ans": 0, "isian_q": "Gaya ke atas yang dikerjakan zat cair terhadap benda yang dicelupkan sebagian atau seluruhnya disebut gaya ....", "isian_valid": ["apung", "archimedes", "ke atas"]}, {"no": 47, "bab": "Bab 3 - Tekanan Zat", "q": "Jika gaya tetap dan luas bidang makin besar, tekanan ....", "opts": ["A. Makin kecil", "B. Makin besar", "C. Tetap", "D. Nol"], "ans": 0, "bs_q": "Dengan gaya yang sama, memperbesar luas permukaan bidang sentuh akan memperkecil tekanan yang dihasilkan.", "bs_ans": 0, "isian_q": "Jika gaya tekan tetap sementara luas bidang sentuh diperbesar, maka besar tekanan yang dihasilkan menjadi makin ....", "isian_valid": ["kecil", "rendah", "berkurang"]}, {"no": 48, "bab": "Bab 3 - Tekanan Zat", "q": "Benda terapung karena ....", "opts": ["A. Tak bermassa", "B. Tak dipengaruhi gravitasi", "C. Air tak memberi gaya", "D. Gaya apung menyeimbangkan berat"], "ans": 3, "bs_q": "Suatu benda dapat terapung di permukaan air karena gaya apung fluida mampu menyeimbangkan gaya berat benda.", "bs_ans": 0, "isian_q": "Suatu benda akan terapung di permukaan air apabila gaya ... ke atas menyeimbangkan berat benda.", "isian_valid": ["apung", "archimedes"]}, {"no": 49, "bab": "Bab 3 - Tekanan Zat", "q": "Tekanan udara pegunungan lebih rendah karena ....", "opts": ["A. Suhu lebih tinggi", "B. Kolom udara di atasnya lebih sedikit", "C. Air laut menekan", "D. Gravitasi hilang"], "ans": 1, "bs_q": "Tekanan udara di puncak gunung lebih rendah daripada di pantai karena lapisan kolom udara di atasnya lebih tipis.", "bs_ans": 0, "isian_q": "Semakin tinggi suatu tempat dari permukaan laut, tekanan udara atmosfernya akan semakin ....", "isian_valid": ["rendah", "kecil", "berkurang"]}, {"no": 50, "bab": "Bab 3 - Tekanan Zat", "q": "Gaya 100 N pada luas 2 m² menghasilkan tekanan ....", "opts": ["A. 25 Pa", "B. 40 Pa", "C. 50 Pa", "D. 200 Pa"], "ans": 2, "bs_q": "Gaya sebesar 100 N yang bekerja pada bidang seluas 2 m² menghasilkan tekanan sebesar 50 Pascal.", "bs_ans": 0, "isian_q": "Jika gaya 100 N menekan bidang seluas 2 m², besar tekanannya adalah ... Pascal.", "isian_valid": ["50", "50 pa"]}, {"no": 51, "bab": "Bab 3 - Tekanan Zat", "q": "Berat 200 N pada bidang 4 m² menghasilkan tekanan ....", "opts": ["A. 50 Pa", "B. 100 Pa", "C. 200 Pa", "D. 800 Pa"], "ans": 0, "bs_q": "Benda seberat 200 N yang bertumpu pada bidang seluas 4 m² memberikan tekanan sebesar 50 Pa.", "bs_ans": 0, "isian_q": "Beban seberat 200 N pada luas alas 4 m² menghasilkan tekanan sebesar ... Pascal.", "isian_valid": ["50", "50 pa"]}, {"no": 52, "bab": "Bab 3 - Tekanan Zat", "q": "Kedalaman 3 m, ρ = 1.000 kg/m³, g = 10 m/s². Tekanan hidrostatisnya adalah ....", "opts": ["A. 3.000 Pa", "B. 10.000 Pa", "C. 20.000 Pa", "D. 30.000 Pa"], "ans": 3, "bs_q": "Pada kedalaman 3 meter di dalam air (ρ = 1.000 kg/m³, g = 10 m/s²), tekanan hidrostatisnya adalah 30.000 Pa.", "bs_ans": 0, "isian_q": "Tekanan hidrostatis air (ρ = 1.000 kg/m³, g = 10 m/s²) pada kedalaman 3 meter adalah ... Pascal.", "isian_valid": ["30000", "30.000", "30000 pa"]}, {"no": 53, "bab": "Bab 3 - Tekanan Zat", "q": "A1 = 4 cm², A2 = 40 cm², F1 = 10 N. Besar gaya F2 adalah ....", "opts": ["A. 10 N", "B. 100 N", "C. 200 N", "D. 400 N"], "ans": 1, "bs_q": "Pada pompa hidrolik dengan A1 = 4 cm², A2 = 40 cm², dan F1 = 10 N, gaya angkat F2 yang dihasilkan adalah 100 N.", "bs_ans": 0, "isian_q": "Dongkrak hidrolik memiliki luas penampang A1 = 4 cm² dan A2 = 40 cm². Jika F1 = 10 N, maka gaya F2 sebesar ... Newton.", "isian_valid": ["100", "100 n"]}, {"no": 54, "bab": "Bab 3 - Tekanan Zat", "q": "Volume air dipindahkan 0,002 m³, ρ = 1.000 kg/m³, g = 10 m/s². Gaya apungnya adalah ....", "opts": ["A. 2 N", "B. 10 N", "C. 20 N", "D. 200 N"], "ans": 2, "bs_q": "Benda yang memindahkan 0,002 m³ air (ρ = 1.000 kg/m³, g = 10 m/s²) mengalami gaya apung sebesar 20 N.", "bs_ans": 0, "isian_q": "Jika volume air yang dipindahkan 0,002 m³ (ρ = 1.000 kg/m³, g = 10 m/s²), besar gaya apungnya adalah ... Newton.", "isian_valid": ["20", "20 n"]}, {"no": 55, "bab": "Bab 3 - Tekanan Zat", "q": "Pisau tajam lebih mudah memotong karena ....", "opts": ["A. Luas bidang tekan kecil", "B. Tidak bermassa", "C. Pisau tumpul tanpa gaya", "D. Gravitasi besar"], "ans": 0, "bs_q": "Mata pisau dibuat tipis dan tajam agar luas bidang tekannya kecil sehingga menghasilkan tekanan potong yang besar.", "bs_ans": 0, "isian_q": "Mata pisau diasah hingga tajam agar luas permukaan tekannya menjadi ... sehingga tekanan potongnya besar.", "isian_valid": ["kecil", "sempit", "tipis"]}, {"no": 56, "bab": "Bab 3 - Tekanan Zat", "q": "Tekanan penyelam bertambah saat makin dalam karena ....", "opts": ["A. Massa jenis selalu naik", "B. Kedalaman bertambah", "C. Gravitasi hilang", "D. Suhu naik"], "ans": 1, "bs_q": "Semakin dalam seorang penyelam menyelam, tekanan hidrostatis yang dialaminya semakin besar karena kedalaman bertambah.", "bs_ans": 0, "isian_q": "Tekanan yang dirasakan penyelam semakin meningkat ketika menyelam lebih dalam karena faktor ... air bertambah.", "isian_valid": ["kedalaman", "tinggi kolom"]}, {"no": 57, "bab": "Bab 3 - Tekanan Zat", "q": "Kapal terapung karena ....", "opts": ["A. Tak punya berat", "B. Memindahkan cukup banyak air sehingga gaya apung menyeimbangkan berat", "C. Air laut tak bermassa", "D. Tak dipengaruhi gravitasi"], "ans": 1, "bs_q": "Kapal laut berbahan baja dapat terapung karena lambungnya dirancang berongga untuk memindahkan volume air yang besar.", "bs_ans": 0, "isian_q": "Kapal baja dapat terapung di laut karena dirancang berongga sehingga gaya ... air menyeimbangkan berat kapal.", "isian_valid": ["apung", "archimedes"]}, {"no": 58, "bab": "Bab 3 - Tekanan Zat", "q": "Berat dua benda sama, luas 2 m² dan 4 m². Tekanan benda pertama dibandingkan benda kedua adalah ....", "opts": ["A. Setengah", "B. Sama", "C. Dua kali lebih besar", "D. Empat kali lebih besar"], "ans": 2, "bs_q": "Dengan berat yang sama, benda dengan luas alas 2 m² menghasilkan tekanan dua kali lebih besar daripada benda berluas alas 4 m².", "bs_ans": 0, "isian_q": "Dua benda memiliki berat sama, alas benda A seluas 2 m² dan benda B seluas 4 m². Tekanan benda A adalah ... kali tekanan benda B.", "isian_valid": ["2", "dua"]}, {"no": 59, "bab": "Bab 3 - Tekanan Zat", "q": "Bendungan lebih tebal di bawah karena ....", "opts": ["A. Tekanan hidrostatis bertambah dengan kedalaman", "B. Air hanya menekan bawah", "C. Tekanan tak dipengaruhi kedalaman", "D. Atas tak terkena air"], "ans": 0, "bs_q": "Dinding bagian bawah bendungan dibuat lebih tebal daripada bagian atas karena tekanan hidrostatis makin besar di bagian dalam.", "bs_ans": 0, "isian_q": "Dinding dasar bendungan air dibangun jauh lebih tebal untuk menahan besarnya tekanan ... di bagian dalam.", "isian_valid": ["hidrostatis"]}, {"no": 60, "bab": "Bab 3 - Tekanan Zat", "q": "Agar gaya keluaran hidrolik lebih besar, luas penampang keluaran harus ....", "opts": ["A. Lebih kecil", "B. Tanpa cairan", "C. Tekanannya berbeda", "D. Lebih besar"], "ans": 3, "bs_q": "Pada dongkrak hidrolik, luas penampang penghisap keluaran dibuat lebih besar agar menghasilkan gaya angkat yang berlipat.", "bs_ans": 0, "isian_q": "Agar gaya angkat keluaran pada mesin hidrolik jauh lebih besar, luas penampang keluaran harus dibuat lebih ....", "isian_valid": ["besar", "lebar"]}]};
+
+    /* ========================================================
+       KONTROL AKSES UAS, DURASI WAKTU MUNDUR & STATE TKA
+       ======================================================== */
+    const UASControlState = {
+      isOpen: localStorage.getItem('libaru_uas_open') === 'true', // Default TERTUTUP (false)
+      durationMinutes: Number(localStorage.getItem('libaru_uas_duration')) || 45,
+      activeTab: 'uas',
+      tkaSession: null,
+      timerInterval: null
+    };
+
+    function updateUASGateBadges() {
+      const pill = document.getElementById('uas-gate-status-pill');
+      if (pill) {
+        if (UASControlState.isOpen) {
+          pill.style.background = '#DCFCE7';
+          pill.style.color = '#15803D';
+          pill.style.borderColor = '#86EFAC';
+          pill.innerHTML = `<i class="fa-solid fa-lock-open"></i> Akses UAS: DIBUKA (${UASControlState.durationMinutes} Menit)`;
+        } else {
+          pill.style.background = '#FEE2E2';
+          pill.style.color = '#991B1B';
+          pill.style.borderColor = '#FCA5A5';
+          pill.innerHTML = `<i class="fa-solid fa-lock"></i> Akses UAS: TERTUTUP`;
+        }
+      }
+      const gateInd = document.getElementById('teacher-gate-indicator');
+      if (gateInd) {
+        gateInd.style.color = UASControlState.isOpen ? '#059669' : '#991B1B';
+        gateInd.innerText = UASControlState.isOpen
+          ? 'Status Saat Ini: DIBUKA (Siswa dapat login dan mengerjakan UAS)'
+          : 'Status Saat Ini: TERTUTUP (Siswa tidak dapat masuk menu UAS)';
+      }
+      const durInd = document.getElementById('teacher-duration-indicator');
+      if (durInd) {
+        durInd.innerText = `Durasi Waktu Mundur Aktif: ${UASControlState.durationMinutes} Menit`;
+      }
+      [30, 45, 60].forEach(m => {
+        const btn = document.getElementById(`btn-dur-${m}`);
+        if (btn) btn.classList.toggle('active', UASControlState.durationMinutes === m);
+      });
     }
 
-    function buildUASQuestionSet(grade, sem) {
-      const key = `${grade}_${sem}`;
-      const topics = atpDatabase[key] || [];
-      let poolPG = [];
-      let poolBS = [];
-      let poolIsian = [];
+    async function setUASAccessControl(openBool) {
+      SoundEngine.playClick();
+      UASControlState.isOpen = Boolean(openBool);
+      localStorage.setItem('libaru_uas_open', UASControlState.isOpen ? 'true' : 'false');
+      updateUASGateBadges();
+      renderTopicCatalog();
+      await sendResultToGoogleSheets({
+        action: 'updateSettings',
+        akses_uas: UASControlState.isOpen ? 'OPEN' : 'CLOSED',
+        durasi_menit: UASControlState.durationMinutes
+      });
+      Swal.fire({
+        icon: UASControlState.isOpen ? 'success' : 'warning',
+        title: UASControlState.isOpen ? 'Akses UAS Dibuka!' : 'Akses UAS Ditutup!',
+        text: UASControlState.isOpen
+          ? 'Siswa sekarang dapat masuk ke Menu UAS dan mulai mengerjakan ujian.'
+          : 'Menu UAS telah dikunci kembali.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
 
+    async function setUASDurationSetting(minutes) {
+      SoundEngine.playClick();
+      UASControlState.durationMinutes = Number(minutes) || 45;
+      localStorage.setItem('libaru_uas_duration', String(UASControlState.durationMinutes));
+      updateUASGateBadges();
+      await sendResultToGoogleSheets({
+        action: 'updateSettings',
+        akses_uas: UASControlState.isOpen ? 'OPEN' : 'CLOSED',
+        durasi_menit: UASControlState.durationMinutes
+      });
+      Swal.fire({
+        icon: 'info',
+        title: `Durasi Diatur: ${UASControlState.durationMinutes} Menit`,
+        text: 'Waktu mundur UAS telah diperbarui.',
+        timer: 1300,
+        showConfirmButton: false
+      });
+    }
+
+    /* ========================================================
+       PERAKIT 40 SOAL UAS TKA (25 PG A-D, 10 BENAR/SALAH, 5 ISIAN SINGKAT)
+       ======================================================== */
+    function buildTKAUASQuestions(grade, sem) {
+      const key = `${grade}_${sem}`;
+      // Untuk Semester 1 (7_1, 8_1, 9_1) gunakan Bank 60 Soal Resmi dari PDF "SOAL UAS 7 8 9 MPI.pdf"
+      if (OFFICIAL_UAS_BANK_SEM1[key] && OFFICIAL_UAS_BANK_SEM1[key].length >= 60) {
+        const bank60 = shuffleArray(OFFICIAL_UAS_BANK_SEM1[key]);
+        const partPG = bank60.slice(0, 25);
+        const partBS = bank60.slice(25, 35);
+        const partIsian = bank60.slice(35, 40);
+
+        const formattedPG = partPG.map((item, idx) => {
+          const rawOpts = item.opts.map(o => String(o).replace(/^[A-D]\.\s*/, ''));
+          const pairs = rawOpts.map((text, i) => ({ text, correct: i === item.ans }));
+          const shuffled = shuffleArray(pairs);
+          return {
+            num: idx + 1,
+            type: 'pg',
+            bab: item.bab,
+            q: item.q,
+            opts: shuffled.map((p, i) => `${String.fromCharCode(65 + i)}. ${p.text}`),
+            ans: shuffled.findIndex(p => p.correct),
+            userAnswer: null,
+            ragu: false
+          };
+        });
+
+        const formattedBS = partBS.map((item, idx) => ({
+          num: 26 + idx,
+          type: 'bs',
+          bab: item.bab,
+          q: item.bs_q,
+          opts: ['BENAR', 'SALAH'],
+          ans: item.bs_ans,
+          userAnswer: null,
+          ragu: false
+        }));
+
+        const formattedIsian = partIsian.map((item, idx) => ({
+          num: 36 + idx,
+          type: 'isian',
+          bab: item.bab,
+          q: item.isian_q,
+          valid: item.isian_valid,
+          userAnswer: '',
+          ragu: false
+        }));
+
+        return [...formattedPG, ...formattedBS, ...formattedIsian];
+      }
+
+      // Untuk Semester 2 (7_2, 8_2, 9_2) rakit 25 PG + 10 Benar/Salah + 5 Isian dari seluruh bab semester 2
+      const topics = atpDatabase[key] || [];
+      let poolPG = [], poolBS = [], poolIsian = [];
       topics.forEach(t => {
         const mod = getModule(t.id);
-        const pg = generateTopicQuestionsPG(mod).map(q => ({
-          ...q,
-          type: 'pg',
-          points: 2.5,
-          topicName: mod.name,
-          q: q.q.replace(/^\[Soal[^\]]*\]\s*/, `[${mod.name}] `)
-        }));
-        const bs = generateTopicQuestionsBS(mod).map(q => ({
-          ...q,
-          type: 'bs',
-          points: 2.5,
-          topicName: mod.name
-        }));
-        const isian = generateTopicQuestionsIsian(mod).map(q => ({
-          ...q,
-          type: 'isian',
-          points: 2.5,
-          topicName: mod.name,
-          q: q.q.replace(/^\[(Soal|Isian)[^\]]*\]\s*/, `[${mod.name}] `)
-        }));
-
-        poolPG = poolPG.concat(pg);
-        poolBS = poolBS.concat(bs);
-        poolIsian = poolIsian.concat(isian);
+        poolPG = poolPG.concat(generateTopicQuestionsPG(mod).map(q => ({ ...q, bab: mod.name, q: q.q.replace(/^\[Soal[^\]]*\]\s*/, '') })));
+        poolBS = poolBS.concat(generateTopicQuestionsBS(mod).map(q => ({ ...q, bab: mod.name })));
+        poolIsian = poolIsian.concat(generateTopicQuestionsIsian(mod).map(q => ({ ...q, bab: mod.name, q: q.q.replace(/^\[(Soal|Isian)[^\]]*\]\s*/, '') })));
       });
 
-      const selectedPG = shuffleArray(poolPG).slice(0, 20).map((q, idx) => {
-        const copy = { ...q, opts: [...q.opts] };
-        if (Array.isArray(copy.opts) && copy.opts.length > 1) {
-          const pairs = copy.opts.map((text, index) => ({
-            text: String(text).replace(/^[A-D]\.\s*/, ''),
-            correct: index === copy.ans
-          }));
-          const shuffled = shuffleArray(pairs);
-          copy.opts = shuffled.map((item, index) => `${String.fromCharCode(65 + index)}. ${item.text}`);
-          copy.ans = shuffled.findIndex(item => item.correct);
-        }
-        copy.sectionLabel = `Bagian I: Pilihan Ganda (${idx + 1}/20)`;
-        return copy;
-      });
-
-      const selectedBS = shuffleArray(poolBS).slice(0, 10).map((q, idx) => ({
-        ...q,
+      const formattedPG = shuffleArray(poolPG).slice(0, 25).map((item, idx) => ({
+        num: idx + 1,
+        type: 'pg',
+        bab: item.bab,
+        q: item.q,
+        opts: item.opts,
+        ans: item.ans,
+        userAnswer: null,
+        ragu: false
+      }));
+      const formattedBS = shuffleArray(poolBS).slice(0, 10).map((item, idx) => ({
+        num: 26 + idx,
         type: 'bs',
+        bab: item.bab,
+        q: item.q,
         opts: ['BENAR', 'SALAH'],
-        sectionLabel: `Bagian II: Benar / Salah KKA (${idx + 1}/10)`
+        ans: item.ans,
+        userAnswer: null,
+        ragu: false
       }));
-
-      const selectedIsian = shuffleArray(poolIsian).slice(0, 10).map((q, idx) => ({
-        ...q,
+      const formattedIsian = shuffleArray(poolIsian).slice(0, 5).map((item, idx) => ({
+        num: 36 + idx,
         type: 'isian',
-        sectionLabel: `Bagian III: Isian Singkat (${idx + 1}/10)`
+        bab: item.bab,
+        q: item.q,
+        valid: item.valid,
+        userAnswer: '',
+        ragu: false
       }));
 
-      // Susun berurutan: 20 PG -> 10 Benar/Salah (KKA) -> 10 Isian Singkat (Total 40 Soal, masing-masing 2.5 poin = 100)
-      return [...selectedPG, ...selectedBS, ...selectedIsian];
+      return [...formattedPG, ...formattedBS, ...formattedIsian];
     }
 
-    function launchUASExam() {
-      AppState.userCount = Math.max(1, Math.min(3, Number(AppState.userCount) || 1));
-      ensureEvalStudentSlots(AppState.userCount);
-      saveStudentInputs();
-      evaluationAnswerKeyUnlocked = false;
-      AppState.evalMode = 'uas';
-      AppState.isUASMode = true;
-
-      const sem = Number(AppState.selectedSemester) || 1;
-      const summaryBadges = [];
-
-      for (let i = 0; i < AppState.userCount; i++) {
-        const studentName = String(AppState.students[i].name || `Siswa ${i + 1}`).trim();
-        const studentKelas = AppState.students[i].kelas || `Kelas ${AppState.selectedGrade}`;
-        const studentGrade = extractGradeFromKelas(studentKelas, AppState.selectedGrade);
-        const studentSemGlobal = getSemesterNumberGlobal(studentGrade, sem);
-
-        const qs = buildUASQuestionSet(studentGrade, sem);
-        AppState.students[i].name = studentName;
-        AppState.students[i].kelas = studentKelas;
-        AppState.students[i].gradeLevel = studentGrade;
-        AppState.students[i].semesterLevel = sem;
-        AppState.students[i].semGlobal = studentSemGlobal;
-        AppState.students[i].uasLabel = `UAS Semester ${studentSemGlobal} (Kelas ${studentGrade} Sem ${sem})`;
-        AppState.students[i].score = 0;
-        AppState.students[i].rawScore = 0;
-        AppState.students[i].pgCorrect = 0;
-        AppState.students[i].bsCorrect = 0;
-        AppState.students[i].isianCorrect = 0;
-        AppState.students[i].currentIndex = 0;
-        AppState.students[i].finished = false;
-        AppState.students[i].correctCount = 0;
-        AppState.students[i].wrongCount = 0;
-        AppState.students[i].startedAt = new Date();
-        AppState.students[i].finishedAt = null;
-        AppState.students[i].answering = false;
-        AppState.students[i].questions = qs;
-        AppState.students[i].maxPossible = qs.reduce((acc, cur) => acc + cur.points, 0);
-
-        summaryBadges.push(`${studentName}: Kelas ${studentGrade} Sem ${sem}`);
+    /* ========================================================
+       ALUR MASUK MENU UAS (CEK STATUS BUKA/TUTUP -> LOGIN TKA -> EXAM TKA)
+       ======================================================== */
+    function openUASPrep(grade, sem) {
+      SoundEngine.playClick();
+      if (!UASControlState.isOpen) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Akses UAS Masih Tertutup',
+          html: 'Menu Ujian Akhir Semester (UAS) saat ini masih <strong>DITUTUP</strong> oleh Guru.<br>Silakan hubungi Pak Guru untuk membuka akses melalui <em>Dashboard Guru</em>.',
+          confirmButtonText: 'Mengerti',
+          confirmButtonColor: '#0284C7'
+        });
+        return;
       }
 
-      const badge = document.getElementById('quiz-header-badge');
-      if (badge) {
-        badge.innerHTML = `<i class="fa-solid fa-award"></i> UAS Semester ${sem} (${summaryBadges.join(' &bull; ')}) &bull; 40 Soal`;
+      AppState.selectedGrade = Number(grade) || 7;
+      AppState.selectedSemester = Number(sem) || 1;
+
+      const roster = getStudentRoster();
+      const kelasSel = document.getElementById('tka-select-kelas');
+      const namaSel = document.getElementById('tka-select-nama');
+      const durLabel = document.getElementById('tka-login-duration-label');
+      if (durLabel) durLabel.innerText = `${UASControlState.durationMinutes} Menit`;
+
+      const classKeys = Object.keys(roster);
+      const targetKelas = `Kelas ${AppState.selectedGrade}`;
+      if (kelasSel) {
+        kelasSel.innerHTML = classKeys.map(k => `<option value="${k}" ${k === targetKelas ? 'selected' : ''}>${k}</option>`).join('');
+      }
+      onTKAKelasChange(kelasSel ? kelasSel.value : targetKelas);
+      setTKASemester(AppState.selectedSemester);
+
+      navTo('screen-uas-login');
+    }
+
+    function setTKASemester(sem) {
+      AppState.selectedSemester = Number(sem) || 1;
+      const b1 = document.getElementById('tka-sem-btn-1');
+      const b2 = document.getElementById('tka-sem-btn-2');
+      if (b1) b1.classList.toggle('active', AppState.selectedSemester === 1);
+      if (b2) b2.classList.toggle('active', AppState.selectedSemester === 2);
+      const sub = document.getElementById('tka-login-subtitle');
+      if (sub) {
+        sub.innerText = `Paket Ujian Akhir Semester ${AppState.selectedSemester} (${AppState.selectedSemester === 1 ? 'Ganjil' : 'Genap'}) • Waktu: ${UASControlState.durationMinutes} Menit`;
+      }
+    }
+
+    function onTKAKelasChange(kelasVal) {
+      const roster = getStudentRoster();
+      const namaSel = document.getElementById('tka-select-nama');
+      if (!namaSel) return;
+      const list = roster[kelasVal] || [];
+      namaSel.innerHTML = list.map(n => `<option value="${n}">${n}</option>`).join('');
+    }
+
+    function startTKAExamSession() {
+      if (!UASControlState.isOpen) {
+        Swal.fire('Akses Ditutup', 'Akses UAS telah ditutup oleh guru.', 'error');
+        navGoHome();
+        return;
       }
 
-      navTo('screen-quiz');
-      renderQuizMultiColumns();
+      const kelasVal = document.getElementById('tka-select-kelas')?.value || 'Kelas 7';
+      const namaVal = document.getElementById('tka-select-nama')?.value || 'Siswa';
+      const gradeNum = extractGradeFromKelas(kelasVal, AppState.selectedGrade);
+      const semNum = Number(AppState.selectedSemester) || 1;
+      const semGlobal = getSemesterNumberGlobal(gradeNum, semNum);
+
+      const questions = buildTKAUASQuestions(gradeNum, semNum);
+      const totalSeconds = UASControlState.durationMinutes * 60;
+
+      UASControlState.tkaSession = {
+        nama: namaVal,
+        kelas: kelasVal,
+        grade: gradeNum,
+        semester: semNum,
+        semGlobal: semGlobal,
+        questions: questions,
+        currentIndex: 0,
+        remainingSeconds: totalSeconds,
+        startedAt: new Date().toLocaleString('id-ID'),
+        finished: false
+      };
+
+      document.getElementById('tka-exam-student-info').innerHTML = `<i class="fa-solid fa-user-check"></i> Peserta: <strong>${namaVal}</strong> (${kelasVal})`;
+      document.getElementById('tka-exam-meta-info').innerText = `UAS IPA Kelas ${gradeNum} Semester ${semNum} (UAS ${semGlobal}) • 40 Soal`;
+
+      navTo('screen-uas-tka');
+      renderTKANumberGrid();
+      renderTKAQuestion(0);
+      startTKATimer();
+    }
+
+    function startTKATimer() {
+      if (UASControlState.timerInterval) clearInterval(UASControlState.timerInterval);
+      updateTKATimerUI();
+      UASControlState.timerInterval = setInterval(() => {
+        const sess = UASControlState.tkaSession;
+        if (!sess || sess.finished) {
+          clearInterval(UASControlState.timerInterval);
+          return;
+        }
+        sess.remainingSeconds--;
+        updateTKATimerUI();
+        if (sess.remainingSeconds <= 0) {
+          clearInterval(UASControlState.timerInterval);
+          finalizeTKASession(true);
+        }
+      }, 1000);
+    }
+
+    function updateTKATimerUI() {
+      const sess = UASControlState.tkaSession;
+      if (!sess) return;
+      const mins = Math.floor(Math.max(0, sess.remainingSeconds) / 60);
+      const secs = Math.max(0, sess.remainingSeconds) % 60;
+      const textEl = document.getElementById('tka-timer-text');
+      const boxEl = document.getElementById('tka-timer-display');
+      if (textEl) textEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (boxEl) boxEl.classList.toggle('warning', sess.remainingSeconds <= 180);
+    }
+
+    function renderTKANumberGrid() {
+      const sess = UASControlState.tkaSession;
+      const grid = document.getElementById('tka-number-grid');
+      const counter = document.getElementById('tka-answered-counter');
+      if (!sess || !grid) return;
+
+      let answeredCount = 0;
+      grid.innerHTML = '';
+      sess.questions.forEach((q, idx) => {
+        const isAnswered = q.type === 'isian'
+          ? (String(q.userAnswer || '').trim().length > 0)
+          : (q.userAnswer !== null && q.userAnswer !== undefined);
+        if (isAnswered) answeredCount++;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tka-num-btn'
+          + (idx === sess.currentIndex ? ' active' : '')
+          + (q.ragu ? ' ragu' : (isAnswered ? ' answered' : ''));
+        btn.innerText = idx + 1;
+        btn.onclick = () => {
+          SoundEngine.playClick();
+          renderTKAQuestion(idx);
+        };
+        grid.appendChild(btn);
+      });
+
+      if (counter) counter.innerText = `${answeredCount}/40 Dijawab`;
+    }
+
+    function renderTKAQuestion(idx) {
+      const sess = UASControlState.tkaSession;
+      const container = document.getElementById('tka-question-container');
+      if (!sess || !container) return;
+
+      sess.currentIndex = Math.max(0, Math.min(sess.questions.length - 1, idx));
+      const q = sess.questions[sess.currentIndex];
+
+      let typeBadge = '';
+      if (q.type === 'pg') {
+        typeBadge = `<span class="uas-type-badge badge-pg"><i class="fa-solid fa-list-ul"></i> Pilihan Ganda (No. 1–25)</span>`;
+      } else if (q.type === 'bs') {
+        typeBadge = `<span class="uas-type-badge badge-bs"><i class="fa-solid fa-scale-balanced"></i> Benar / Salah - KKA (No. 26–35)</span>`;
+      } else {
+        typeBadge = `<span class="uas-type-badge badge-isian"><i class="fa-solid fa-keyboard"></i> Isian Singkat (No. 36–40)</span>`;
+      }
+
+      let answerAreaHtml = '';
+      if (q.type === 'pg') {
+        answerAreaHtml = `<div class="options-grid">` + q.opts.map((opt, optIdx) => `
+          <button type="button" class="option-btn ${q.userAnswer === optIdx ? 'selected-answer' : ''}" onclick="selectTKAAnswer(${optIdx})">
+            ${opt}
+          </button>
+        `).join('') + `</div>`;
+      } else if (q.type === 'bs') {
+        answerAreaHtml = `
+          <div class="bs-grid">
+            <button type="button" class="bs-btn ${q.userAnswer === 0 ? 'selected-answer' : ''}" style="color:#047857;" onclick="selectTKAAnswer(0)">
+              <i class="fa-solid fa-circle-check"></i> BENAR
+            </button>
+            <button type="button" class="bs-btn ${q.userAnswer === 1 ? 'selected-answer' : ''}" style="color:#BE123C;" onclick="selectTKAAnswer(1)">
+              <i class="fa-solid fa-circle-xmark"></i> SALAH
+            </button>
+          </div>`;
+      } else {
+        const safeVal = String(q.userAnswer || '').replace(/"/g, '&quot;');
+        answerAreaHtml = `
+          <div class="short-input-box">
+            <label style="font-size:0.85rem; font-weight:800; color:#475569;">Ketik Jawaban Singkat Anda:</label>
+            <input type="text" id="tka-isian-field" class="short-input-field" value="${safeVal}" placeholder="Tulis jawaban singkat di sini..." oninput="updateTKAIsian(this.value)" autocomplete="off">
+          </div>`;
+      }
+
+      container.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; border-bottom:2px solid #F1F5F9; padding-bottom:0.8rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+            <span style="background:#0F172A; color:#FFFFFF; font-weight:900; padding:0.35rem 0.9rem; border-radius:100px; font-size:0.9rem;">
+              SOAL NO. ${sess.currentIndex + 1} / 40
+            </span>
+            ${typeBadge}
+          </div>
+          <span style="font-size:0.8rem; font-weight:800; color:#64748B;">${q.bab}</span>
+        </div>
+
+        <div class="quiz-question-text" style="font-size:1.18rem; min-height:70px;">
+          ${q.q}
+        </div>
+
+        ${answerAreaHtml}
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.7rem; margin-top:1.2rem; padding-top:1rem; border-top:2px solid #F1F5F9;">
+          <button type="button" class="btn-3d btn-outline" onclick="renderTKAQuestion(${sess.currentIndex - 1})" ${sess.currentIndex === 0 ? 'disabled style="opacity:0.45;"' : ''}>
+            <i class="fa-solid fa-chevron-left"></i> Sebelumnya
+          </button>
+
+          <button type="button" class="btn-3d btn-amber" onclick="toggleTKARagu()" style="padding:0.7rem 1.1rem; font-size:0.9rem;">
+            <i class="fa-solid fa-flag"></i> ${q.ragu ? 'Batalkan Ragu-Ragu' : 'Tandai Ragu-Ragu'}
+          </button>
+
+          ${sess.currentIndex < 39
+            ? `<button type="button" class="btn-3d btn-primary" onclick="renderTKAQuestion(${sess.currentIndex + 1})">
+                Berikutnya <i class="fa-solid fa-chevron-right"></i>
+               </button>`
+            : `<button type="button" class="btn-3d btn-secondary" onclick="confirmFinishTKA(false)">
+                <i class="fa-solid fa-circle-check"></i> Selesai &amp; Kumpulkan
+               </button>`
+          }
+        </div>
+      `;
+
+      renderTKANumberGrid();
+    }
+
+    function selectTKAAnswer(valIdx) {
+      const sess = UASControlState.tkaSession;
+      if (!sess || sess.finished) return;
+      SoundEngine.playClick();
+      sess.questions[sess.currentIndex].userAnswer = valIdx;
+      renderTKAQuestion(sess.currentIndex);
+    }
+
+    function updateTKAIsian(txt) {
+      const sess = UASControlState.tkaSession;
+      if (!sess || sess.finished) return;
+      sess.questions[sess.currentIndex].userAnswer = txt;
+      renderTKANumberGrid();
+    }
+
+    function toggleTKARagu() {
+      const sess = UASControlState.tkaSession;
+      if (!sess || sess.finished) return;
+      SoundEngine.playClick();
+      sess.questions[sess.currentIndex].ragu = !sess.questions[sess.currentIndex].ragu;
+      renderTKAQuestion(sess.currentIndex);
+    }
+
+    function confirmFinishTKA(isTimeout) {
+      const sess = UASControlState.tkaSession;
+      if (!sess || sess.finished) return;
+      const unanswered = sess.questions.filter(q =>
+        q.type === 'isian' ? !String(q.userAnswer || '').trim() : (q.userAnswer === null || q.userAnswer === undefined)
+      ).length;
+
+      Swal.fire({
+        icon: 'question',
+        title: 'Kumpulkan Jawaban UAS?',
+        html: unanswered > 0
+          ? `Masih ada <strong>${unanswered} soal</strong> yang belum dijawab. Yakin ingin mengakhiri ujian sekarang?`
+          : 'Seluruh 40 soal telah dijawab. Kumpulkan jawaban sekarang?',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Kumpulkan Nilai',
+        cancelButtonText: 'Periksa Kembali',
+        confirmButtonColor: '#059669'
+      }).then(res => {
+        if (res.isConfirmed) finalizeTKASession(false);
+      });
+    }
+
+    function finalizeTKASession(isTimeout) {
+      const sess = UASControlState.tkaSession;
+      if (!sess || sess.finished) return;
+      sess.finished = true;
+      if (UASControlState.timerInterval) clearInterval(UASControlState.timerInterval);
+
+      let benarPG = 0, benarBS = 0, benarIsian = 0;
+      sess.questions.forEach(q => {
+        if (q.type === 'pg') {
+          if (q.userAnswer === q.ans) benarPG++;
+        } else if (q.type === 'bs') {
+          if (q.userAnswer === q.ans) benarBS++;
+        } else {
+          const ansText = String(q.userAnswer || '').trim().toLowerCase();
+          if (ansText && Array.isArray(q.valid) && q.valid.some(v => ansText.includes(String(v).toLowerCase()))) {
+            benarIsian++;
+          }
+        }
+      });
+
+      const totalBenar = benarPG + benarBS + benarIsian;
+      const totalSalah = 40 - totalBenar;
+      // Bobot: 25 PG x 2 poin (50) + 10 B/S x 2 poin (20) + 5 Isian x 6 poin (30) = 100 Poin Maksimal
+      const nilaiAkhir = Math.round((benarPG * 2) + (benarBS * 2) + (benarIsian * 6));
+      const statusText = nilaiAkhir >= 75 ? 'Tuntas' : 'Remedial';
+      const tsNow = new Date().toLocaleString('id-ID');
+      const recId = 'UAS-' + Date.now();
+      const ketSelesai = isTimeout ? 'Waktu Habis (Otomatis)' : 'Selesai Tepat Waktu';
+
+      const uasRecords = JSON.parse(localStorage.getItem('libaru_uas_records') || '[]');
+      const recordObj = {
+        id: recId,
+        timestamp: tsNow,
+        nama: sess.nama,
+        kelas: sess.kelas,
+        semesterLabel: `Semester ${sess.semester} (${sess.semester === 1 ? 'Ganjil' : 'Genap'})`,
+        benarPG,
+        benarBS,
+        benarIsian,
+        totalBenar,
+        totalSalah,
+        nilaiAkhir,
+        status: statusText,
+        keterangan: ketSelesai
+      };
+      uasRecords.push(recordObj);
+      localStorage.setItem('libaru_uas_records', JSON.stringify(uasRecords));
+
+      sendResultToGoogleSheets({
+        action: 'saveResult',
+        type: 'UAS',
+        id: recId,
+        timestamp: tsNow,
+        nama: sess.nama,
+        kelas: sess.kelas,
+        semesterUAS: recordObj.semesterLabel,
+        benarPG,
+        benarBS,
+        benarIsian,
+        totalBenar,
+        totalSalah,
+        nilaiAkhir,
+        status: statusText,
+        keterangan: ketSelesai
+      });
+
+      if (isTimeout) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Waktu Pengerjaan Habis!',
+          text: 'Soal UAS otomatis ditutup dan nilai Anda telah tersimpan ke Dashboard Guru & Spreadsheet.',
+          confirmButtonColor: '#0284C7'
+        });
+      } else {
+        SoundEngine.playVictory();
+        confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+      }
+
+      const resCard = document.querySelector('.result-card');
+      if (resCard) {
+        resCard.innerHTML = `
+          <h2 style="font-size:1.85rem; color:#0F172A;"><i class="fa-solid fa-award" style="color:#D97706;"></i> Hasil Ujian Akhir Semester (UAS)</h2>
+          <p style="color:#64748B; font-size:0.95rem;">${sess.nama} (${sess.kelas}) &bull; ${recordObj.semesterLabel}</p>
+          <div style="background:#F8FAFC; border:2.5px solid ${nilaiAkhir >= 75 ? '#10B981' : '#EF4444'}; border-radius:18px; padding:1.5rem; width:100%; max-width:480px;">
+            <div style="font-size:3.4rem; font-weight:900; color:${nilaiAkhir >= 75 ? '#059669' : '#DC2626'}; line-height:1;">
+              ${nilaiAkhir}
+            </div>
+            <div style="margin:0.6rem 0;">
+              <span class="score-status-badge ${nilaiAkhir >= 75 ? 'status-tuntas' : 'status-remedial'}">${statusText} (KKTP 75)</span>
+            </div>
+            <div style="font-size:0.88rem; color:#334155; line-height:1.6; margin-top:0.8rem; text-align:left; background:#FFFFFF; padding:0.8rem; border-radius:12px; border:1px solid #E2E8F0;">
+              &bull; <strong>Pilihan Ganda (25 Soal):</strong> Benar ${benarPG}<br>
+              &bull; <strong>Benar / Salah KKA (10 Soal):</strong> Benar ${benarBS}<br>
+              &bull; <strong>Isian Singkat (5 Soal):</strong> Benar ${benarIsian}<br>
+              &bull; <strong>Total Benar / Salah:</strong> ${totalBenar} Benar / ${totalSalah} Salah<br>
+              &bull; <strong>Keterangan:</strong> ${ketSelesai}
+            </div>
+          </div>
+          <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:0.8rem;">
+            <button class="btn-3d btn-primary" onclick="openStudentDashboard()">
+              <i class="fa-solid fa-user-graduate"></i> Lihat Dashboard Murid
+            </button>
+            <button class="btn-3d btn-outline" onclick="navGoHome()">
+              <i class="fa-solid fa-house"></i> Kembali ke Beranda
+            </button>
+          </div>
+        `;
+      }
+      navTo('screen-result');
+    }
+
+    /* ========================================================
+       DASHBOARD MURID
+       ======================================================== */
+    function openStudentDashboard() {
+      SoundEngine.playClick();
+      const roster = getStudentRoster();
+      const kelasSel = document.getElementById('stu-dash-kelas');
+      const classKeys = Object.keys(roster);
+      if (kelasSel) {
+        kelasSel.innerHTML = classKeys.map(k => `<option value="${k}">${k}</option>`).join('');
+      }
+      onStudentDashKelasChange(kelasSel ? kelasSel.value : classKeys[0]);
+      navTo('screen-student-dashboard');
+    }
+
+    function onStudentDashKelasChange(kelasVal) {
+      const roster = getStudentRoster();
+      const namaSel = document.getElementById('stu-dash-nama');
+      if (!namaSel) return;
+      const list = roster[kelasVal] || [];
+      namaSel.innerHTML = list.map(n => `<option value="${n}">${n}</option>`).join('');
+      renderStudentDashboardData();
+    }
+
+    function renderStudentDashboardData() {
+      const kelasVal = document.getElementById('stu-dash-kelas')?.value || '';
+      const namaVal = document.getElementById('stu-dash-nama')?.value || '';
+      const evalList = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]')
+        .filter(r => r.nama === namaVal && r.kelas === kelasVal);
+      const uasList = JSON.parse(localStorage.getItem('libaru_uas_records') || '[]')
+        .filter(r => r.nama === namaVal && r.kelas === kelasVal);
+
+      const combined = [
+        ...uasList.map(u => ({
+          timestamp: u.timestamp,
+          kategori: 'UAS (TKA)',
+          materi: u.semesterLabel,
+          benar: u.totalBenar,
+          salah: u.totalSalah,
+          nilai: u.nilaiAkhir,
+          status: u.status
+        })),
+        ...evalList.map(e => ({
+          timestamp: e.timestamp,
+          kategori: 'Evaluasi Formatif',
+          materi: e.aktivitas,
+          benar: e.benar ?? '-',
+          salah: e.salah ?? '-',
+          nilai: e.skor,
+          status: e.status
+        }))
+      ];
+
+      const avg = combined.length > 0
+        ? Math.round(combined.reduce((a, b) => a + Number(b.nilai || 0), 0) / combined.length)
+        : 0;
+
+      const statsBox = document.getElementById('stu-dash-stats');
+      if (statsBox) {
+        statsBox.innerHTML = `
+          <div class="dash-stat-box">
+            <div style="font-size:0.8rem;font-weight:800;color:#64748B;">Nama Peserta</div>
+            <div style="font-size:1.25rem;font-weight:900;color:#0F172A;margin-top:0.2rem;">${namaVal}</div>
+            <div style="font-size:0.8rem;font-weight:700;color:#0284C7;">${kelasVal}</div>
+          </div>
+          <div class="dash-stat-box">
+            <div style="font-size:0.8rem;font-weight:800;color:#64748B;">Total Asesmen Dikerjakan</div>
+            <div style="font-size:1.6rem;font-weight:900;color:#059669;margin-top:0.2rem;">${combined.length}</div>
+          </div>
+          <div class="dash-stat-box">
+            <div style="font-size:0.8rem;font-weight:800;color:#64748B;">Rata-rata Nilai</div>
+            <div style="font-size:1.6rem;font-weight:900;color:#D97706;margin-top:0.2rem;">${avg}</div>
+          </div>
+        `;
+      }
+
+      const tbody = document.getElementById('stu-dash-tbody');
+      if (tbody) {
+        if (combined.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:#64748B;padding:1.2rem;">Belum ada riwayat nilai untuk ${namaVal} (${kelasVal}).</td></tr>`;
+        } else {
+          tbody.innerHTML = combined.map((row, idx) => `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${row.timestamp}</td>
+              <td><span class="pill-solo">${row.kategori}</span></td>
+              <td>${row.materi}</td>
+              <td style="color:#059669;font-weight:800;">${row.benar}</td>
+              <td style="color:#DC2626;font-weight:800;">${row.salah}</td>
+              <td style="font-weight:900;font-size:1rem;">${row.nilai}</td>
+              <td><span style="font-weight:900;color:${row.nilai >= 75 ? '#059669' : '#DC2626'};">${row.status}</span></td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    /* ========================================================
+       DASHBOARD GURU (PASSWORD: "Libaru")
+       ======================================================== */
+    function promptTeacherLogin() {
+      SoundEngine.playClick();
+      Swal.fire({
+        title: 'Login Dashboard Guru',
+        text: 'Masukkan password guru untuk mengakses panel kontrol & rekap nilai:',
+        input: 'password',
+        inputPlaceholder: 'Masukkan password...',
+        showCancelButton: true,
+        confirmButtonText: 'Masuk Dashboard',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#D97706'
+      }).then(res => {
+        if (res.isConfirmed) {
+          if (res.value === 'Libaru') {
+            SoundEngine.playCorrect();
+            openTeacherDashboard();
+          } else {
+            SoundEngine.playWrong();
+            Swal.fire('Akses Ditolak', 'Password guru yang Anda masukkan salah!', 'error');
+          }
+        }
+      });
     }
 
     function openTeacherDashboard() {
-      SoundEngine.playClick();
-      const history = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]');
-      let rows = history.slice().reverse().map((r, i) => `
-        <tr>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${i + 1}</td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.timestamp || '-'}</td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>${r.nama}</strong></td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.kelas}</td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.aktivitas}</td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;font-weight:900;color:${r.skor >= 75 ? '#059669' : '#DC2626'};">${r.skor}</td>
-          <td style="padding:6px;border-bottom:1px solid #E2E8F0;">${r.status}</td>
-        </tr>
-      `).join('');
-      if (!rows) {
-        rows = '<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748B;">Belum ada riwayat nilai tersimpan di perangkat ini.</td></tr>';
-      }
-      Swal.fire({
-        title: 'Dashboard Rekap Nilai Guru',
-        width: '900px',
-        html: `
-          <div style="text-align:left;max-height:380px;overflow:auto;font-size:0.85rem;">
-            <table style="width:100%;border-collapse:collapse;">
+      updateUASGateBadges();
+      switchTeacherTab(UASControlState.activeTab || 'uas');
+      navTo('screen-teacher-dashboard');
+    }
+
+    function switchTeacherTab(tabName) {
+      UASControlState.activeTab = tabName;
+      ['uas', 'eval', 'siswa'].forEach(t => {
+        const btn = document.getElementById(`tab-guru-${t}`);
+        if (btn) btn.classList.toggle('active', t === tabName);
+      });
+
+      const box = document.getElementById('teacher-tab-content');
+      if (!box) return;
+
+      if (tabName === 'uas') {
+        const uasRecords = JSON.parse(localStorage.getItem('libaru_uas_records') || '[]');
+        let rows = uasRecords.slice().reverse().map((r, idx) => `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${r.timestamp}</td>
+            <td><strong>${r.nama}</strong></td>
+            <td>${r.kelas}</td>
+            <td>${r.semesterLabel}</td>
+            <td>PG:${r.benarPG} | B/S:${r.benarBS} | Isian:${r.benarIsian}</td>
+            <td style="color:#059669;font-weight:900;">${r.totalBenar}</td>
+            <td style="color:#DC2626;font-weight:900;">${r.totalSalah}</td>
+            <td style="font-weight:900;font-size:1.05rem;color:${r.nilaiAkhir >= 75 ? '#059669' : '#DC2626'};">${r.nilaiAkhir}</td>
+            <td>${r.status}</td>
+            <td>
+              <button type="button" class="btn-3d btn-rose" style="padding:0.35rem 0.65rem;font-size:0.78rem;" onclick="deleteTeacherRecord('uas', '${r.id}')">
+                <i class="fa-solid fa-trash"></i> Hapus
+              </button>
+            </td>
+          </tr>
+        `).join('');
+        if (!rows) rows = `<tr><td colspan="11" style="text-align:center;color:#64748B;padding:1.2rem;">Belum ada data hasil pengerjaan UAS.</td></tr>`;
+
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;flex-wrap:wrap;gap:0.5rem;">
+            <span style="font-weight:800;color:#334155;">Total Rekaman UAS: ${uasRecords.length}</span>
+            <button type="button" class="btn-3d btn-rose" style="padding:0.45rem 0.9rem;font-size:0.82rem;" onclick="clearAllTeacherRecords('uas')">
+              <i class="fa-solid fa-trash-can"></i> Hapus Semua Data UAS
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="styled-table">
               <thead>
-                <tr style="background:#F1F5F9;">
-                  <th style="padding:6px;">No</th>
-                  <th style="padding:6px;">Waktu</th>
-                  <th style="padding:6px;">Nama</th>
-                  <th style="padding:6px;">Kelas</th>
-                  <th style="padding:6px;">Asesmen</th>
-                  <th style="padding:6px;">Nilai</th>
-                  <th style="padding:6px;">Status</th>
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal &amp; Waktu</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Semester</th>
+                  <th>Rincian Benar</th>
+                  <th>Jml Benar</th>
+                  <th>Jml Salah</th>
+                  <th>Nilai</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>${rows}</tbody>
             </table>
+          </div>`;
+      } else if (tabName === 'eval') {
+        const evalRecords = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]');
+        let rows = evalRecords.slice().reverse().map((r, idx) => `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${r.timestamp}</td>
+            <td><strong>${r.nama}</strong></td>
+            <td>${r.kelas}</td>
+            <td>${r.aktivitas}</td>
+            <td style="color:#059669;font-weight:900;">${r.benar ?? '-'}</td>
+            <td style="color:#DC2626;font-weight:900;">${r.salah ?? '-'}</td>
+            <td style="font-weight:900;font-size:1.05rem;color:${r.skor >= 75 ? '#059669' : '#DC2626'};">${r.skor}</td>
+            <td>${r.status}</td>
+            <td>
+              <button type="button" class="btn-3d btn-rose" style="padding:0.35rem 0.65rem;font-size:0.78rem;" onclick="deleteTeacherRecord('eval', '${r.id || idx}')">
+                <i class="fa-solid fa-trash"></i> Hapus
+              </button>
+            </td>
+          </tr>
+        `).join('');
+        if (!rows) rows = `<tr><td colspan="10" style="text-align:center;color:#64748B;padding:1.2rem;">Belum ada data hasil pengerjaan Kuis Evaluasi Formatif.</td></tr>`;
+
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;flex-wrap:wrap;gap:0.5rem;">
+            <span style="font-weight:800;color:#334155;">Total Rekaman Evaluasi Formatif: ${evalRecords.length}</span>
+            <button type="button" class="btn-3d btn-rose" style="padding:0.45rem 0.9rem;font-size:0.82rem;" onclick="clearAllTeacherRecords('eval')">
+              <i class="fa-solid fa-trash-can"></i> Hapus Semua Data Evaluasi
+            </button>
           </div>
-        `,
+          <div style="overflow-x:auto;">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal &amp; Waktu</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Materi / Jenis Kuis</th>
+                  <th>Jml Benar</th>
+                  <th>Jml Salah</th>
+                  <th>Nilai</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>`;
+      } else {
+        const roster = getStudentRoster();
+        let rows = '';
+        let no = 1;
+        Object.keys(roster).forEach(kls => {
+          (roster[kls] || []).forEach(nama => {
+            rows += `
+              <tr>
+                <td>${no++}</td>
+                <td><span class="pill-solo">${kls}</span></td>
+                <td><strong>${nama}</strong></td>
+                <td><span style="color:#059669;font-weight:800;">Aktif</span></td>
+              </tr>`;
+          });
+        });
+        box.innerHTML = `
+          <div style="overflow-x:auto;">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th style="width:60px;">No</th>
+                  <th style="width:150px;">Kelas</th>
+                  <th>Nama Siswa</th>
+                  <th style="width:140px;">Status</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>`;
+      }
+    }
+
+    async function deleteTeacherRecord(category, recordId) {
+      const confirm = await Swal.fire({
+        icon: 'warning',
+        title: 'Hapus Data Nilai Ini?',
+        text: 'Data akan dihapus dari Dashboard Guru dan disinkronkan ke Google Spreadsheet.',
         showCancelButton: true,
-        confirmButtonText: 'Tutup',
-        cancelButtonText: 'Hapus Riwayat Lokal',
-        cancelButtonColor: '#DC2626'
-      }).then((res) => {
-        if (res.dismiss === Swal.DismissReason.cancel) {
-          localStorage.removeItem('libaru_ipa_records');
-          Swal.fire('Terhapus', 'Riwayat lokal dibersihkan.', 'success');
-        }
+        confirmButtonText: 'Ya, Hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#DC2626'
       });
+      if (!confirm.isConfirmed) return;
+
+      if (category === 'uas') {
+        const list = JSON.parse(localStorage.getItem('libaru_uas_records') || '[]').filter(r => String(r.id) !== String(recordId));
+        localStorage.setItem('libaru_uas_records', JSON.stringify(list));
+      } else {
+        let list = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]');
+        list = list.filter((r, i) => String(r.id || i) !== String(recordId));
+        localStorage.setItem('libaru_ipa_records', JSON.stringify(list));
+      }
+
+      await sendResultToGoogleSheets({
+        action: 'deleteRecord',
+        type: category === 'uas' ? 'UAS' : 'EVALUASI',
+        id: recordId
+      });
+
+      switchTeacherTab(category);
+      Swal.fire({ icon: 'success', title: 'Terhapus', timer: 1100, showConfirmButton: false });
+    }
+
+    async function clearAllTeacherRecords(category) {
+      const confirm = await Swal.fire({
+        icon: 'warning',
+        title: 'Hapus Seluruh Rekaman?',
+        text: 'Semua baris pada kategori ini akan dibersihkan dan disinkronkan ke Spreadsheet.',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus Semua',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#DC2626'
+      });
+      if (!confirm.isConfirmed) return;
+
+      if (category === 'uas') {
+        localStorage.removeItem('libaru_uas_records');
+      } else {
+        localStorage.removeItem('libaru_ipa_records');
+      }
+
+      await sendResultToGoogleSheets({
+        action: 'clearAllRecords',
+        type: category === 'uas' ? 'UAS' : 'EVALUASI'
+      });
+
+      switchTeacherTab(category);
+      Swal.fire({ icon: 'success', title: 'Semua Data Dihapus', timer: 1200, showConfirmButton: false });
+    }
+
+    async function syncAllFromSpreadsheet() {
+      await syncStudentsFromSheet();
+      const url = localStorage.getItem('libaru_gas_url') || DEFAULT_GAS_URL;
+      if (!url) return;
+      try {
+        const res = await fetch(url + (url.includes('?') ? '&' : '?') + 'action=getAllData');
+        const json = await res.json();
+        if (json && json.status === 'success') {
+          if (json.settings) {
+            UASControlState.isOpen = String(json.settings.akses_uas || '').toUpperCase() === 'OPEN';
+            UASControlState.durationMinutes = Number(json.settings.durasi_menit) || 45;
+            localStorage.setItem('libaru_uas_open', UASControlState.isOpen ? 'true' : 'false');
+            localStorage.setItem('libaru_uas_duration', String(UASControlState.durationMinutes));
+            updateUASGateBadges();
+          }
+          if (Array.isArray(json.uasRecords)) {
+            localStorage.setItem('libaru_uas_records', JSON.stringify(json.uasRecords));
+          }
+          if (Array.isArray(json.evalRecords)) {
+            localStorage.setItem('libaru_ipa_records', JSON.stringify(json.evalRecords));
+          }
+          switchTeacherTab(UASControlState.activeTab);
+          Swal.fire({ icon: 'success', title: 'Tersinkronisasi!', text: 'Data siswa, pengaturan UAS, dan rekap nilai telah diperbarui dari Spreadsheet.', timer: 1500, showConfirmButton: false });
+        }
+      } catch (e) {
+        Swal.fire({ icon: 'info', title: 'Sinkronisasi Lokal Aktif', text: 'Data lokal telah diperbarui.' });
+      }
+    }
+
+    function downloadTeacherReportCSV() {
+      const uasRecords = JSON.parse(localStorage.getItem('libaru_uas_records') || '[]');
+      const evalRecords = JSON.parse(localStorage.getItem('libaru_ipa_records') || '[]');
+
+      let csv = "Kategori,Tanggal_Waktu,Nama_Siswa,Kelas,Materi_atau_Semester,Jumlah_Benar,Jumlah_Salah,Nilai_Akhir,Status\n";
+      uasRecords.forEach(r => {
+        csv += `"UAS","${r.timestamp}","${r.nama}","${r.kelas}","${r.semesterLabel}",${r.totalBenar},${r.totalSalah},${r.nilaiAkhir},"${r.status}"\n`;
+      });
+      evalRecords.forEach(r => {
+        csv += `"Evaluasi Formatif","${r.timestamp}","${r.nama}","${r.kelas}","${r.aktivitas}",${r.benar ?? 0},${r.salah ?? 0},${r.skor},"${r.status}"\n`;
+      });
+
+      const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Rekap_Nilai_IPA_SMP_Libaru_Sungkai_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     /* Audio Synthesizer Aman */
@@ -3334,6 +4527,7 @@
       document.querySelectorAll('[id^="btn-grade-"]').forEach(b => b.classList.remove('active'));
       document.getElementById(`btn-grade-${grade}`).classList.add('active');
       renderTopicCatalog();
+    updateUASGateBadges();
     syncStudentsFromSheet();
     }
 
@@ -3993,7 +5187,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
           ${typeBadge}
           <span style="font-size:0.8rem; font-weight:700; color:#64748B;">
-            Skor Sementara: ${student.rawScore} / ${student.maxPossible}
+            <i class="fa-solid fa-shield-halved"></i> Mode Asesmen Aktif
           </span>
         </div>
 
@@ -4173,33 +5367,36 @@
           const statusText = isPassed ? "Tuntas" : "Remedial";
 
           const tsNow = new Date().toLocaleString('id-ID');
-          const isUAS = AppState.evalMode === 'uas' || AppState.isUASMode;
-          const studentGrade = s.gradeLevel || extractGradeFromKelas(s.kelas, AppState.selectedGrade);
-          const studentSem = s.semesterLevel || Number(AppState.selectedSemester) || 1;
-          const semGlobal = s.semGlobal || getSemesterNumberGlobal(studentGrade, studentSem);
-          const studentUasLabel = s.uasLabel || `UAS Semester ${semGlobal} (Kelas ${studentGrade} Sem ${studentSem})`;
+          const evalRecId = 'EVAL-' + Date.now() + '-' + i;
+          const jmlBenar = Number(s.correctCount || 0);
+          const jmlSalah = Number(s.wrongCount || 0);
+          const totalSoal = jmlBenar + jmlSalah;
 
           history.push({
+            id: evalRecId,
             timestamp: tsNow,
             nama: s.name,
             kelas: s.kelas,
-            aktivitas: isUAS ? studentUasLabel : `${activityName} - Kelas ${studentGrade}`,
+            aktivitas: activityName,
+            benar: jmlBenar,
+            salah: jmlSalah,
+            totalSoal: totalSoal,
             skor: finalScaled,
             status: statusText
           });
 
           sendResultToGoogleSheets({
             action: 'saveResult',
-            type: isUAS ? 'UAS' : 'EVALUASI',
+            type: 'EVALUASI',
+            id: evalRecId,
             timestamp: tsNow,
             nama: s.name,
             kelas: s.kelas,
-            jenisAsesmen: isUAS ? 'Ujian Akhir Semester (UAS)' : (AppState.evalMode === 'pg' ? 'Pilihan Ganda' : 'Isian Singkat'),
-            materiAtauSemester: isUAS ? `Semester ${semGlobal} (Kelas ${studentGrade} Sem ${studentSem})` : activityName,
-            benarPG: s.pgCorrect || 0,
-            benarBS: s.bsCorrect || 0,
-            benarIsian: s.isianCorrect || 0,
-            totalPoin: s.rawScore,
+            jenisAsesmen: AppState.evalMode === 'pg' ? 'Pilihan Ganda' : 'Isian Singkat',
+            materiAtauSemester: activityName,
+            jumlahBenar: jmlBenar,
+            jumlahSalah: jmlSalah,
+            totalSoal: totalSoal,
             nilaiAkhir: finalScaled,
             status: statusText
           });
